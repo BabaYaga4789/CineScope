@@ -5,6 +5,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import SignIn from "./pages/SignIn";
 import Registration from "./pages/Registration/Registration";
 import Profile from "./pages/Profile/Profile";
+import AccountSettings from "./pages/AccountSettings/AccountSettings";
+import ResetPassword from "./pages/ResetPassword/ResetPassword";
 
 const router = createBrowserRouter([
   {
@@ -20,8 +22,16 @@ const router = createBrowserRouter([
     element: <Registration />,
   },
   {
+    path: "/reset-password",
+    element: <ResetPassword />,
+  },
+  {
     path: "/profile",
     element: <Profile />,
+  },
+  {
+    path: "/account-settings",
+    element: <AccountSettings />,
   },
 ]);
 

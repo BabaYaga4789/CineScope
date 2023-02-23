@@ -1,45 +1,55 @@
 import Genres from "@/common/Genres";
+import ChangePasswordDialog from "@/components/ChangePasswordDialog";
 import CustomContainer from "@/components/CustomContainer";
 import CustomInputField from "@/components/CustomInputField";
 import {
   Alert,
   Button,
   Center,
+  Divider,
   Flex,
-  Heading, Input,
+  Heading,
+  Input,
   InputGroup,
   InputLeftElement,
-  SlideFade, Text,
+  SlideFade,
+  Text,
   useBreakpointValue,
-  VStack
+  useDisclosure,
+  VStack,
 } from "@chakra-ui/react";
 import { Autocomplete, Option } from "chakra-ui-simple-autocomplete";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  AiFillLock,
   AiOutlineCalendar,
-  AiOutlineLock,
   AiOutlineMail,
-  AiOutlineUser
+  AiOutlineUser,
 } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
-import { Data } from "./Data";
 
-export default function Registration() {
+export default function AccountSettings() {
   const [data, setData] = useState({
-    userName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    dateOfBirth: "",
+    userName: "avocado",
+    email: "hrishi.patel@dal.ca",
+    dateOfBirth: "10-10-1999",
     genres: [],
-  } as Data);
+  });
   const [error, setError] = useState(false);
   const [errors, setErrors] = useState([] as string[]);
   const [result, setResult] = React.useState<Option[]>([]);
 
+  useEffect(() => {
+    setResult(
+      Genres.filter(
+        (genre) => genre.label === "Action" || genre.label === "Comedy"
+      )
+    );
+  }, []);
+
   const isDesktop = useBreakpointValue({ base: false, md: true });
   const navigate = useNavigate();
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const validateAndRegister = (event: any) => {
     event.preventDefault();
@@ -49,7 +59,7 @@ export default function Registration() {
 
     console.log(data);
 
-    const { userName, email, password, confirmPassword } = data;
+    const { userName, email } = data;
 
     // regex
     // generated using https://regex-generator.olafneumann.org/
@@ -78,14 +88,6 @@ export default function Registration() {
       errors.push("Invalid email address.");
     }
 
-    if (password.length === 0 || !passwordRegex.test(password)) {
-      errors.push("Invalid password. It should be at least 8 characters.");
-    }
-
-    if (confirmPassword !== password) {
-      errors.push("Passwords do not match.");
-    }
-
     if (errors.length > 0) {
       setError(true);
       setErrors(errors);
@@ -110,7 +112,7 @@ export default function Registration() {
       <CustomContainer>
         <Center mb={6}>
           <VStack>
-            <Heading>Register</Heading>
+            <Heading>Profile and Settings</Heading>
             <Text
               color="gray.500"
               fontSize="sm"
@@ -124,6 +126,7 @@ export default function Registration() {
 
         {/* First Name Input */}
         <CustomInputField
+          value={data.userName}
           icon={<AiOutlineUser color="gray.300" />}
           id="userName"
           type="name"
@@ -137,36 +140,11 @@ export default function Registration() {
 
         {/* Email Input */}
         <CustomInputField
+          value={data.email}
           icon={<AiOutlineMail color="gray.300" />}
           id="email"
           type="email"
           placeholder="Email"
-          focusBorderColor={accent}
-          mb={3}
-          onChange={(event: any) =>
-            setData({ ...data, [event.target.id]: event.target.value })
-          }
-        />
-
-        {/* Password Input */}
-        <CustomInputField
-          icon={<AiOutlineLock color="gray.300" />}
-          id="password"
-          type="password"
-          placeholder="Password"
-          focusBorderColor={accent}
-          mb={3}
-          onChange={(event: any) =>
-            setData({ ...data, [event.target.id]: event.target.value })
-          }
-        />
-
-        {/* Confirm Password */}
-        <CustomInputField
-          icon={<AiFillLock color="gray.300" />}
-          id="confirmPassword"
-          type="password"
-          placeholder="Confirm Password"
           focusBorderColor={accent}
           mb={3}
           onChange={(event: any) =>
@@ -181,6 +159,7 @@ export default function Registration() {
             children={<AiOutlineCalendar color="gray.300" />}
           />
           <Input
+            value={data.dateOfBirth}
             id="dateOfBirth"
             type="text"
             variant="outline"
@@ -204,7 +183,7 @@ export default function Registration() {
           options={Genres}
           result={result}
           setResult={(options: Option[]) => setResult(options)}
-          placeholder="Enter your preferred..."
+          placeholder="Enter your preferred genres..."
           mb={12}
         ></Autocomplete>
 
@@ -216,10 +195,37 @@ export default function Registration() {
           </SlideFade>
         ))}
 
-        <Button colorScheme={"yellow"} mb={0} onClick={validateAndRegister}>
-          Register
-        </Button>
+        <VStack w={"100%"}>
+          <Button w={"100%"} colorScheme={"yellow"} mb={0} onClick={onOpen}>
+            Update Password
+          </Button>
+          <Button
+            w={"100%"}
+            colorScheme={"yellow"}
+            mb={0}
+            onClick={validateAndRegister}
+          >
+            Update Profile
+          </Button>
+          <Button
+            w={"100%"}
+            variant="solid"
+            onClick={() => navigate("/profile")}
+          >
+            Cancel
+          </Button>
+          <Divider my={8} />
+          <Button
+            w={"100%"}
+            colorScheme={"red"}
+            variant="outline"
+            onClick={() => navigate("/")}
+          >
+            Delete Profile
+          </Button>
+        </VStack>
       </CustomContainer>
+      <ChangePasswordDialog isOpen={isOpen} onClose={onClose} />
     </Flex>
   );
 }

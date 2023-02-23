@@ -1,6 +1,7 @@
 import CustomContainer from "@/components/CustomContainer";
 import { Box, Flex, HStack, Link, Spacer, VStack } from "@chakra-ui/layout";
 import { Button, Image, Text } from "@chakra-ui/react";
+import { useNavigate } from "react-router";
 
 const movies = [
   {
@@ -38,6 +39,8 @@ const activity = [
 ];
 
 const Profile = () => {
+  const navigate = useNavigate();
+
   return (
     <Flex
       height="100%"
@@ -71,7 +74,12 @@ const Profile = () => {
               >
                 Edit Profile
               </Button>
-              <Button w={"100%"} size="sm" variant={"solid"}>
+              <Button
+                w={"100%"}
+                size="sm"
+                variant={"solid"}
+                onClick={() => navigate("/account-settings")}
+              >
                 Account Settings
               </Button>
 
