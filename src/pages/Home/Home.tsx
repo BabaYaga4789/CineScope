@@ -1,19 +1,3 @@
-// import { Center, Flex, Heading } from "@chakra-ui/react";
-// import CustomContainer from "../../components/CustomContainer";
-
-// export default function Home() {
-//   return (
-//     <Center h={"93vh"}>
-//       {" "}
-//       <CustomContainer maxW="500">
-//         <Center mb={6}>
-//           <Heading>Home</Heading>
-//         </Center>
-//       </CustomContainer>
-//     </Center>
-//   );
-// }
-
 import React from 'react';
 import MovieGrid from '@/components/MovieGrid';
 
@@ -53,6 +37,7 @@ const movies: Movie[] = [
 ];
 
 const Home: React.FC = () => {
+  
   return (
     <>
       <MovieGrid movies={movies}></MovieGrid>

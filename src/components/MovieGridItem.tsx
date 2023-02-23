@@ -1,12 +1,19 @@
-import { Box, Grid, Image, Card, CardHeader, Flex, CardBody, Text, CardFooter, Button, SimpleGrid, VStack } from "@chakra-ui/react";
-import { AddIcon, ViewIcon } from "@chakra-ui/icons";
 import Movie from '@/common/Movie'
+import { AddIcon, CheckIcon, ViewIcon } from "@chakra-ui/icons";
+import { Button, Card, CardBody, CardFooter, CardHeader, Flex, Image, Text, useDisclosure, VStack } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import AddMovieDialog from '@/components/AddMovieDialog';
 
-interface MovieGridItemProps{
-    movie : Movie
+
+interface MovieGridItemProps {
+    movie: Movie
 }
 
-export default function MovieGridItem(props : MovieGridItemProps): JSX.Element {
+export default function MovieGridItem(props: MovieGridItemProps): JSX.Element {
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const [isAdded, setIsAdded] = useState(false);
+    
     return <Card key={props.movie.id} rounded="lg" width="100%" overflow="hidden" alignItems="center">
         <CardHeader>
             <Flex>
@@ -21,9 +28,11 @@ export default function MovieGridItem(props : MovieGridItemProps): JSX.Element {
                 <Button w="full" leftIcon={<ViewIcon />}>
                     View
                 </Button>
-                <Button w="full" leftIcon={<AddIcon />}>
-                    Watchlist
+                <Button w="full" leftIcon={ !isAdded ? <AddIcon /> : <CheckIcon/>} onClick={ !isAdded ? onOpen : ()=>{}}>
+                {!isAdded ? "Watchlist" : "Added"}
                 </Button>
+                <AddMovieDialog isAdded={setIsAdded} isOpen={isOpen} onClose={onClose} movie={props.movie} />
+
             </VStack>
         </CardFooter>
     </Card>;
