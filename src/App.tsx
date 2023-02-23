@@ -4,6 +4,7 @@ import Home from "./pages/Home/Home";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import SignIn from "./pages/SignIn";
 import Registration from "./pages/Registration/Registration";
+import { SearchResults } from "./pages/Search/SearchResults";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <Registration />,
+  },
+  {
+    path: "/search",
+    element: <SearchResults />,
   },
 ]);
 
