@@ -1,36 +1,29 @@
+import Genres from "@/common/Genres";
+import CustomContainer from "@/components/CustomContainer";
+import CustomInputField from "@/components/CustomInputField";
 import {
   Alert,
   Button,
   Center,
   Flex,
-  Heading,
-  HStack,
-  Input,
+  Heading, Input,
   InputGroup,
   InputLeftElement,
-  SlideFade,
-  Tag,
-  TagCloseButton,
-  TagLabel,
-  Text,
+  SlideFade, Text,
   useBreakpointValue,
-  VStack,
+  VStack
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { Autocomplete, Option } from "chakra-ui-simple-autocomplete";
+import React, { useState } from "react";
 import {
   AiFillLock,
   AiOutlineCalendar,
   AiOutlineLock,
   AiOutlineMail,
-  AiOutlineUser,
+  AiOutlineUser
 } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { Data } from "./Data";
-import { Autocomplete, Option } from "chakra-ui-simple-autocomplete";
-import Genres from "@/common/Genres";
-import React from "react";
-import CustomContainer from "@/components/CustomContainer";
-import CustomInputField from "@/components/CustomInputField";
 
 export default function Registration() {
   const [data, setData] = useState({
