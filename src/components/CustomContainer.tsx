@@ -5,11 +5,7 @@ interface ContainerProps extends React.PropsWithChildren<any> {
   flexDirection?: "column" | "row";
 }
 
-export default function Container({
-  flexDirection,
-  children,
-  ...props
-}: ContainerProps) {
+const Container = ({ flexDirection, children, ...props }: ContainerProps) => {
   const isDesktop = useBreakpointValue({ base: false, md: true });
 
   return (
@@ -23,4 +19,6 @@ export default function Container({
       {children}
     </Flex>
   );
-}
+};
+
+export default Container;
