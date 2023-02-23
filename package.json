@@ -13,6 +13,7 @@
     "@chakra-ui/react": "^2.5.1",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "chakra-ui-simple-autocomplete": "^2.3.0",
     "framer-motion": "^9.0.7",
     "path": "^0.12.7",
     "react": "^18.2.0",

@@ -1,20 +1,36 @@
 import {
   Alert,
   Button,
-  Center, Flex,
+  Center,
+  Flex,
   Heading,
+  HStack,
   Input,
   InputGroup,
   InputLeftElement,
   SlideFade,
+  Tag,
+  TagCloseButton,
+  TagLabel,
   Text,
   useBreakpointValue,
-  VStack
+  VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { AiFillLock, AiOutlineCalendar, AiOutlineLock, AiOutlineMail, AiOutlineUser } from "react-icons/ai";
+import {
+  AiFillLock,
+  AiOutlineCalendar,
+  AiOutlineLock,
+  AiOutlineMail,
+  AiOutlineUser,
+} from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { Data } from "./Data";
+import { Autocomplete, Option } from "chakra-ui-simple-autocomplete";
+import Genres from "@/common/Genres";
+import React from "react";
+import CustomContainer from "@/components/CustomContainer";
+import CustomInputField from "@/components/CustomInputField";
 
 export default function Registration() {
   const [data, setData] = useState({
@@ -27,6 +43,7 @@ export default function Registration() {
   } as Data);
   const [error, setError] = useState(false);
   const [errors, setErrors] = useState([] as string[]);
+  const [result, setResult] = React.useState<Option[]>([]);
 
   const isDesktop = useBreakpointValue({ base: false, md: true });
   const navigate = useNavigate();
@@ -97,13 +114,7 @@ export default function Registration() {
       justifyContent="center"
       alignItems="center"
     >
-      <Flex
-        flexDirection="column"
-        p={isDesktop ? 12 : 6}
-        borderRadius={8}
-        boxShadow="xl"
-        maxW="500"
-      >
+      <CustomContainer>
         <Center mb={6}>
           <VStack>
             <Heading>Register</Heading>
@@ -119,80 +130,56 @@ export default function Registration() {
         </Center>
 
         {/* First Name Input */}
-        <InputGroup>
-          <InputLeftElement
-            pointerEvents="none"
-            children={<AiOutlineUser color="gray.300" />}
-          />
-          <Input
-            id="userName"
-            type="name"
-            variant="outline"
-            placeholder="User Name"
-            focusBorderColor={accent}
-            mb={3}
-            onChange={(event) =>
-              setData({ ...data, [event.target.id]: event.target.value })
-            }
-          />
-        </InputGroup>
+        <CustomInputField
+          icon={<AiOutlineUser color="gray.300" />}
+          id="userName"
+          type="name"
+          placeholder="User Name"
+          focusBorderColor={accent}
+          mb={3}
+          onChange={(event: any) =>
+            setData({ ...data, [event.target.id]: event.target.value })
+          }
+        />
 
         {/* Email Input */}
-        <InputGroup>
-          <InputLeftElement
-            pointerEvents="none"
-            children={<AiOutlineMail color="gray.300" />}
-          />
-          <Input
-            id="email"
-            type="email"
-            variant="outline"
-            placeholder="johndoe@dal.ca"
-            focusBorderColor={accent}
-            mb={3}
-            onChange={(event) =>
-              setData({ ...data, [event.target.id]: event.target.value })
-            }
-          />
-        </InputGroup>
+        <CustomInputField
+          icon={<AiOutlineMail color="gray.300" />}
+          id="email"
+          type="email"
+          placeholder="Email"
+          focusBorderColor={accent}
+          mb={3}
+          onChange={(event: any) =>
+            setData({ ...data, [event.target.id]: event.target.value })
+          }
+        />
 
         {/* Password Input */}
-        <InputGroup>
-          <InputLeftElement
-            pointerEvents="none"
-            children={<AiFillLock color="gray.300" />}
-          />
-          <Input
-            id="password"
-            type="password"
-            variant="outline"
-            placeholder="Password"
-            focusBorderColor={accent}
-            mb={3}
-            onChange={(event) =>
-              setData({ ...data, [event.target.id]: event.target.value })
-            }
-          />
-        </InputGroup>
+        <CustomInputField
+          icon={<AiOutlineLock color="gray.300" />}
+          id="password"
+          type="password"
+          placeholder="Password"
+          focusBorderColor={accent}
+          mb={3}
+          onChange={(event: any) =>
+            setData({ ...data, [event.target.id]: event.target.value })
+          }
+        />
 
         {/* Confirm Password */}
-        <InputGroup>
-          <InputLeftElement
-            pointerEvents="none"
-            children={<AiOutlineLock color="gray.300" />}
-          />
-          <Input
-            id="confirmPassword"
-            type="password"
-            variant="outline"
-            placeholder="Confirm Password"
-            focusBorderColor={accent}
-            mb={3}
-            onChange={(event) =>
-              setData({ ...data, [event.target.id]: event.target.value })
-            }
-          />
-        </InputGroup>
+        <CustomInputField
+          icon={<AiFillLock color="gray.300" />}
+          id="confirmPassword"
+          type="password"
+          placeholder="Confirm Password"
+          focusBorderColor={accent}
+          mb={3}
+          onChange={(event: any) =>
+            setData({ ...data, [event.target.id]: event.target.value })
+          }
+        />
 
         {/* Date of Birth */}
         <InputGroup>
@@ -202,16 +189,31 @@ export default function Registration() {
           />
           <Input
             id="dateOfBirth"
-            type="date"
+            type="text"
             variant="outline"
             placeholder="Date of Birth"
             focusBorderColor={accent}
-            mb={6}
+            mb={3}
             onChange={(event) =>
               setData({ ...data, [event.target.id]: event.target.value })
             }
+            onFocus={(e) => (e.target.type = "date")}
+            onBlur={(e) => (e.target.type = "text")}
           />
         </InputGroup>
+
+        {/* Genres */}
+
+        <Autocomplete
+          as={Input}
+          focusBorderColor={accent}
+          id="genres"
+          options={Genres}
+          result={result}
+          setResult={(options: Option[]) => setResult(options)}
+          placeholder="Type a genre..."
+          mb={12}
+        ></Autocomplete>
 
         {errors.map((err) => (
           <SlideFade in={error} unmountOnExit={true}>
@@ -224,7 +226,7 @@ export default function Registration() {
         <Button colorScheme={"yellow"} mb={0} onClick={validateAndRegister}>
           Register
         </Button>
-      </Flex>
+      </CustomContainer>
     </Flex>
   );
 }
