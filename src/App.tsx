@@ -4,12 +4,20 @@ import Home from "./pages/Home/Home";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import SignIn from "./pages/SignIn";
 import Registration from "./pages/Registration/Registration";
+import RootLayout from "./layout/RootLayout";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+    ],
   },
+
   {
     path: "/login",
     element: <SignIn />,
@@ -22,12 +30,9 @@ const router = createBrowserRouter([
 
 const App = () => {
   return (
-    <ChakraProvider>
-      <Box h="100%" w="100%">
-        <NavBar />
-        <RouterProvider router={router} />
-      </Box>
-    </ChakraProvider>
+
+    <RouterProvider router={router} />
+
   );
 };
 
