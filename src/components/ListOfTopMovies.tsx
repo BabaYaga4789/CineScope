@@ -3,44 +3,29 @@ import { useToast , Button, Text, Box, Heading, List, ListItem, Image, Flex, HSt
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
 import {AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader,AlertDialogContent, AlertDialogOverlay} from '@chakra-ui/react'
 import { useRef } from 'react';
+import topMoviesList from '../common/top-movies';
+import { useNavigate } from 'react-router-dom';
 export default function ListOfTopMovies() {
 
 
     
-    const [topMovies, setTopMovies] = useState([{   
-        id : 1, 
-        title : "The Shawshank Redemption", 
-        year :  1994 
-    },
-    {   
-        id : 2, 
-        title : "The Godfather", 
-        year : 1972 
-    },
-
-    { 
-        id : 3, 
-        title : "The Godfather: Part II", 
-        year : 1974 
-    },
-    { 
-        id : 4, 
-        title : "The Dark Knight", 
-        year : 2008 
-    },]);
+    const [topMovies, setTopMovies] = useState(topMoviesList);
 
     const [isOpen, setIsOpen] = useState<any>(false);
     const [deleteId, setDeleteID] = useState<any>();
     const [deleteMovieTitle, setDeleteMovieTitle] = useState<string>('');
     const toast = useToast()
     const cancelRef = useRef<HTMLButtonElement>(null);
+    const navigate = useNavigate();
 
     const onDeleteIcon = async (id: any, title: string) => {
         setIsOpen(true)
         setDeleteID(id)
         setDeleteMovieTitle(title)
     }
-
+    const onEditIcon = async (id: number) => {
+        navigate(`/update-movie-details/${id}`)
+    }
 
     const onClickDelete = async(id: any) => {
         
@@ -70,7 +55,7 @@ export default function ListOfTopMovies() {
     <div>
       <Box pt={[3, 5, 7]} mt={[3, 5, 10]}>
             
-            <Heading as="h2" size="lg" textColor="black" p="10px">
+            <Heading as="h2" size="lg" textColor="black" p="10px" mt="15">
                 Top Movies
             </Heading>
 
@@ -80,12 +65,12 @@ export default function ListOfTopMovies() {
                     
                     <ListItem key={topMovie.id} boxSize={['50px','150px','175px']}>
                         
-                        <Image src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4sH5hQyuW35uubo7EyW7U_XwoGu2WkJDk7g&usqp=CAU' alt='Film' />
+                        <Image src={topMovie.poster} alt='Film' boxSize='200px' />
                         <Text fontWeight="bold" fontSize="20px">{topMovie.title}</Text>
                         <HStack alignItems="center">
                             <Text color="gray.500" fontSize="20px">({topMovie.year})</Text>
                             <Spacer></Spacer>
-                            <EditIcon boxSize={[1,3,5]} color="green.500"></EditIcon>
+                            <EditIcon boxSize={[1,3,5]} onClick={() => {onEditIcon(topMovie.id)}} color="green.500"></EditIcon>
                             <DeleteIcon boxSize={[1,3,5]} onClick={() => {onDeleteIcon(topMovie.id, topMovie.title)}}  color="red.500"></DeleteIcon>
                         </HStack>
                         

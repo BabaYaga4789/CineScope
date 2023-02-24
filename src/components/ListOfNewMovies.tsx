@@ -4,39 +4,25 @@ import { useState } from 'react';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
 import {AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader,AlertDialogContent, AlertDialogOverlay} from '@chakra-ui/react'
 import { useRef } from 'react';
-
+import newMoviesList from '../common/new-movies';
+import { useNavigate } from 'react-router-dom';
 export default function ListOfNewMovies() {
 
-    const [newMovies, setNewMovies] = useState([{   
-        id : 5, 
-        title : "The Shawshank Redemption new", 
-        year :  1994 
-    },
-    {   
-        id : 6, 
-        title : "The Godfather new", 
-        year : 1972 
-    },
-
-    { 
-        id : 7, 
-        title : "The Godfather: Part II new", 
-        year : 1974 
-    },
-    { 
-        id : 8, 
-        title : "The Dark Knight new", 
-        year : 2008 
-    },]);
+    const [newMovies, setNewMovies] = useState(newMoviesList);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [deleteId, setDeleteID] = useState<any>();
     const [deleteMovieTitle, setDeleteMovieTitle] = useState<string>('');
     const toast = useToast()
     const cancelRef = useRef<HTMLButtonElement>(null);
+    const navigate = useNavigate();
     const onDeleteIcon = async (id: any, title: string) => {
         setIsOpen(true)
         setDeleteID(id)
         setDeleteMovieTitle(title)
+    }
+
+    const onEditIcon = async (id: number) => {
+        navigate(`/update-movie-details/${id}`)
     }
 
     const onClickDelete = async(id: any) => {
@@ -69,18 +55,18 @@ export default function ListOfNewMovies() {
 
             <List styleType="none" pt="20px" spacing='5px' flexDirection={["column","row"]} ml={5} mr={5}>
                 <Flex justifyContent="space-around" wrap="wrap">
-                    {newMovies.map((newMovies) => (
+                    {newMovies.map((newMovie) => (
                     
-                    <ListItem key={newMovies.id} boxSize={['50px','150px','175px']}>
+                    <ListItem key={newMovie.id} boxSize={['50px','150px','175px']}>
                         
-                        <Image src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4sH5hQyuW35uubo7EyW7U_XwoGu2WkJDk7g&usqp=CAU' alt='Film' />
-                        <Text fontWeight="bold" fontSize="20px">{newMovies.title}</Text>
+                        <Image src={newMovie.poster} alt='Film' boxSize='200px'/>
+                        <Text fontWeight="bold" fontSize="20px">{newMovie.title}</Text>
                         <HStack alignItems="center">
                             
-                            <Text color="gray.500" fontSize="20px">({newMovies.year})</Text>
+                            <Text color="gray.500" fontSize="20px">({newMovie.year})</Text>
                             <Spacer></Spacer>
-                            <EditIcon boxSize={[1,3,5]} color="green.500"></EditIcon>
-                            <DeleteIcon boxSize={[1,3,5]} onClick={() => {onDeleteIcon(newMovies.id, newMovies.title)}}  color="red.500"></DeleteIcon>
+                            <EditIcon boxSize={[1,3,5]}  onClick={() => {onEditIcon(newMovie.id)}} color="green.500"></EditIcon>
+                            <DeleteIcon boxSize={[1,3,5]} onClick={() => {onDeleteIcon(newMovie.id, newMovie.title)}}  color="red.500"></DeleteIcon>
                        
                         </HStack>
                      </ListItem>

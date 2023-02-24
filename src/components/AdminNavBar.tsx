@@ -1,7 +1,13 @@
 import { Box, Flex, Heading, Text, Link, Button, Avatar, Input, IconButton, Menu, MenuList, MenuButton, MenuItem, Spacer } from "@chakra-ui/react";
 import { FaSearch, FaEllipsisV } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 export const AdminNavBar = () => {
+
+  const navigate = useNavigate();
+  const addMovie = () =>{
+    navigate('/add-movie/')
+  }
   return (
     <div>
     <Box as="nav" bg="teal.400" boxShadow="md">
@@ -16,7 +22,7 @@ export const AdminNavBar = () => {
             fontSize={['sm','sm','lg']}
           > Menu</MenuButton>
           <MenuList>
-            <MenuItem> Add Movie</MenuItem>
+            <MenuItem onClick={addMovie}> Add Movie</MenuItem>
             <MenuItem>Comment moderation</MenuItem>
             <MenuItem>Review moderation</MenuItem>
           </MenuList>
