@@ -1,23 +1,22 @@
-import { Center, Flex, Heading, SimpleGrid } from "@chakra-ui/react";
-import CustomContainer from "../../components/CustomContainer";
-import SearchBar from "@/components/SearchBar";
 import FilterDropdown from "@/components/FilterDropdown";
-import { MovieDetails } from "./Datafile";
-import { BoxForMovie } from "@/components/BoxForMovie";
+import MovieGridItem from "@/components/MovieGridItem";
+import SearchBar from "@/components/SearchBar";
+import { SimpleGrid, VStack } from "@chakra-ui/react";
+import { MovieDetails } from "../MovieData";
 
 export default function Home() {
-
-  const movies = MovieDetails.map(movie =>  <BoxForMovie key={movie.id} movie={movie} />);
+  const movies = MovieDetails.map((movie) => (
+    <MovieGridItem key={movie.id} movie={movie} />
+  ));
 
   return (
-    <div>
-      <SearchBar/>
-      <FilterDropdown/>
+    <VStack w="100%">
+      <SearchBar />
+      <FilterDropdown />
       {/* Reference: https://chakra-ui.com/docs/components/simple-grid */}
-      <SimpleGrid minChildWidth='350px' spacing='10px' direction={["column", "row"]} ml={5} mr={5}>
-        { movies }
+      <SimpleGrid w="70%" columns={{ base: 1, md: 3, lg: 6 }} gap={6}>
+        {movies}
       </SimpleGrid>
-    </div>
+    </VStack>
   );
 }
-
