@@ -14,7 +14,7 @@ export default function Home() {
       <SearchBar />
       <FilterDropdown />
       {/* Reference: https://chakra-ui.com/docs/components/simple-grid */}
-      <SimpleGrid w="70%" columns={{ base: 1, md: 3, lg: 6 }} gap={6}>
+      <SimpleGrid p={4} w="100%" columns={{ base: 1, md: 3, lg: 7 }} gap={6}>
         {movies}
       </SimpleGrid>
     </VStack>

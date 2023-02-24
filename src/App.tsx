@@ -51,16 +51,16 @@ const router = createBrowserRouter([
       {
         path: "/news",
         element: <News />,
-      }
+      },
+      {
+        path: "/search",
+        element: <SearchResults />,
+      },
+      {
+        path: "/filter",
+        element: <FilterResults />,
+      },
     ],
-  },
-  {
-    path: "/search",
-    element: <SearchResults />,
-  },
-  {
-    path: "/filter",
-    element: <FilterResults />,
   },
 ]);
 
