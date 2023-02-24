@@ -23,8 +23,8 @@ export const SearchResults = () => {
         );
         }
     );
-    const filtered = filteredMovies.map(movie =>  <BoxForMovie key={movie.id} movie={movie} />);
-    if(filtered.length == 0)
+    const searchedMovies = filteredMovies.map(movie =>  <BoxForMovie key={movie.id} movie={movie} />);
+    if(searchedMovies.length == 0)
     {
         return(
         <div>
@@ -52,7 +52,7 @@ export const SearchResults = () => {
         {<SearchBar/>}
         {<FilterDropdown/>}
         <SimpleGrid minChildWidth='350px' spacing='10px' direction={["column", "row"]} ml={5} mr={5}>
-            {filtered}
+            {searchedMovies}
         </SimpleGrid>
     </div>);
     }

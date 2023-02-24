@@ -10,7 +10,7 @@ const SearchBar = () => {
             {/* Reference: https://chakra-ui.com/docs/components/stack */}
             <HStack>
             <Input size='lg' variant='outline' placeholder='Search' onChange={(event) => {setNewKeyword(event.target.value);}} />
-            <Button size='lg' border='2px' borderColor='teal.500' onClick={() => navigate('/search', { state : {keyword : newKeyword} }) }>
+            <Button size='lg' border='2px' borderColor='teal.500' onClick={() => navigate('/search', { state : {keyword : newKeyword, option:"search"} }) }>
                 Search
             </Button>
             </HStack>

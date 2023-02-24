@@ -35,10 +35,9 @@ const FilterDropdown = () =>{
                     {/* <option value='option4'>2006-2010</option>
                     <option value='option5'>2001-2005</option> */}
                 </Select>
-                <Link to="/filter"><Button size='lg' border='2px' borderColor='teal.500' onClick={() => navigate('/filter', { state : {genre : genre, rating : rating, year : year} }) }>
+                <Button size='lg' border='2px' borderColor='teal.500' onClick={() => navigate('/search', { state : {option: "filter", genre : genre, rating : rating, year : year} }) }>
                     Filter
                 </Button>
-                </Link>
             </HStack>
         </Box>
     );
