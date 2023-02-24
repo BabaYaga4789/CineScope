@@ -36,7 +36,7 @@ const movies: Movie[] = [
   // ...
 ];
 
-const Home: React.FC = () => {
+const Home2: React.FC = () => {
   
   return (
     <>
@@ -45,4 +45,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default Home2;
