@@ -63,17 +63,9 @@ const Profile = () => {
               <Text fontSize={"lg"} fontWeight="semibold">
                 Hrishi Patel
               </Text>
-              <Text fontSize="sm" color="gray.500" textAlign="center">
+              <Text fontSize="sm" color="gray.500" textAlign="center" mb={2}>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
               </Text>
-              <Button
-                w={"100%"}
-                colorScheme="yellow"
-                size="sm"
-                variant={"solid"}
-              >
-                Edit Profile
-              </Button>
               <Button
                 w={"100%"}
                 size="sm"

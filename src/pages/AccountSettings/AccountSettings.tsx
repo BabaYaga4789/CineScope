@@ -2,6 +2,7 @@ import Genres from "@/common/Genres";
 import ChangePasswordDialog from "@/components/ChangePasswordDialog";
 import CustomContainer from "@/components/CustomContainer";
 import CustomInputField from "@/components/CustomInputField";
+import DeleteProfileDialog from "@/components/DeleteProfileDialog";
 import {
   Alert,
   Button,
@@ -50,6 +51,11 @@ export default function AccountSettings() {
   const navigate = useNavigate();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isOpenDelete,
+    onOpen: onOpenDelete,
+    onClose: onCloseDelete,
+  } = useDisclosure();
 
   const validateAndRegister = (event: any) => {
     event.preventDefault();
@@ -219,13 +225,14 @@ export default function AccountSettings() {
             w={"100%"}
             colorScheme={"red"}
             variant="outline"
-            onClick={() => navigate("/")}
+            onClick={onOpenDelete}
           >
             Delete Profile
           </Button>
         </VStack>
       </CustomContainer>
       <ChangePasswordDialog isOpen={isOpen} onClose={onClose} />
+      <DeleteProfileDialog isOpen={isOpenDelete} onClose={onCloseDelete} />
     </Flex>
   );
 }
