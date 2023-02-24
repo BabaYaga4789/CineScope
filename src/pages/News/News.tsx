@@ -67,17 +67,20 @@ import {
                     bg={{ base: 'transparent', sm: 'bg-surface' }}
                     boxShadow={{ base: 'none', sm: 'md' }}
                     borderRadius={{ base: 'none', sm: 'xl' }}
+                    {...{ mt: "10px" }}
                 >
                     <Card>
                         <Heading fontSize={"3xl"} fontStyle="bold" textAlign="left">
                             Lorem ipsum, dolor sit amet consectetur adipisicing elit.
                         </Heading>
+                        <Stack>
 
                         <Image
                             objectFit={"cover"}
                             maxW={{ base: "100%", sm: "300px" }}
                             src="https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"
                             alt="image" />
+                        </Stack>
                         <Stack>
                             <CardBody>
                                 <Text py="2">
