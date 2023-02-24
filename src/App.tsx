@@ -7,6 +7,8 @@ import Registration from "./pages/Registration/Registration";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
 import SignIn from "./pages/SignIn";
 import Watchlist from "./pages/Watchlist/Watchlist";
+import { SearchResults } from "./pages/Search/SearchResults";
+import { FilterResults } from "./pages/Filter/FilterResults";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +44,14 @@ const router = createBrowserRouter([
         element: <AccountSettings />,
       },
     ],
+  },
+  {
+    path: "/search",
+    element: <SearchResults />,
+  },
+  {
+    path: "/filter",
+    element: <FilterResults/>,
   },
 ]);
 
