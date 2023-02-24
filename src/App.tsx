@@ -1,14 +1,14 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RootLayout from "./layout/RootLayout";
 import AccountSettings from "./pages/AccountSettings/AccountSettings";
-import Home2 from "./pages/Home/Home2";
+import { FilterResults } from "./pages/Filter/FilterResults";
+import Home from "./pages/Home/Home";
 import Profile from "./pages/Profile/Profile";
 import Registration from "./pages/Registration/Registration";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
+import { SearchResults } from "./pages/Search/SearchResults";
 import SignIn from "./pages/SignIn";
 import Watchlist from "./pages/Watchlist/Watchlist";
-import { SearchResults } from "./pages/Search/SearchResults";
-import { FilterResults } from "./pages/Filter/FilterResults";
 
 const router = createBrowserRouter([
   {
@@ -17,7 +17,11 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home2 />,
+        element: <Home />,
+      },
+      {
+        path: "/",
+        element: <Home />,
       },
       {
         path: "/login",
@@ -51,7 +55,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/filter",
-    element: <FilterResults/>,
+    element: <FilterResults />,
   },
 ]);
 
