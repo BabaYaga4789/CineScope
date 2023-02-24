@@ -11,7 +11,7 @@ const FilterDropdown = () => {
   return (
     <Box
       px={4}
-      w="100%"
+      w="70%"
       as="section"
       marginBottom={5}
       marginLeft={5}

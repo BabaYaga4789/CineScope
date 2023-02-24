@@ -8,11 +8,10 @@ const SearchBar = () => {
   return (
     <Box
       px={4}
-      w="100%"
+      w="70%"
       as="section"
       marginLeft={5}
       marginRight={5}
-      marginTop={5}
     >
       {/* Reference: https://chakra-ui.com/docs/components/stack */}
       <HStack>
