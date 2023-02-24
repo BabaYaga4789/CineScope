@@ -7,7 +7,7 @@ export const MovieDetails = [
         rating: 8.5,
         reviewCount: 30,
         genre: 'Action',
-        year: '2009',
+        year: 2009,
     },
     {
         id: 2,
@@ -17,7 +17,7 @@ export const MovieDetails = [
         rating: 8,
         reviewCount: 20,
         genre: 'Thriller',
-        year: '2019',
+        year: 2019,
     },
     {
         id: 3,
@@ -27,7 +27,7 @@ export const MovieDetails = [
         rating: 7,
         reviewCount: 9,
         genre: 'Science Fiction',
-        year: '2005',
+        year: 2005,
     },
     {
         id: 4,
@@ -37,7 +37,7 @@ export const MovieDetails = [
         rating: 9,
         reviewCount: 40,
         genre: 'Adventure',
-        year: '2022',
+        year: 2022,
     },
     {
         id: 5,
@@ -47,7 +47,7 @@ export const MovieDetails = [
         rating: 10,
         reviewCount: 3,
         genre: 'Fiction',
-        year: '2019',
+        year: 2019,
     },
     {
         id: 6,
@@ -57,7 +57,7 @@ export const MovieDetails = [
         rating: 9,
         reviewCount: 45,
         genre: 'Action',
-        year: '2023',
+        year: 2023,
     },
     {
         id: 7,
@@ -67,7 +67,7 @@ export const MovieDetails = [
         rating: 4,
         reviewCount: 20,
         genre: 'Thriller',
-        year: '2020',
+        year: 2020,
     },
     {
         id: 8,
@@ -77,7 +77,7 @@ export const MovieDetails = [
         rating: 0,
         reviewCount: 0,
         genre: 'Fantacy',
-        year: '2021',
+        year: 2021,
     },
     {
         id: 9,
@@ -87,7 +87,7 @@ export const MovieDetails = [
         rating: 4,
         reviewCount: 6,
         genre: 'Mystery',
-        year: '2022',
+        year: 2022,
     },
     {
         id: 10,
@@ -97,6 +97,6 @@ export const MovieDetails = [
         rating: 7,
         reviewCount: 10,
         genre: 'Comedy',
-        year: '2019',
+        year: 2019,
     }
 ]

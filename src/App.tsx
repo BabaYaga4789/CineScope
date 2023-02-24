@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import SignIn from "./pages/SignIn";
 import Registration from "./pages/Registration/Registration";
 import { SearchResults } from "./pages/Search/SearchResults";
+import { FilterResults } from "./pages/Filter/FilterResults";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
   {
     path: "/search",
     element: <SearchResults />,
+  },
+  {
+    path: "/filter",
+    element: <FilterResults/>,
   },
 ]);
 
