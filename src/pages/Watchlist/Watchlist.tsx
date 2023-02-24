@@ -87,17 +87,18 @@ const Watchlist = () => {
               alignItems="start"
               justifyContent={"start"}
             >
-              <CardHeader>
+              <CardHeader w={"100%"}>
                 <Flex>
                   <Image
                     src={movie.poster}
                     alt={movie.title}
                     objectFit="cover"
                     maxH="200"
-                    maxW="150"
+                    maxW="120"
                   />
                   <VStack
-                    ml="10px"
+                    w="100%"
+                    ml="15px"
                     alignItems="left"
                     justifyContent="space-between"
                   >
@@ -105,7 +106,9 @@ const Watchlist = () => {
                       <Text textAlign="left" fontSize={20} fontWeight="bold">
                         {movie.title}
                       </Text>
-                      <Text fontSize={13}>{movie.description}</Text>
+                      <Text noOfLines={[1, 2]} fontSize={13}>
+                        {movie.description}
+                      </Text>
                     </VStack>
                     <HStack w={"100%"} justifyContent="flex-end">
                       <Button leftIcon={<ViewIcon />}>View</Button>
