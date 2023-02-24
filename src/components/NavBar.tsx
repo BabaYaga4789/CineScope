@@ -1,4 +1,3 @@
-import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 import {
   Avatar,
   Box,
@@ -10,15 +9,14 @@ import {
   MenuList,
   Spacer,
   Text,
-  useColorMode,
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 const NavBar = () => {
-  const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const navigate = useNavigate();
 
   return (
     <Box boxShadow="lg">
@@ -73,36 +71,38 @@ const NavBar = () => {
           >
             Search
           </NavLink>
-          <NavLink
-            to="/search"
-            style={({ isActive }) => {
-              return { fontWeight: isActive ? 700 : 400 };
-            }}
-          >
-            Watchlist
-          </NavLink>
-          <Avatar name="Harsh">
-            <Menu isOpen={isOpen}>
-              <MenuButton
-                mx={1}
-                py={[1, 2, 2]}
-                px={4}
-                borderRadius={5}
-                _hover={{ bg: useColorModeValue("gray.100", "gray.700") }}
-                aria-label="Courses"
-                fontWeight="normal"
-                onMouseEnter={onOpen}
-                onMouseLeave={onClose}
+          <Menu isOpen={isOpen}>
+            <MenuButton
+              mx={1}
+              py={[1, 2, 2]}
+              px={4}
+              borderRadius={5}
+              _hover={{ bg: useColorModeValue("gray.100", "gray.700") }}
+              aria-label="Courses"
+              fontWeight="normal"
+              onMouseEnter={onOpen}
+              onMouseLeave={onClose}
+              onClick={() => navigate("/profile")}
+            >
+              <Avatar name="Harsh" />
+            </MenuButton>
+            <MenuList onMouseEnter={onOpen} onMouseLeave={onClose}>
+              <MenuItem
+                onClick={() => {
+                  navigate("account-settings");
+                }}
               >
-                More {isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
-              </MenuButton>
-              <MenuList onMouseEnter={onOpen} onMouseLeave={onClose}>
-                <MenuItem>Menu Item 1</MenuItem>
-                <MenuItem>Menu Item 2</MenuItem>
-                <MenuItem>Menu Item 3</MenuItem>
-              </MenuList>
-            </Menu>
-          </Avatar>
+                Account Settings
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  navigate("/");
+                }}
+              >
+                Logout
+              </MenuItem>
+            </MenuList>
+          </Menu>
 
           <Spacer></Spacer>
         </HStack>
