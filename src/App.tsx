@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RootLayout from "./layout/RootLayout";
 import AccountSettings from "./pages/AccountSettings/AccountSettings";
 import Home from "./pages/Home/Home";
+import News from "./pages/News/News";
 import Profile from "./pages/Profile/Profile";
 import Registration from "./pages/Registration/Registration";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
         path: "/account-settings",
         element: <AccountSettings />,
       },
+      {
+        path: "/news",
+        element: <News />,
+      }
     ],
   },
 ]);
