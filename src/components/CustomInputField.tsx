@@ -1,14 +1,11 @@
-import {
-  Input,
-  InputGroup,
-  InputLeftElement
-} from "@chakra-ui/react";
+import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
 
 interface CustomInputFieldProps extends React.PropsWithChildren<any> {
   icon: React.ReactNode;
   id: string;
   type: string;
   placeholder: string;
+  value?: string;
   onChange: (event: any) => void;
 }
 
@@ -17,10 +14,10 @@ const CustomInputField = ({
   id,
   type,
   placeholder,
+  value,
   onChange,
   ...props
 }: CustomInputFieldProps) => {
-
   const accent = "yellow.500";
 
   return (
@@ -34,6 +31,7 @@ const CustomInputField = ({
         focusBorderColor={accent}
         mb={3}
         onChange={onChange}
+        value={value}
       />
     </InputGroup>
   );

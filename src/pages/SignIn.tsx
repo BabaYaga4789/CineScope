@@ -13,7 +13,7 @@ import {
   SlideFade,
   Text,
   useBreakpointValue,
-  VStack,
+  VStack
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { AiFillLock, AiOutlineUser } from "react-icons/ai";
