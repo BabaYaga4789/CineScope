@@ -35,7 +35,7 @@ const App = () => {
     <ChakraProvider>
       <Box h="100%" w="100%">
         <NavBar />
-        <RouterProvider router={router} />
+        <RouterProvider router={router}/>
       </Box>
     </ChakraProvider>
   );

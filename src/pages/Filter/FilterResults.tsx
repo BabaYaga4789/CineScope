@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 
 export const FilterResults = () => {
 
+    const url = window.location.pathname.split('/').pop();
     const { state } = useLocation();
     const genre = state.genre;
     const year = state.year;
@@ -16,10 +17,11 @@ export const FilterResults = () => {
     console.log(genre);
     console.log(rating);
     console.log(year);
-    const [afterFilteration, setAfterFilteration] = useState(MovieDetails)
+    const [afterFilteration, setAfterFilteration] = useState(MovieDetails);
     
     //Reference: https://medium.com/geekculture/create-a-simple-search-component-in-react-js-using-react-hooks-710c1dfe8b58#:~:text=Firstly%2C%20we%20import%20useState%20from,list%20received%20from%20the%20parent
-function movieFilter(){
+useEffect(() => {
+    const movieFilter = async () => {
     if(genre!=null)
     {
         if(rating!=null)
@@ -273,7 +275,6 @@ function movieFilter(){
                 );
                 setAfterFilteration(filteredMovies);
             }
-
         }
     }
     else
@@ -487,11 +488,14 @@ function movieFilter(){
         }
     }
 }
-useEffect(()=> {
-    movieFilter()
-},[]);  
-    
+movieFilter();
+},[url])
+// useEffect(()=> {
+//     movieFilter()
+// },[]);  
+
     const filtered = afterFilteration.map(movie =>  <BoxForMovie key={movie.id} movie={movie} />);
+    console.log(filtered)
     if(filtered.length == 0)
     {
         return(

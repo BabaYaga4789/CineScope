@@ -1,4 +1,4 @@
-import { Select, HStack, Box, Button, Input } from '@chakra-ui/react';
+import { Select, HStack, Box, Button, Input, Link } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import React , {useState } from 'react';
 
@@ -35,9 +35,10 @@ const FilterDropdown = () =>{
                     {/* <option value='option4'>2006-2010</option>
                     <option value='option5'>2001-2005</option> */}
                 </Select>
-                <Button size='lg' border='2px' borderColor='teal.500' onClick={() => navigate('/filter', { state : {genre : genre, rating : rating, year : year} }) }>
+                <Link to="/filter"><Button size='lg' border='2px' borderColor='teal.500' onClick={() => navigate('/filter', { state : {genre : genre, rating : rating, year : year} }) }>
                     Filter
                 </Button>
+                </Link>
             </HStack>
         </Box>
     );

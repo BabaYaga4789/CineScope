@@ -66,7 +66,7 @@ export const MovieDetails = [
         title: 'The Empire Strikes Back',
         rating: 4,
         reviewCount: 20,
-        genre: 'Thriller',
+        genre: 'Action',
         year: 2020,
     },
     {
