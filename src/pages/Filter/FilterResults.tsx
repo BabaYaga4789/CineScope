@@ -3,18 +3,30 @@ import { useLocation } from "react-router-dom";
 import { MovieDetails } from "../MovieData";
 import SearchBar from "@/components/SearchBar";
 import FilterDropdown from "@/components/FilterDropdown";
-import {
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
-  Box,
-} from "@chakra-ui/react";
+import { AlertForNoMovieFound } from "@/components/AlertForNoMovieFound";
 import { useEffect, useState } from "react";
 import MovieGridItem from "@/components/MovieGridItem";
 
 export const FilterResults = () => {
   const { state } = useLocation();
+  if(state == null)
+  {
+    const movies = MovieDetails.map((movie) => (
+      <MovieGridItem key={movie.id} movie={movie} />
+    ));
+  
+    return (
+      <VStack w="100%">
+        <SearchBar />
+        <FilterDropdown />
+        {/* Reference: https://chakra-ui.com/docs/components/simple-grid */}
+        <SimpleGrid w="70%" columns={{ base: 1, md: 3, lg: 6 }} gap={6}>
+          {movies}
+        </SimpleGrid>
+      </VStack>
+    );
+  }
+  else{
   const option = state.option;
   console.log(option);
 
@@ -31,27 +43,7 @@ export const FilterResults = () => {
         <VStack w="100%">
           {<SearchBar />}
           {<FilterDropdown />}
-  
-          {/* Reference: https://chakra-ui.com/docs/components/alert */}
-          <Box as="section" marginBottom={5} marginLeft={5} marginRight={5}>
-            <Alert
-              status="warning"
-              variant="subtle"
-              flexDirection="column"
-              alignItems="center"
-              justifyContent="center"
-              textAlign="center"
-              height="200px"
-            >
-              <AlertIcon boxSize="40px" mr={0} />
-              <AlertTitle mt={4} mb={1} fontSize="lg">
-                No Results Found!!!
-              </AlertTitle>
-              <AlertDescription maxWidth="sm">
-                Try to Search again.
-              </AlertDescription>
-            </Alert>
-          </Box>
+          {<AlertForNoMovieFound/>}
         </VStack>
       );
     } else {
@@ -456,27 +448,7 @@ export const FilterResults = () => {
         <VStack w="100%">
           {<SearchBar />}
           {<FilterDropdown />}
-
-          {/* Reference: https://chakra-ui.com/docs/components/alert */}
-          <Box as="section" marginBottom={5} marginLeft={5} marginRight={5}>
-            <Alert
-              status="warning"
-              variant="subtle"
-              flexDirection="column"
-              alignItems="center"
-              justifyContent="center"
-              textAlign="center"
-              height="200px"
-            >
-              <AlertIcon boxSize="40px" mr={0} />
-              <AlertTitle mt={4} mb={1} fontSize="lg">
-                No Results Found!!!
-              </AlertTitle>
-              <AlertDescription maxWidth="2xl">
-                Try to Search again.
-              </AlertDescription>
-            </Alert>
-          </Box>
+          {<AlertForNoMovieFound/>}
         </VStack>
       );
     } else {
@@ -494,4 +466,5 @@ export const FilterResults = () => {
   else{
     return(<></>)
   }
+}
 };

@@ -7,7 +7,6 @@ import News from "./pages/News/News";
 import Profile from "./pages/Profile/Profile";
 import Registration from "./pages/Registration/Registration";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
-import { SearchResults } from "./pages/Search/SearchResults";
 import SignIn from "./pages/SignIn";
 import Watchlist from "./pages/Watchlist/Watchlist";
 
@@ -51,13 +50,17 @@ const router = createBrowserRouter([
       {
         path: "/news",
         element: <News />,
-      }
+      },
+      {
+        path: "/search",
+        element: <FilterResults />,
+      },
     ],
   },
-  {
-    path: "/search",
-    element: <FilterResults />,
-  },
+  // {
+  //   path: "/search",
+  //   element: <FilterResults />,
+  // },
 ]);
 
 const App = () => {
