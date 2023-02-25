@@ -4,23 +4,21 @@ import {
   ButtonGroup,
   Card,
   CardBody,
-  Center,
   Flex,
+  Heading,
   Icon,
   Image,
+  Stack,
   Text,
   Textarea,
   useToast,
-  Stack,
-  Heading,
-  CardFooter,
 } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 
-import React from "react";
 import CommentBox from "@/components/CommentBox";
+import React from "react";
 import { MovieDetails } from "../MovieData";
 
 interface Review {
@@ -38,38 +36,20 @@ const Reviews = () => {
   const location = useLocation();
   const movieDetail = location.state;
   console.log(movieDetail, "these are movie details from state i.e id");
-  console.log(typeof(movieDetail))
+  console.log(typeof movieDetail);
 
   type movieDet = {
     id: number;
     poster: string;
     title: string;
     genre: string;
-    // add more properties as needed
   };
 
-  // const getItemDetails = (id: number): movieDet | undefined => {
-  //   const item = MovieDetails.find((item: movieDet) => item.id === parseInt(movieDetail));
-  //   return item;
-  // };
+  const item = MovieDetails.find(
+    (item: movieDet) => item.id === parseInt(movieDetail)
+  );
+  console.log(item?.poster, "Hiiiiiiiiiiiii");
 
-  const item = MovieDetails.find((item: movieDet) => item.id === parseInt(movieDetail));
-  //console.log(item,"This is itttt!!")
-  console.log(item?.poster, "Hiiiiiiiiiiiii")
-
-
-
-  // const filteredMovies = MovieDetails.filter(x => x.id === parseInt(movieDetail));
-  // console.log(filteredMovies, "filteredMovies");
-
-  // useEffect(() => {
-  //   const filteredMovies = MovieDetails.filter(x => x.id === parseInt(movieDetail));
-  //   //setMovie(filteredMovies)
-  //   console.log(filteredMovies, "filteredMovies");
-  // },[movieDetail]);
-
-
-  //handle ratings
   const handleRatingClick = (value: number) => {
     setRating(value);
 
@@ -81,13 +61,11 @@ const Reviews = () => {
     });
   };
 
-  //handle reviews
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setComment(e.target.value);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
-    // Handle comment submission here
     e.preventDefault();
     console.log(comment);
     if (comment.trim() !== "") {
@@ -99,16 +77,11 @@ const Reviews = () => {
         isClosable: true,
       });
     }
-
   };
 
   const handleSave = (editedText: string) => {
     setText(editedText);
   };
-
-  // const getMovieDetails=()=>{
-  //   const item= MovieDetails.find()
-  // }
 
   return (
     <>
@@ -119,39 +92,39 @@ const Reviews = () => {
           align="center"
           p={5}
         >
-        
           <Card
-              direction={{ base: 'column', sm: 'row' }}
-              overflow='hidden'
-              variant='outline'
-              maxW={{ base: '100%', sm: '800px' }}
-              boxShadow='lg'
-            >
-              <Image
-                objectFit='cover'
-                maxW={{ base: '100%', sm: '300px' }}
-                src= {item?.poster}
-                alt='Movie poster'
-              />
+            direction={{ base: "column", sm: "row" }}
+            overflow="hidden"
+            variant="outline"
+            maxW={{ base: "100%", sm: "800px" }}
+            boxShadow="lg"
+          >
+            <Image
+              objectFit="cover"
+              maxW={{ base: "100%", sm: "300px" }}
+              src={item?.poster}
+              alt="Movie poster"
+            />
 
-              <Stack padding={{ base: '4', sm: '6' }}>
-                <CardBody padding={{ base: '2', sm: '4' }}>
-                  <Heading size='md' color='gray.600'>{item?.title}</Heading>
+            <Stack padding={{ base: "4", sm: "6" }}>
+              <CardBody padding={{ base: "2", sm: "4" }}>
+                <Heading size="md" color="gray.600">
+                  {item?.title}
+                </Heading>
 
-                  <Text py='2' lineHeight='tall'  textAlign='justify' >
-                    {item?.description}
-                  </Text>
+                <Text py="2" lineHeight="tall" textAlign="justify">
+                  {item?.description}
+                </Text>
 
-                  <Text fontSize='sm' color='gray.500' py='1'>
-                    Genre: {item?.genre}
-                  </Text>
+                <Text fontSize="sm" color="gray.500" py="1">
+                  Genre: {item?.genre}
+                </Text>
 
-                  <Text fontSize='sm' color='gray.500'  textAlign='justify' >
-                    Year: {item?.year}
-                  </Text>
-                </CardBody>
-
-              </Stack>
+                <Text fontSize="sm" color="gray.500" textAlign="justify">
+                  Year: {item?.year}
+                </Text>
+              </CardBody>
+            </Stack>
           </Card>
 
           <Flex
@@ -160,7 +133,9 @@ const Reviews = () => {
             justifyContent="space-between"
           >
             <Box boxShadow="2xl" p="2" mb="4" ml="20" width="85%">
-              <Text mb={2} color='gray.600' fontWeight='medium'>Add Rating</Text>
+              <Text mb={2} color="gray.600" fontWeight="medium">
+                Add Rating
+              </Text>
               <ButtonGroup>
                 {[1, 2, 3, 4, 5].map((value) => (
                   <Button
@@ -188,7 +163,9 @@ const Reviews = () => {
               h="40vh"
               backgroundColor="gray.100"
             >
-              <Text mb={3} fontWeight='medium'>Add a Review</Text>
+              <Text mb={3} fontWeight="medium">
+                Add a Review
+              </Text>
               <Textarea
                 placeholder="Write a comment..."
                 size="sm"
