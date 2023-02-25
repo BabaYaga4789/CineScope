@@ -9,30 +9,31 @@ import {
     Heading,
     Image,
     Link,
+    LinkOverlay,
     Spacer,
     Stack,
     Text,
     useToast,
     VStack,
-  } from "@chakra-ui/react";
-  
-  const today = new Date();
-  
-  export default function News() {
+} from "@chakra-ui/react";
+
+const today = new Date();
+
+export default function News() {
     const toast = useToast();
-  
+
     const onClick = (event: any) => {
-      event.preventDefault();
-      toast({
-        position: "bottom",
-        render: () => (
-          <Box color="white" p={3} bg="teal.500">
-            Subscribed successfully!
-          </Box>
-        ),
-      });
+        event.preventDefault();
+        toast({
+            position: "bottom",
+            render: () => (
+                <Box color="white" p={3} bg="teal.500">
+                    Subscribed successfully!
+                </Box>
+            ),
+        });
     };
-    return(
+    return (
         <><Flex as="nav" justify="space-between" paddingBottom={"4"}>
             <Box>
                 <Heading
@@ -70,16 +71,18 @@ import {
                     {...{ mt: "10px" }}
                 >
                     <Card>
-                        <Heading fontSize={"3xl"} fontStyle="bold" textAlign="left">
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                        <Heading fontSize={"3xl"} fontStyle="bold" textAlign="left" paddingBottom={"2"}>
+                            <LinkOverlay href="/newsdetails">
+                                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                            </LinkOverlay>
                         </Heading>
                         <Stack>
 
-                        <Image
-                            objectFit={"cover"}
-                            maxW={{ base: "100%", sm: "300px" }}
-                            src="https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"
-                            alt="image" />
+                            <Image
+                                objectFit={"cover"}
+                                maxW={{ base: "100%", sm: "300px" }}
+                                src="https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"
+                                alt="image" />
                         </Stack>
                         <Stack>
                             <CardBody>
@@ -111,17 +114,13 @@ import {
                     bg={{ base: 'transparent', sm: 'bg-surface' }}
                     boxShadow={{ base: 'none', sm: 'md' }}
                     borderRadius={{ base: 'none', sm: 'xl' }}
-                    pt={"10px"}>
-                    <Card
-                        border={"1px solid "}
-                        borderColor={"gray.200"}
-                        direction={{ base: "column" }}
-                        overflow="hidden"
-                        variant="outline"
-                    >
+                    {...{ mt: "10px" }}>
+                    <Card>
                         <CardHeader>
                             <Heading fontSize={"3xl"} fontStyle="bold" textAlign="left">
-                                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                                <LinkOverlay href="/newsdetails">
+                                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                                </LinkOverlay>
                             </Heading>
                         </CardHeader>
                         <Image
@@ -157,4 +156,4 @@ import {
 
 
     );
-  }  
+}  

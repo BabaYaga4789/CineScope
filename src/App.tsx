@@ -3,6 +3,7 @@ import RootLayout from "./layout/RootLayout";
 import AccountSettings from "./pages/AccountSettings/AccountSettings";
 import Home from "./pages/Home/Home";
 import News from "./pages/News/News";
+import NewsDetails from "./pages/News/NewsDetails";
 import Profile from "./pages/Profile/Profile";
 import Registration from "./pages/Registration/Registration";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
       {
         path: "/news",
         element: <News />,
+      },
+      {
+        path: "/newsdetails",
+        element: <NewsDetails />,
       }
     ],
   },
