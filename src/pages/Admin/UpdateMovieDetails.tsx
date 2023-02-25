@@ -14,6 +14,12 @@ export default function UpdateMovieDetails() {
 
 
 const id = useParams();
+const [cast, setCast] = useState<string[]>([]);
+const [genre, setGenre] = useState<string[]>([]);
+const toast = useToast();
+const navigate = useNavigate();
+const [formErrors, setFormErrors] = useState<Map<string, string>>();
+const years = [];
 const [formValues, setFormValues] = useState({
   title: "",
   poster: "",
@@ -23,8 +29,7 @@ const [formValues, setFormValues] = useState({
   rating: ""
 });
 
-const [cast, setCast] = useState<string[]>([]);
-const [genre, setGenre] = useState<string[]>([]);
+
 
 useEffect(() => {
     
@@ -63,99 +68,7 @@ useEffect(() => {
     
     
   },[]);
-  const checkCastNames = () => {
-  
-    for (let i =0; i<cast.length; i++){
-      let name = cast[i];
-      if(!/^[A-Za-z ]+$/.test(name)){
-        return true;
-      }
-    }
-    return false;
-  }
 
-  const checkGenreNames = () => {
-    
-    for (let i =0; i<genre.length; i++){
-      let name = genre[i];
-      if(!/^[A-Za-z ]+$/.test(name)){
-        return true;
-      }
-    }
-    return false;
-  }
-
-  const validateForm = () => {
-    // Using Map
-    const errors = new Map();
-    if (!formValues.title) {
-      errors.set("title", "Title is required");
-    } 
-
-    if (!formValues.poster) {
-        errors.set("poster", "Poster link is required");
-    } 
-    
-    if (!formValues.plot) {
-        errors.set("plot", "Plot for the movie is required");
-    } else if (formValues.plot.split(' ').length >=250) {
-        errors.set("plot", "Plot details must be less than 250 letters.");
-    }
-
-    if (!formValues.director) {
-        errors.set("director", "Director name is required");
-    } else if (!/^[A-Za-z ]+$/.test(formValues.director)) {
-        errors.set("director", "Director name must be in letters.");
-    }
-    if (cast.length == 0) {
-      errors.set("cast", "Cast is required");
-  } else if (checkCastNames()){
-      errors.set("cast", "Cast names must be in letters.");
-  }
-  if (genre.length == 0) {
-    errors.set("genre", "Genre is required");
-} else if (checkGenreNames()){
-    errors.set("genre", "Genre names must be in letters.");
-}
-  if(formValues.year == ""){
-    errors.set("year", "Year is required");
-  }
-  debugger
-
-    setFormErrors(errors);
-    
-    return errors.size === 0;
-  };
-
-  const toast = useToast();
-  const navigate = useNavigate();
-  const handleUpdate =  (event: any) => {
-    // event.preventDefault();
-    if ( validateForm()) {
-      toast({
-        title: `Movie updated sucessfully.`,
-        status: 'success',
-        isClosable: true,
-      })
-        navigate('/admin-home/')
-    }
-   
-  };
-
-  const handleCancel = (event: any) => {
-      navigate('/admin-home/')
-  };
-  const [formErrors, setFormErrors] = useState<Map<string, string>>();
-  const years = [];
-  for (let i = 2023; i >= 1970; i--) {
-    years.push(i);
-  }
-  const handleInputChange = (event:any) => {
-    setFormValues({
-      ...formValues,
-      [event.target.name]: event.target.value,
-    });
-  };
 
   const handleAddCast = () => {
     setCast([...cast, ""]);
@@ -186,6 +99,99 @@ useEffect(() => {
     newGenres[index] = value;
     setGenre(newGenres);
   };
+
+  for (let i = 2023; i >= 1970; i--) {
+    years.push(i);
+  }
+  
+  const checkCastNames = () => {
+  
+    for (let i =0; i<cast.length; i++){
+      let name = cast[i];
+      if(!/^[A-Za-z -]+$/.test(name)){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  const checkGenreNames = () => {
+    
+    for (let i =0; i<genre.length; i++){
+      let name = genre[i];
+      if(!/^[A-Za-z -]+$/.test(name)){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  const validateForm = () => {
+    const errors = new Map();
+    if (!formValues.title) {
+      errors.set("title", "Title is required");
+    } 
+
+    if (!formValues.poster) {
+        errors.set("poster", "Poster link is required");
+    } 
+    
+    if (!formValues.plot) {
+        errors.set("plot", "Plot for the movie is required");
+    } else if (formValues.plot.split(' ').length >=250) {
+        errors.set("plot", "Plot details must be less than 250 letters.");
+    }
+
+    if (!formValues.director) {
+        errors.set("director", "Director name is required");
+    } else if (!/^[A-Za-z ]+$/.test(formValues.director)) {
+        errors.set("director", "Director name must be in letters.");
+    }
+    if (cast.length == 0) {
+      errors.set("cast", "Cast is required");
+    } else if (checkCastNames()){
+      errors.set("cast", "Cast names must be in letters.");
+    }
+    if (genre.length == 0) {
+      errors.set("genre", "Genre is required");
+    } else if (checkGenreNames()){
+    errors.set("genre", "Genre names must be in letters.");
+    }
+    if(formValues.year == ""){
+      errors.set("year", "Year is required");
+    }
+
+    setFormErrors(errors);
+    
+    return errors.size === 0;
+  };
+
+  
+  const handleUpdate =  (event: any) => {
+    // event.preventDefault();
+    if ( validateForm()) {
+      toast({
+        title: `Movie updated sucessfully.`,
+        status: 'success',
+        isClosable: true,
+      })
+        navigate('/admin-home/')
+    }
+   
+  };
+
+  const handleCancel = (event: any) => {
+      navigate('/admin-home/')
+  };
+  
+  const handleInputChange = (event:any) => {
+    setFormValues({
+      ...formValues,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  
   return (
     <div>
     <AdminNavBar></AdminNavBar>  

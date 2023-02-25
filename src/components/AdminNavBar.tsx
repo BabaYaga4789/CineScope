@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Text, Link, Button, Avatar, Input, IconButton, Menu, MenuList, MenuButton, MenuItem, Spacer } from "@chakra-ui/react";
+import { Box, Flex, Heading, Text, Link, Button, Avatar, HStack, Input, IconButton, Menu, MenuList, MenuButton, MenuItem, Spacer } from "@chakra-ui/react";
 import { FaSearch, FaEllipsisV } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
@@ -10,15 +10,25 @@ export const AdminNavBar = () => {
   }
   return (
     <div>
-    <Box as="nav" bg="teal.400" boxShadow="md">
-      <Flex as="div" mx="auto" p="4" justifyContent="space-between" alignItems="center">
+    <Box as="nav" boxShadow="md">
+      <Flex as="div" mx="auto" p="4" justifyContent="center" alignItems="center">
+      <HStack spacing={[10,20,30]}>
+      <HStack>
+            <Text
+              textAlign="left"
+              bgGradient="linear-gradient(311deg, rgba(143,107,41,1) 0%, rgba(237,193,65,1) 33%, rgba(223,159,40,1) 82%);"
+              bgClip="text"
+              fontSize="4xl"
+              fontWeight="extrabold"
+              ml="20px"
+            >
+              <Link to="/admin-home/">CineScope</Link>
+            </Text>
+          </HStack>
 
-        <Heading fontSize={24} color="white">CineScope</Heading>
         <Menu>
           <MenuButton
             aria-label="Options"
-            color="white"
-            fontWeight="bold"
             fontSize={['sm','sm','lg']}
           > Menu</MenuButton>
           <MenuList>
@@ -27,32 +37,33 @@ export const AdminNavBar = () => {
             <MenuItem>Review moderation</MenuItem>
           </MenuList>
         </Menu>
+        </HStack>
+
+        <HStack ml={[40,50,60]}>
         <Input
         placeholder="Search a movie..."
-        bg="white"
-        color="gray.800"
+      
         size="md"
         borderRadius="md"
-        border="1px solid gray.200"
+        border="1px solid black"
         width={[150,175,300]}
       />
       <IconButton
         aria-label="Search"
         icon={<FaSearch />}
-        bg="white.500"
+        colorScheme={"yellow"}
         color="white"
-        _hover={{ bg: "blue.600" }}
         borderRadius="md"
       />
+      </HStack>
   
-        <Text fontWeight="bold" color="white" width={[20, 30, 40]} fontSize={['sm', 'md', 'lg', 'lg']}>Welcome, User!</Text>
+  <Spacer></Spacer>
+  <HStack spacing={[10,20,30]}>
+        <Text fontSize={['sm', 'md', 'lg', 'lg']}>Welcome, User!</Text>
         <Avatar size="sm" name="User Name" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7-oYBJgcWpBfjaS1rQAwYZS5px0eeZ0g4rw&usqp=CAU" />
-        <Button fontSize={['sm', 'sm', 'md', 'md']}>Logout</Button>
-        
-      </Flex>
-        
-     
-      
+        <Button colorScheme="yellow" fontSize={['sm', 'sm', 'md', 'md']}>Logout</Button>
+        </HStack>
+      </Flex> 
     </Box>
 
 </div>

@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-import { Box, Flex, Heading, Text } from "@chakra-ui/react";
-
-export const NavBar = () => {
-  return (
-    <Box as="nav" bg="teal.400" boxShadow="md">
-      <Flex as="div" mx="auto" p="4">
-        <Heading fontSize={24} color="white" >CineScope</Heading>
-      </Flex>
-    </Box>
-  );
-};
-=======
 import {
   Avatar,
   Box,
@@ -125,4 +112,3 @@ const NavBar = () => {
 };
 
 export default NavBar;
->>>>>>> 3565b438f7def254fd4b46b106b905c42419b97c

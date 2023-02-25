@@ -1,18 +1,3 @@
-<<<<<<< HEAD
-import { Center, Flex, Heading } from "@chakra-ui/react";
-import CustomContainer from "../../components/CustomContainer";
-
-export default function Home() {
-  return (
-    <Center h={"93vh"}>
-      {" "}
-      <CustomContainer maxW="500">
-        <Center mb={6}>
-          <Heading>Home</Heading>
-        </Center>
-      </CustomContainer>
-    </Center>
-=======
 import FilterDropdown from "@/components/FilterDropdown";
 import MovieGridItem from "@/components/MovieGridItem";
 import SearchBar from "@/components/SearchBar";
@@ -33,6 +18,5 @@ export default function Home() {
         {movies}
       </SimpleGrid>
     </VStack>
->>>>>>> 3565b438f7def254fd4b46b106b905c42419b97c
   );
 }

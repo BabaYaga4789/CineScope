@@ -12,131 +12,128 @@ import {
 import { AdminNavBar } from '../../components/AdminNavBar';
 export default function AddMovie() {
 
-    const [formValues, setFormValues] = useState({
-        title: "",
-        poster: "",
-        year: "2023",
-        director: "",
-        plot:""
-      });
+
+  const navigate = useNavigate();
+  const [formErrors, setFormErrors] = useState<Map<string, string>>();
+  const years = [];
+  const [cast, setCast] = useState<string[]>([]);
+  const [genre, setGenre] = useState<string[]>([]);
+  const toast = useToast();
+
+  const [formValues, setFormValues] = useState({
+      title: "",
+      poster: "",
+      year: "2023",
+      director: "",
+      plot:""
+    });
 
 
-      const checkCastNames = () => {
-        for (let i =0; i<cast.length; i++){
-          let name = cast[i];
-          if(!/^[A-Za-z ]+$/.test(name)){
-            return true;
-          }
+    for (let i = 2023; i >= 1970; i--) {
+      years.push(i);
+    }
+
+    const checkCastNames = () => {
+      for (let i =0; i<cast.length; i++){
+        let name = cast[i];
+        if(!/^[A-Za-z ]+$/.test(name)){
+          return true;
         }
-        return false;
       }
+      return false;
+    }
 
-      const checkGenreNames = () => {
-        for (let i =0; i<genre.length; i++){
-          let name = genre[i];
-          if(!/^[A-Za-z ]+$/.test(name)){
-            return true;
-          }
+    const checkGenreNames = () => {
+      for (let i =0; i<genre.length; i++){
+        let name = genre[i];
+        if(!/^[A-Za-z ]+$/.test(name)){
+          return true;
         }
-        return false;
       }
-    // To navigate to different URL.
-     const navigate = useNavigate();
-      const [formErrors, setFormErrors] = useState<Map<string, string>>();
-
+      return false;
+    }
   
-      const validateForm = () => {
-        // Using Map
-        const errors = new Map();
-        if (!formValues.title) {
-          errors.set("title", "Title is required");
-        } 
-    
-        if (!formValues.poster) {
-            errors.set("poster", "Poster link is required");
-        } else if (formValues.poster.match(/\.(jpeg|jpg|gif|png)$/) == null) {
-            errors.set("poster", "Poster link is invalid image.");
-        }
-        
-        if (!formValues.plot) {
-            errors.set("plot", "Plot for the movie is required");
-        } else if (formValues.plot.split(' ').length >=250) {
-            errors.set("plot", "Plot details must be less than 250 letters.");
-        }
+    const handleAddCast = () => {
+      setCast([...cast, ""]);
+    };
+  
+    const handleRemoveCast = (index: number) => {
+      setCast(cast.filter((_, i) => i !== index));
+    };
+  
+    const handleCastChange = (index: number, value: string) => {
+      const newItems = [...cast];
+      newItems[index] = value;
+      setCast(newItems);
+    };
+  
 
-        if (!formValues.director) {
-            errors.set("director", "Director name is required");
-        } else if (!/^[A-Za-z ]+$/.test(formValues.director)) {
-            errors.set("director", "Director name must be in letters.");
-        }
-        if (cast.length == 0) {
-          errors.set("cast", "Cast is required");
+    const handleAddGenre = () => {
+      setGenre([...genre, ""]);
+    };
+  
+    const handleRemoveGenre= (index: number) => {
+      setGenre(genre.filter((_, i) => i !== index));
+    };
+  
+    const handleGenreChange = (index: number, value: string) => {
+      const newGenres = [...genre];
+      newGenres[index] = value;
+      setGenre(newGenres);
+    };
+
+    const validateForm = () => {
+      // Using Map
+      const errors = new Map();
+      if (!formValues.title) {
+        errors.set("title", "Title is required");
+      } 
+  
+      if (!formValues.poster) {
+          errors.set("poster", "Poster link is required");
+      } else if (formValues.poster.match(/\.(jpeg|jpg|gif|png)$/) == null) {
+          errors.set("poster", "Poster link is invalid image.");
+      }
+      
+      if (!formValues.plot) {
+          errors.set("plot", "Plot for the movie is required");
+      } else if (formValues.plot.split(' ').length >=250) {
+          errors.set("plot", "Plot details must be less than 250 letters.");
+      }
+
+      if (!formValues.director) {
+          errors.set("director", "Director name is required");
+      } else if (!/^[A-Za-z ]+$/.test(formValues.director)) {
+          errors.set("director", "Director name must be in letters.");
+      }
+      if (cast.length == 0) {
+        errors.set("cast", "Cast is required");
       } else if (checkCastNames()){
-          errors.set("cast", "Cast names must be in letters.");
+        errors.set("cast", "Cast names must be in letters.");
       }
       if (genre.length == 0) {
         errors.set("genre", "Genre is required");
-    } else if (checkGenreNames()){
+      } else if (checkGenreNames()){
         errors.set("genre", "Genre names must be in letters.");
-    }
-      if(formValues.year == ""){
-        errors.set("year", "Year is required");
       }
-      debugger
+      if(formValues.year == ""){
+      errors.set("year", "Year is required");
+      }
+    
 
-        setFormErrors(errors);
-        
-        return errors.size === 0;
-      };
-    
-      const handleInputChange = (event:any) => {
-        setFormValues({
-          ...formValues,
-          [event.target.name]: event.target.value,
-        });
-      };
-    
+      setFormErrors(errors);
       
-
-  const years = [];
-  for (let i = 2023; i >= 1970; i--) {
-    years.push(i);
-  }
-
-
-  const [cast, setCast] = useState<string[]>([]);
-
-  const handleAddCast = () => {
-    setCast([...cast, ""]);
-  };
-
-  const handleRemoveCast = (index: number) => {
-    setCast(cast.filter((_, i) => i !== index));
-  };
-
-  const handleCastChange = (index: number, value: string) => {
-    const newItems = [...cast];
-    newItems[index] = value;
-    setCast(newItems);
-  };
-
-  const [genre, setGenre] = useState<string[]>([]);
-
-  const handleAddGenre = () => {
-    setGenre([...genre, ""]);
-  };
-
-  const handleRemoveGenre= (index: number) => {
-    setGenre(genre.filter((_, i) => i !== index));
-  };
-
-  const handleGenreChange = (index: number, value: string) => {
-    const newGenres = [...genre];
-    newGenres[index] = value;
-    setGenre(newGenres);
-  };
-
-  const toast = useToast();
+      return errors.size === 0;
+    };
+  
+    const handleInputChange = (event:any) => {
+      setFormValues({
+        ...formValues,
+        [event.target.name]: event.target.value,
+      });
+    };
+  
+    
   const handleSubmit = (event: any) => {
     // event.preventDefault();
     if (validateForm()) {
@@ -153,6 +150,8 @@ export default function AddMovie() {
   const handleCancel = (event: any) => {
       navigate('/admin-home/')
   };
+
+
   return (
     <div>
       <AdminNavBar></AdminNavBar>
