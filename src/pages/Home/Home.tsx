@@ -1,48 +1,22 @@
-import React from 'react';
-import MovieGrid from '@/components/MovieGrid';
+import FilterDropdown from "@/components/FilterDropdown";
+import MovieGridItem from "@/components/MovieGridItem";
+import SearchBar from "@/components/SearchBar";
+import { SimpleGrid, VStack } from "@chakra-ui/react";
+import { MovieDetails } from "../MovieData";
 
-interface Movie {
-  id: number;
-  poster: string;
-  title: string;
-}
+export default function Home() {
+  const movies = MovieDetails.map((movie) => (
+    <MovieGridItem key={movie.id} movie={movie} />
+  ));
 
-const movies: Movie[] = [
-  {
-    id: 1,
-    poster: "/img/ShawshankRedemptionMoviePoster.jpeg",
-    title: "The Shawshank Redemption"
-  },
-  {
-    id: 2,
-    poster: "/img/AvatarPoster.jpeg",
-    title: "Avatar: The Way of Water"
-  },
-  {
-    id: 3,
-    poster: "/img/Forrest_Gump_poster.jpeg",
-    title: "Forrest Gump"
-  },
-  {
-    id: 4,
-    poster: "/img/The_Menu_Poster.jpeg",
-    title: "The Menu"
-  },
-  {
-    id: 5,
-    poster: "/img/Dil_Chahta_Hai.jpeg",
-    title: "Dil Chahta Hai"
-  }
-  // ...
-];
-
-const Home: React.FC = () => {
-  
   return (
-    <>
-      <MovieGrid movies={movies}></MovieGrid>
-    </>
+    <VStack w="100%">
+      <SearchBar />
+      <FilterDropdown />
+      {/* Reference: https://chakra-ui.com/docs/components/simple-grid */}
+      <SimpleGrid p={4} w="100%" columns={{ base: 1, md: 3, lg: 7 }} gap={6}>
+        {movies}
+      </SimpleGrid>
+    </VStack>
   );
-};
-
-export default Home;
+}
