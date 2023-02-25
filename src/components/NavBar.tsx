@@ -89,6 +89,13 @@ const NavBar = () => {
             <MenuList onMouseEnter={onOpen} onMouseLeave={onClose}>
               <MenuItem
                 onClick={() => {
+                  navigate("login");
+                }}
+              >
+                Login
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
                   navigate("account-settings");
                 }}
               >

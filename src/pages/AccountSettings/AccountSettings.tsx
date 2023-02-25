@@ -15,7 +15,6 @@ import {
   InputLeftElement,
   SlideFade,
   Text,
-  useBreakpointValue,
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
@@ -47,7 +46,6 @@ export default function AccountSettings() {
     );
   }, []);
 
-  const isDesktop = useBreakpointValue({ base: false, md: true });
   const navigate = useNavigate();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -86,12 +84,16 @@ export default function AccountSettings() {
     ) {
       console.log(userName.length === 0);
       errors.push(
-        "Invalid last name. It can't be empty and should contain only letters."
+        "Invalid username name. It can't be empty and should contain only letters."
       );
     }
 
     if (email.length === 0 || !emailRegex.test(email)) {
       errors.push("Invalid email address.");
+    }
+
+    if (result.length === 0) {
+      errors.push("Please select at least one genre.");
     }
 
     if (errors.length > 0) {
@@ -213,14 +215,7 @@ export default function AccountSettings() {
           >
             Update Profile
           </Button>
-          <Button
-            w={"100%"}
-            variant="solid"
-            onClick={() => navigate("/profile")}
-          >
-            Cancel
-          </Button>
-          <Divider my={8} />
+          <Divider />
           <Button
             w={"100%"}
             colorScheme={"red"}
@@ -228,6 +223,13 @@ export default function AccountSettings() {
             onClick={onOpenDelete}
           >
             Delete Profile
+          </Button>{" "}
+          <Button
+            w={"100%"}
+            variant="solid"
+            onClick={() => navigate("/profile")}
+          >
+            Cancel
           </Button>
         </VStack>
       </CustomContainer>

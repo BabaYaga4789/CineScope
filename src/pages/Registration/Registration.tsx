@@ -6,12 +6,12 @@ import {
   Button,
   Center,
   Flex,
-  Heading, Input,
+  Heading,
+  Input,
   InputGroup,
   InputLeftElement,
-  SlideFade, Text,
-  useBreakpointValue,
-  VStack
+  SlideFade,
+  Text, VStack
 } from "@chakra-ui/react";
 import { Autocomplete, Option } from "chakra-ui-simple-autocomplete";
 import React, { useState } from "react";
@@ -38,7 +38,6 @@ export default function Registration() {
   const [errors, setErrors] = useState([] as string[]);
   const [result, setResult] = React.useState<Option[]>([]);
 
-  const isDesktop = useBreakpointValue({ base: false, md: true });
   const navigate = useNavigate();
 
   const validateAndRegister = (event: any) => {
@@ -49,7 +48,8 @@ export default function Registration() {
 
     console.log(data);
 
-    const { userName, email, password, confirmPassword } = data;
+    const { userName, email, password, confirmPassword, dateOfBirth, genres } =
+      data;
 
     // regex
     // generated using https://regex-generator.olafneumann.org/
@@ -70,7 +70,7 @@ export default function Registration() {
     ) {
       console.log(userName.length === 0);
       errors.push(
-        "Invalid last name. It can't be empty and should contain only letters."
+        "Invalid username. It can't be empty and should contain only letters."
       );
     }
 
@@ -84,6 +84,17 @@ export default function Registration() {
 
     if (confirmPassword !== password) {
       errors.push("Passwords do not match.");
+    }
+
+    const today = new Date();
+    const bDate = new Date(dateOfBirth);
+    const age = today.getFullYear() - bDate.getFullYear();
+    if (age < 18 || dateOfBirth === "") {
+      errors.push("You must be 18 years old to register.");
+    }
+
+    if (result.length === 0) {
+      errors.push("You must select at least one genre.");
     }
 
     if (errors.length > 0) {
@@ -101,7 +112,7 @@ export default function Registration() {
 
   return (
     <Flex
-      height="93vh"
+      height="80%"
       flexShrink={"0"}
       mx={4}
       justifyContent="center"

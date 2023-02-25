@@ -12,8 +12,7 @@ import {
   InputLeftElement,
   SlideFade,
   Text,
-  useBreakpointValue,
-  VStack
+  VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { AiFillLock, AiOutlineUser } from "react-icons/ai";
@@ -24,8 +23,6 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [message, setMessage] = useState("");
-
-  const isDesktop = useBreakpointValue({ base: false, md: true });
 
   const validateEmail = (email: string) => {
     // reference: https://regexr.com/3e48o
@@ -58,19 +55,11 @@ export default function SignIn() {
     }
   };
 
-  const strayingTooFar = (event: any) => {
-    event.preventDefault();
-    alert(
-      "You're straying too far! To test login, try with: 1) Don't provide username or password, 2) Provide username and password"
-    );
-  };
-
   const yellowAccent = "yellow.500";
 
   return (
-    <Flex height="93vh" mx={4} justifyContent="center" alignItems="center">
-      <CustomContainer
-      >
+    <Flex height="80%" mx={4} justifyContent="center" alignItems="center">
+      <CustomContainer>
         <Center mb={6}>
           <VStack>
             <Heading>Sign In</Heading>
@@ -133,7 +122,7 @@ export default function SignIn() {
         )}
 
         <Box mb={2}>
-          <Link to={"/"} onClick={strayingTooFar}>
+          <Link to={"/reset-password"}>
             <Text color={yellowAccent} fontSize={"sm"}>
               Forgot Password?
             </Text>
@@ -145,7 +134,7 @@ export default function SignIn() {
         </Button>
 
         <HStack justifyContent="space-between">
-          <Link to={"/register"} >
+          <Link to={"/register"}>
             <Text as="span" color="gray.500">
               Don't have a CineScope account?{" "}
             </Text>
