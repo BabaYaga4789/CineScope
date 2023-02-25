@@ -11,12 +11,17 @@ import {
   Text,
   Textarea,
   useToast,
+  Stack,
+  Heading,
+  CardFooter,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaStar } from "react-icons/fa";
+import { useLocation } from "react-router-dom";
 
 import React from "react";
-import CommentBox from "../components/CommentBox";
+import CommentBox from "@/components/CommentBox";
+import { MovieDetails } from "../MovieData";
 
 interface Review {
   rating: number;
@@ -26,9 +31,43 @@ interface Review {
 const Reviews = () => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
+  const [movie, setMovie] = useState<movieDet[]>([]);
   const [display, setDisplay] = useState<string[]>([]);
   const [text, setText] = useState("");
   const toast = useToast();
+  const location = useLocation();
+  const movieDetail = location.state;
+  console.log(movieDetail, "these are movie details from state i.e id");
+  console.log(typeof(movieDetail))
+
+  type movieDet = {
+    id: number;
+    poster: string;
+    title: string;
+    genre: string;
+    // add more properties as needed
+  };
+
+  // const getItemDetails = (id: number): movieDet | undefined => {
+  //   const item = MovieDetails.find((item: movieDet) => item.id === parseInt(movieDetail));
+  //   return item;
+  // };
+
+  const item = MovieDetails.find((item: movieDet) => item.id === parseInt(movieDetail));
+  //console.log(item,"This is itttt!!")
+  console.log(item?.poster, "Hiiiiiiiiiiiii")
+
+
+
+  // const filteredMovies = MovieDetails.filter(x => x.id === parseInt(movieDetail));
+  // console.log(filteredMovies, "filteredMovies");
+
+  // useEffect(() => {
+  //   const filteredMovies = MovieDetails.filter(x => x.id === parseInt(movieDetail));
+  //   //setMovie(filteredMovies)
+  //   console.log(filteredMovies, "filteredMovies");
+  // },[movieDetail]);
+
 
   //handle ratings
   const handleRatingClick = (value: number) => {
@@ -67,6 +106,10 @@ const Reviews = () => {
     setText(editedText);
   };
 
+  // const getMovieDetails=()=>{
+  //   const item= MovieDetails.find()
+  // }
+
   return (
     <>
       <Flex direction="column">
@@ -76,20 +119,39 @@ const Reviews = () => {
           align="center"
           p={5}
         >
-          <Card p={6} maxW="500px" boxShadow="2xl">
-            <CardBody>
+        
+          <Card
+              direction={{ base: 'column', sm: 'row' }}
+              overflow='hidden'
+              variant='outline'
+              maxW={{ base: '100%', sm: '800px' }}
+              boxShadow='lg'
+            >
               <Image
-                src="https://i.pinimg.com/originals/f4/b2/29/f4b229310f95eabe0d8b1dcca80450b6.jpg"
-                alt="Example image"
-                w={{ base: "100%", md: "auto" }}
-                h={{ base: "auto", md: "100%" }}
+                objectFit='cover'
+                maxW={{ base: '100%', sm: '300px' }}
+                src= {item?.poster}
+                alt='Movie poster'
               />
-              <Center>
-                <Text p={2} fontSize="xl" as="b" color="gray.700">
-                  Your Name
-                </Text>
-              </Center>
-            </CardBody>
+
+              <Stack padding={{ base: '4', sm: '6' }}>
+                <CardBody padding={{ base: '2', sm: '4' }}>
+                  <Heading size='md' color='gray.600'>{item?.title}</Heading>
+
+                  <Text py='2' lineHeight='tall'  textAlign='justify' >
+                    {item?.description}
+                  </Text>
+
+                  <Text fontSize='sm' color='gray.500' py='1'>
+                    Genre: {item?.genre}
+                  </Text>
+
+                  <Text fontSize='sm' color='gray.500'  textAlign='justify' >
+                    Year: {item?.year}
+                  </Text>
+                </CardBody>
+
+              </Stack>
           </Card>
 
           <Flex
@@ -98,7 +160,7 @@ const Reviews = () => {
             justifyContent="space-between"
           >
             <Box boxShadow="2xl" p="2" mb="4" ml="20" width="85%">
-              <Text mb={2}>Add Rating</Text>
+              <Text mb={2} color='gray.600' fontWeight='medium'>Add Rating</Text>
               <ButtonGroup>
                 {[1, 2, 3, 4, 5].map((value) => (
                   <Button
@@ -126,7 +188,7 @@ const Reviews = () => {
               h="40vh"
               backgroundColor="gray.100"
             >
-              <Text mb={3}>Add a Review</Text>
+              <Text mb={3} fontWeight='medium'>Add a Review</Text>
               <Textarea
                 placeholder="Write a comment..."
                 size="sm"
@@ -140,7 +202,7 @@ const Reviews = () => {
                 onChange={handleTextChange}
               />
               <Flex justifyContent="flex-end" marginTop="4">
-                <Button size="sm" colorScheme="blue" onClick={handleSubmit}>
+                <Button size="sm" colorScheme="yellow" onClick={handleSubmit}>
                   Submit
                 </Button>
               </Flex>

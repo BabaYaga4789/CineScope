@@ -49,11 +49,11 @@ const CommentBox: React.FC<Props> = (props) => {
   };
 
   return (
-    <TableContainer display="block" variant="simple">
+    <TableContainer display="block" >
       <Table variant="simple" colorScheme="teal" overflowX="auto">
         <Thead>
           <Tr>
-            <Th>Reviews: </Th>
+            <Th fontWeight="medium" fontSize="md">Reviews: </Th>
             <Th></Th>
           </Tr>
         </Thead>

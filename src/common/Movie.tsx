@@ -7,4 +7,5 @@ export default interface Movie {
   reviewCount: number;
   genre: string;
   year: number;
+  description: string;
 }
