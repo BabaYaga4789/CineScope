@@ -4,15 +4,14 @@ import { useNavigate } from "react-router-dom";
 
 const FilterDropdown = () => {
   const navigate = useNavigate();
-  const [newKeyword, setNewKeyword] = useState("");
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState("");
   const [genre, setGenre] = useState("");
   const [year, setYear] = useState("");
 
   return (
     <Box
       px={4}
-      w="100%"
+      w="70%"
       as="section"
       marginBottom={5}
       marginLeft={5}
@@ -23,7 +22,7 @@ const FilterDropdown = () => {
           placeholder="Ratings"
           id="ratings"
           value={rating}
-          onChange={(e) => setRating(Number(e.target.value))}
+          onChange={(e) => setRating(e.target.value)}
         >
           <option value="option1">1-4</option>
           <option value="option2">5-7</option>
@@ -61,8 +60,8 @@ const FilterDropdown = () => {
           size="lg"
           colorScheme={"yellow"}
           onClick={() =>
-            navigate("/filter", {
-              state: { genre: genre, rating: rating, year: year },
+            navigate("/search", {
+              state: { genre: genre, rating: rating, year: year, option: "filter" },
             })
           }
         >
