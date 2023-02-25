@@ -1,26 +1,44 @@
+import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 import {
   Avatar,
-  Box,
-  Flex,
+  Box, Flex,
   HStack,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
   Spacer,
+  Stack,
   Text,
   useColorModeValue,
-  useDisclosure,
+  useDisclosure
 } from "@chakra-ui/react";
+import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
 const NavBar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
 
+  const [isNavOpen, setIsNavOpen] = useState(false);
+  const toggle = () => {
+    setIsNavOpen(!isNavOpen);
+    console.log(isNavOpen);
+  };
+
   return (
     <Box boxShadow="lg">
-      <Flex as="nav" p="10px" mb="50px" alignItems="center" shadow="10px">
+      <Flex
+        as="nav"
+        p="10px"
+        mb="50px"
+        alignItems="center"
+        shadow="10px"
+        align="center"
+        justify="space-between"
+        wrap="wrap"
+        w="100%"
+      >
         <Box justifyContent="space-between">
           <HStack>
             <Text
@@ -37,7 +55,15 @@ const NavBar = () => {
         </Box>
         <Spacer></Spacer>
 
-        <HStack spacing="30px">
+        <Stack
+          spacing="30px"
+          align="center"
+          justify={["center", "space-between", "flex-end", "flex-end"]}
+          direction={["column", "row", "row", "row"]}
+          pt={[4, 4, 0, 0]}
+          display={{ base: isNavOpen ? "flex" : "none", md: "flex" }}
+          flexBasis={{ base: "100%", md: "auto" }}
+        >
           <NavLink
             to="/"
             style={({ isActive }) => {
@@ -112,7 +138,10 @@ const NavBar = () => {
           </Menu>
 
           <Spacer></Spacer>
-        </HStack>
+        </Stack>
+        <Box display={{ base: "flex", md: "none" }} onClick={toggle}>
+          {isNavOpen ? <CloseIcon /> : <HamburgerIcon />}
+        </Box>
       </Flex>
     </Box>
   );
