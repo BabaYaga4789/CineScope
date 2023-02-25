@@ -5,11 +5,15 @@ interface ContainerProps extends React.PropsWithChildren<any> {
   flexDirection?: "column" | "row";
 }
 
+<<<<<<< HEAD
 export default function Container({
   flexDirection,
   children,
   ...props
 }: ContainerProps) {
+=======
+const Container = ({ flexDirection, children, ...props }: ContainerProps) => {
+>>>>>>> 3565b438f7def254fd4b46b106b905c42419b97c
   const isDesktop = useBreakpointValue({ base: false, md: true });
 
   return (
@@ -23,4 +27,10 @@ export default function Container({
       {children}
     </Flex>
   );
+<<<<<<< HEAD
 }
+=======
+};
+
+export default Container;
+>>>>>>> 3565b438f7def254fd4b46b106b905c42419b97c

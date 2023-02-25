@@ -10,16 +10,32 @@
     "preview": "vite preview"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@chakra-ui/react": "^2.5.1",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "framer-motion": "^9.0.7",
     "react": "^18.2.0",
+=======
+    "@chakra-ui/icons": "^2.0.17",
+    "@chakra-ui/react": "^2.5.1",
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "chakra-ui-simple-autocomplete": "^2.3.0",
+    "framer-motion": "^9.1.6",
+    "path": "^0.12.7",
+    "react": "^18.2.0",
+    "react-card-slider-component": "^1.0.9",
+>>>>>>> 3565b438f7def254fd4b46b106b905c42419b97c
     "react-dom": "^18.2.0",
     "react-icons": "^4.7.1",
     "react-router-dom": "^6.8.1"
   },
   "devDependencies": {
+<<<<<<< HEAD
+=======
+    "@types/node": "^18.14.1",
+>>>>>>> 3565b438f7def254fd4b46b106b905c42419b97c
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react": "^3.1.0",
