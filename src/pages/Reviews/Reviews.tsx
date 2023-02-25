@@ -29,9 +29,7 @@ interface Review {
 const Reviews = () => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
-  const [movie, setMovie] = useState<movieDet[]>([]);
   const [display, setDisplay] = useState<string[]>([]);
-  const [text, setText] = useState("");
   const toast = useToast();
   const location = useLocation();
   const movieDetail = location.state;
@@ -48,7 +46,7 @@ const Reviews = () => {
   const item = MovieDetails.find(
     (item: movieDet) => item.id === parseInt(movieDetail)
   );
-  console.log(item?.poster, "Hiiiiiiiiiiiii");
+
 
   const handleRatingClick = (value: number) => {
     setRating(value);
@@ -79,9 +77,7 @@ const Reviews = () => {
     }
   };
 
-  const handleSave = (editedText: string) => {
-    setText(editedText);
-  };
+ 
 
   return (
     <>
