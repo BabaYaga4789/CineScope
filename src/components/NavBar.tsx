@@ -1,7 +1,8 @@
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 import {
   Avatar,
-  Box, Flex,
+  Box,
+  Flex,
   HStack,
   Menu,
   MenuButton,
@@ -11,7 +12,7 @@ import {
   Stack,
   Text,
   useColorModeValue,
-  useDisclosure
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
@@ -136,11 +137,17 @@ const NavBar = () => {
               </MenuItem>
             </MenuList>
           </Menu>
+          <Box display={{ base: "flex", md: "none" }} onClick={toggle}>
+            <CloseIcon />
+          </Box>
 
           <Spacer></Spacer>
         </Stack>
-        <Box display={{ base: "flex", md: "none" }} onClick={toggle}>
-          {isNavOpen ? <CloseIcon /> : <HamburgerIcon />}
+        <Box
+          display={isNavOpen ? "none" : { base: "flex", md: "none" }}
+          onClick={toggle}
+        >
+          <HamburgerIcon />
         </Box>
       </Flex>
     </Box>
