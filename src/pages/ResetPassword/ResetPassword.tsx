@@ -7,10 +7,8 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  Text,
-  useBreakpointValue,
-  useToast,
-  VStack,
+  Text, useToast,
+  VStack
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { AiOutlineUser } from "react-icons/ai";
@@ -18,7 +16,6 @@ import { AiOutlineUser } from "react-icons/ai";
 export default function ResetPassword() {
   const [email, setEmail] = useState("");
 
-  const isDesktop = useBreakpointValue({ base: false, md: true });
   const toast = useToast();
 
   const validateEmail = (email: string) => {
@@ -50,7 +47,7 @@ export default function ResetPassword() {
   const yellowAccent = "yellow.500";
 
   return (
-    <Flex height="93vh" mx={4} justifyContent="center" alignItems="center">
+    <Flex height="80%" mx={4} justifyContent="center" alignItems="center">
       <CustomContainer>
         <Center mb={6}>
           <VStack>
