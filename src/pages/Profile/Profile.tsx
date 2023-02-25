@@ -1,6 +1,7 @@
 import CustomContainer from "@/components/CustomContainer";
 import { Box, Flex, HStack, Link, Spacer, VStack } from "@chakra-ui/layout";
 import { Button, Image, Text } from "@chakra-ui/react";
+import { useState } from "react";
 import { useNavigate } from "react-router";
 
 const movies = [
@@ -40,6 +41,12 @@ const activity = [
 
 const Profile = () => {
   const navigate = useNavigate();
+
+  const [m, setMovies] = useState(movies);
+
+  const removeMovie = (id: number) => {
+    setMovies(movies.filter((movie) => movie.id !== id));
+  };
 
   return (
     <Flex
@@ -121,7 +128,7 @@ const Profile = () => {
                   View All
                 </Link>
               </HStack>
-              {movies.map((movie) => (
+              {m.map((movie) => (
                 <CustomContainer boxShadow="md" key={movie.id} w={"100%"} p={2}>
                   <HStack alignItems="center">
                     <Image
@@ -137,7 +144,11 @@ const Profile = () => {
                         {movie.title}
                       </Text>
                       <Spacer />
-                      <Button colorScheme="red" size="sm">
+                      <Button
+                        colorScheme="red"
+                        size="sm"
+                        onClick={() => removeMovie(movie.id)}
+                      >
                         Remove
                       </Button>
                     </HStack>
@@ -153,7 +164,13 @@ const Profile = () => {
                 Recent Activity
               </Text>
               {activity.map((act) => (
-                <CustomContainer boxShadow="md" key={act.id} w={"100%"} p={2}>
+                <CustomContainer
+                  cursor="pointer"
+                  boxShadow="md"
+                  key={act.id}
+                  w={"100%"}
+                  p={2}
+                >
                   <HStack alignItems="center">
                     <HStack w="100%" p={2} justifyContent={"space-between"}>
                       <Text fontSize={"lg"} fontWeight="semibold">

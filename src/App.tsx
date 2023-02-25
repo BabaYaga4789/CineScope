@@ -1,8 +1,7 @@
-import { Box, ChakraProvider } from "@chakra-ui/react";
-import { NavBar } from "./components/NavBar";
 import AdminHome from "./pages/Home/AdminHome";
 import UpdateMovieDetails from "./pages/Admin/UpdateMovieDetails";
 import AddMovie from "./pages/Admin/AddMovie";
+import { Box } from "@chakra-ui/react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RootLayout from "./layout/RootLayout";
 import AccountSettings from "./pages/AccountSettings/AccountSettings";
