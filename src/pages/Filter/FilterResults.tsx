@@ -49,7 +49,12 @@ export const FilterResults = () => {
           <VStack w="100%">
             {<SearchBar />}
             {<FilterDropdown />}
-            <SimpleGrid p={4} w="100%" columns={{ base: 1, md: 3, lg: 7 }} gap={6}>
+            <SimpleGrid
+              p={4}
+              w="100%"
+              columns={{ base: 1, md: 3, lg: 7 }}
+              gap={6}
+            >
               {filtered}
             </SimpleGrid>
           </VStack>
