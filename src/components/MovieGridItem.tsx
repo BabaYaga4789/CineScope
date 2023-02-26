@@ -13,6 +13,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface MovieGridItemProps {
   movie: Movie;
@@ -22,6 +23,12 @@ export default function MovieGridItem(props: MovieGridItemProps): JSX.Element {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [isAdded, setIsAdded] = useState(false);
+  const navigateTo = useNavigate();
+
+  const getReviewPage = (e: any) => {
+    e.preventDefault();
+    navigateTo("/reviews", { state: e.target.id });
+  };
 
   return (
     <Card
@@ -55,7 +62,12 @@ export default function MovieGridItem(props: MovieGridItemProps): JSX.Element {
         </Box>
       </Box>
       <VStack w="100%" p={4}>
-        <Button w="100%" leftIcon={<ViewIcon />}>
+        <Button
+          w="100%"
+          id={props.movie.id.toString()}
+          onClick={getReviewPage}
+          leftIcon={<ViewIcon />}
+        >
           View
         </Button>
         <Button
