@@ -27,6 +27,11 @@ const NavBar = () => {
     console.log(isNavOpen);
   };
 
+  const switchToAdmin = () => {
+    localStorage.setItem("isAdmin", "true");
+    window.location.replace("/");
+  };
+
   return (
     <Box boxShadow="lg">
       <Flex
@@ -135,6 +140,7 @@ const NavBar = () => {
               >
                 Logout
               </MenuItem>
+              <MenuItem onClick={switchToAdmin}>Switch to Admin</MenuItem>
             </MenuList>
           </Menu>
           <Box display={{ base: "flex", md: "none" }} onClick={toggle}>
