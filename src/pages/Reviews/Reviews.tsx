@@ -20,6 +20,7 @@ import { useLocation } from "react-router-dom";
 import CommentBox from "@/components/CommentBox";
 import React from "react";
 import { MovieDetails } from "../MovieData";
+import CustomContainer from "@/components/CustomContainer";
 
 interface Review {
   rating: number;
@@ -46,7 +47,6 @@ const Reviews = () => {
   const item = MovieDetails.find(
     (item: movieDet) => item.id === parseInt(movieDetail)
   );
-
 
   const handleRatingClick = (value: number) => {
     setRating(value);
@@ -77,14 +77,12 @@ const Reviews = () => {
     }
   };
 
- 
-
   return (
     <>
       <Flex direction="column">
         <Flex
           direction={{ base: "column", md: "row" }}
-          justifyContent="space-around"
+          justifyContent="center"
           align="center"
           p={5}
         >
@@ -123,12 +121,8 @@ const Reviews = () => {
             </Stack>
           </Card>
 
-          <Flex
-            flexDirection="column"
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Box boxShadow="2xl" p="2" mb="4" ml="20" width="85%">
+          <Flex flexDirection="column" alignItems="center">
+            <CustomContainer p="2" ml="20" width="85%">
               <Text mb={2} color="gray.600" fontWeight="medium">
                 Add Rating
               </Text>
@@ -145,7 +139,7 @@ const Reviews = () => {
                   </Button>
                 ))}
               </ButtonGroup>
-            </Box>
+            </CustomContainer>
 
             <Box
               borderWidth="1px"
@@ -168,8 +162,7 @@ const Reviews = () => {
                 resize="none"
                 border="none"
                 _focus={{ outline: "none" }}
-                width="80%"
-                height="60%"
+                height="75%"
                 bg="white"
                 value={comment}
                 onChange={handleTextChange}
