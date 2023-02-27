@@ -20,5 +20,3 @@ preview:
   artifacts:
     paths:
       - dist
-  tags:
-    - netlify
