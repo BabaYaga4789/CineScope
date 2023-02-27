@@ -12,11 +12,18 @@ preview:
   tags:
     - dalfcs_docker_autoscale
   script:
-    - npm i
+    - npm ci
     - apk add --no-cache zip curl
     - npm run build
     - npm install netlify-cli --save-dev
-    - npx netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN --dir dist/
+    - npx netlify deploy --prod --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN --dir dist/
   artifacts:
     paths:
       - dist
+  cache:
+    paths:
+      - .npm/
+    key:
+      files:
+        - package-lock.json
+      
