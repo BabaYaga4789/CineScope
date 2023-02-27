@@ -14,6 +14,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const movies = [
   {
@@ -51,6 +52,13 @@ const Watchlist = () => {
   const toast = useToast();
 
   const [list, setList] = useState(movies);
+
+  const navigate = useNavigate();
+
+  const getReviewPage = (e: any) => {
+    e.preventDefault();
+    navigate("/reviews", { state: e.target.id });
+  };
 
   const handleRemove = (id: any) => {
     setList(list.filter((movie) => movie.id !== id));
@@ -111,7 +119,13 @@ const Watchlist = () => {
                       </Text>
                     </VStack>
                     <HStack w={"100%"} justifyContent="flex-end">
-                      <Button leftIcon={<ViewIcon />}>View</Button>
+                      <Button
+                        id={movie.id.toString()}
+                        onClick={getReviewPage}
+                        leftIcon={<ViewIcon />}
+                      >
+                        View
+                      </Button>
                       <Button
                         onClick={() => handleRemove(movie.id)}
                         color="red.500"

@@ -87,7 +87,12 @@ const FilterDropdown = () => {
           colorScheme={"yellow"}
           onClick={() =>
             navigate("/search", {
-              state: { genre: genre, rating: rating, year: year, option: "filter" },
+              state: {
+                genre: genre,
+                rating: rating,
+                year: year,
+                option: "filter",
+              },
             })
           }
         >

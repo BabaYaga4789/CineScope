@@ -10,6 +10,7 @@ export const MovieDetails: Movie[] = [
     reviewCount: 30,
     genre: "Action",
     year: 2009,
+    description:"The Avengers is a 2012 American superhero film based on the Marvel Comics superhero team of the same name. The film is directed by Joss Whedon and features an ensemble cast that includes Robert Downey Jr., Chris Evans, Mark Ruffalo, Chris Hemsworth, Scarlett Johansson, and Jeremy Renner. The Avengers must learn to work together and overcome their differences to stop Loki and prevent a global catastrophe. Along the way, they face a number of challenges, including internal conflicts, personal demons, and formidable enemies.",
   },
   {
     id: 2,
@@ -20,6 +21,7 @@ export const MovieDetails: Movie[] = [
     reviewCount: 20,
     genre: "Thriller",
     year: 2019,
+    description:"As Peter learns to use his newfound powers, he decides to use them to fight crime and protect the citizens of New York City. However, he soon finds himself facing off against his former friend and mentor, Norman Osborn, who has transformed into the villainous Green Goblin. As Spider-Man, Peter must navigate the challenges of his dual identity, juggling his responsibilities as a superhero with his personal life and relationships. Along the way, he forms a bond with his love interest, Mary Jane Watson, and faces a number of other villains, including Doctor Octopus and Sandman.",
   },
   {
     id: 3,
@@ -30,6 +32,7 @@ export const MovieDetails: Movie[] = [
     reviewCount: 9,
     genre: "Science Fiction",
     year: 2005,
+    description:"Arthur is accompanied by an alien researcher named Ford Prefect, played by Mos Def, who is working on the titular guidebook, a device that provides information about the galaxy and its inhabitants. Along the way, they encounter a number of strange and colorful characters, including the depressed robot Marvin, the egotistical Zaphod Beeblebrox, and the two-headed president of the galaxy. As they travel through space, Arthur and his companions must navigate a series of bizarre and dangerous situations, including a run-in with a planet of insane asylum inmates and a showdown with the planet-destroying weapon known as the Total Perspective Vortex.",
   },
   {
     id: 4,
@@ -40,6 +43,7 @@ export const MovieDetails: Movie[] = [
     reviewCount: 40,
     genre: "Adventure",
     year: 2022,
+    description:"Avatar is a 2009 American science-fiction film directed by James Cameron. The movie takes place in the mid-22nd century, where humans are mining a valuable mineral on a lush habitable moon called Pandora. The moon's environment is hostile to human life, so the humans use genetically-engineered avatars, which are controlled by human operators, to interact with the native population, the Na'vi.The film follows a disabled former Marine named Jake Sully, played by Sam Worthington, who is sent to Pandora to control an avatar and infiltrate the Na'vi. As Jake becomes more involved with the Na'vi, he develops a deep respect for their culture and falls in love with a Na'vi woman named Neytiri, played by Zoe Saldana.",
   },
   {
     id: 5,
@@ -50,6 +54,7 @@ export const MovieDetails: Movie[] = [
     reviewCount: 3,
     genre: "Fiction",
     year: 2019,
+    description:"Seven-year-old Wen is vacationing with her parents, Eric and Andrew, at a remote cabin in rural Pennsylvania. While catching grasshoppers, Wen is approached by a stranger named Leonard. Initially friendly, he explains that he needs Wen and her parents' help to save the world. However, Wen becomes suspicious when three other people appear with makeshift weapons. Wen flees to warn Eric and Andrew, but the visitors break into the cabin and tie them up, with Eric sustaining a concussion.",
   },
   {
     id: 6,
@@ -60,6 +65,7 @@ export const MovieDetails: Movie[] = [
     reviewCount: 45,
     genre: "Action",
     year: 2023,
+    description:"An Indian spy takes on the leader of a group of mercenaries who have nefarious plans to target his homeland.",
   },
   {
     id: 7,
@@ -70,6 +76,7 @@ export const MovieDetails: Movie[] = [
     reviewCount: 20,
     genre: "Thriller",
     year: 2020,
+    description:"The Empire Strikes Back is a 1980 epic space opera film directed by Irvin Kershner and the second installment in the original Star Wars trilogy. The movie follows the continuing journey of Luke Skywalker, played by Mark Hamill, as he learns the ways of the Jedi from Master Yoda in his quest to defeat the evil Empire and its leader, Darth Vader, played by David Prowse and voiced by James Earl Jones.",
   },
   {
     id: 8,
@@ -80,6 +87,7 @@ export const MovieDetails: Movie[] = [
     reviewCount: 0,
     genre: "Fantacy",
     year: 2021,
+    description:"Directed by Gerard Johnstone, M3GAN follows Gemma, a robotics engineer, who designs a life-like doll for her orphaned niece and names her M3GAN (Model 3 Generative Android). But as much as her latest creation seems like a dream come true for the little girl, the doll starts to develop a mind of its own and evolves into something that even Gemma can’t control.",
   },
   {
     id: 9,
@@ -90,6 +98,7 @@ export const MovieDetails: Movie[] = [
     reviewCount: 6,
     genre: "Mystery",
     year: 2022,
+    description:"Infinity Pool is a 2023 science fiction horror film written and directed by Brandon Cronenberg, starring Alexander Skarsgård, Mia Goth and Cleopatra Coleman. The film follows a struggling writer and his wife on vacation who, after an accident, discover the country’s dark culture.",
   },
   {
     id: 10,
@@ -100,5 +109,6 @@ export const MovieDetails: Movie[] = [
     reviewCount: 10,
     genre: "Comedy",
     year: 2019,
+    description:"It is a standalone sequel to the 2019 film Knives Out, with Daniel Craig reprising his role as master detective Benoit Blanc as he takes on a new case revolving around tech billionaire Miles Bron (played by Edward Norton) and his closest friends.",
   },
 ];
