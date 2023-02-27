@@ -9,13 +9,12 @@ import MovieGridItem from "@/components/MovieGridItem";
 
 export const FilterResults = () => {
   const { state } = useLocation();
-  
+  // Initial load movies
   if(state == null)
   {
     const movies = MovieDetails.map((movie) => (
       <MovieGridItem key={movie.id} movie={movie} />
     ));
-  
     return (
       <VStack w="100%">
         <SearchBar />
@@ -35,6 +34,7 @@ export const FilterResults = () => {
     if(option=="search"){
 
       useEffect(() => {
+
         const searchmovie = async () =>{
           const keyword = state.keyword;
           const filteredMovies =  MovieDetails.filter((movie) => {

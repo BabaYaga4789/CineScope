@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RootLayout from "./layout/RootLayout";
 import AccountSettings from "./pages/AccountSettings/AccountSettings";
-import { FilterResults } from "./pages/Filter/FilterResults";
+import { FilterResults } from "./pages/Filter/FilterResultsPurvesh";
 import Home from "./pages/Home/Home";
 import News from "./pages/News/News";
 import Profile from "./pages/Profile/Profile";
