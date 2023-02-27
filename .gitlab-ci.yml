@@ -9,6 +9,8 @@ stages:
 
 preview:
   stage: preview
+  tags:
+    - dalfcs_docker_autoscale
   script:
     - npm i
     - apk add --no-cache zip curl
