@@ -11,7 +11,8 @@ import {
   InputGroup,
   InputLeftElement,
   SlideFade,
-  Text, VStack
+  Text,
+  VStack,
 } from "@chakra-ui/react";
 import { Autocomplete, Option } from "chakra-ui-simple-autocomplete";
 import React, { useState } from "react";
@@ -20,7 +21,7 @@ import {
   AiOutlineCalendar,
   AiOutlineLock,
   AiOutlineMail,
-  AiOutlineUser
+  AiOutlineUser,
 } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { Data } from "./Data";
@@ -35,7 +36,7 @@ export default function Registration() {
     genres: [],
   } as Data);
   const [error, setError] = useState(false);
-  const [errors, setErrors] = useState([] as string[]);
+  const [errorMessage, setErrorMessage] = useState("");
   const [result, setResult] = React.useState<Option[]>([]);
 
   const navigate = useNavigate();
@@ -44,7 +45,7 @@ export default function Registration() {
     event.preventDefault();
 
     setError(false);
-    setErrors([]);
+    setErrorMessage("");
 
     console.log(data);
 
@@ -62,50 +63,45 @@ export default function Registration() {
     const passwordRegex: RegExp =
       /^([A-Za-z0-9!@#$%^&*(),.?":{}|<>\[\]]){8,}$/g;
 
-    const errors: string[] = [];
+    const today = new Date();
+    const bDate = new Date(dateOfBirth);
+    const age = today.getFullYear() - bDate.getFullYear();
 
     if (
       (userName.length === 0 || userName === "") &&
       !nameRegex.test(userName)
     ) {
-      console.log(userName.length === 0);
-      errors.push(
+      setErrorMessage(
         "Invalid username. It can't be empty and should contain only letters."
       );
-    }
-
-    if (email.length === 0 || !emailRegex.test(email)) {
-      errors.push("Invalid email address.");
-    }
-
-    if (password.length === 0 || !passwordRegex.test(password)) {
-      errors.push("Invalid password. It should be at least 8 characters.");
-    }
-
-    if (confirmPassword !== password) {
-      errors.push("Passwords do not match.");
-    }
-
-    const today = new Date();
-    const bDate = new Date(dateOfBirth);
-    const age = today.getFullYear() - bDate.getFullYear();
-    if (age < 18 || dateOfBirth === "") {
-      errors.push("You must be 18 years old to register.");
-    }
-
-    if (result.length === 0) {
-      errors.push("You must select at least one genre.");
-    }
-
-    if (errors.length > 0) {
       setError(true);
-      setErrors(errors);
-    } else {
-      setError(false);
-      setErrors([]);
-
-      navigate("/profile", { state: data });
+      return;
+    } else if (email.length === 0 || !emailRegex.test(email)) {
+      setError(true);
+      setErrorMessage("Invalid email.");
+      return;
+    } else if (password.length === 0 || !passwordRegex.test(password)) {
+      setError(true);
+      setErrorMessage("Invalid password. It should be at least 8 characters.");
+      return;
+    } else if (confirmPassword !== password) {
+      setError(true);
+      setErrorMessage("Passwords do not match.");
+      return;
+    } else if (age < 18 || dateOfBirth === "") {
+      setError(true);
+      setErrorMessage("You must be 18 years old to register.");
+      return;
+    } else if (result.length === 0) {
+      setError(true);
+      setErrorMessage("You must select at least one genre.");
+      return;
     }
+
+    setError(false);
+    setErrorMessage("");
+
+    navigate("/profile", { state: data });
   };
 
   const accent = "yellow.500";
@@ -118,7 +114,9 @@ export default function Registration() {
       justifyContent="center"
       alignItems="center"
     >
-      <CustomContainer>
+      <CustomContainer
+        width="30%"
+      >
         <Center mb={6}>
           <VStack>
             <Heading>Register</Heading>
@@ -219,13 +217,13 @@ export default function Registration() {
           mb={12}
         ></Autocomplete>
 
-        {errors.map((err) => (
+        {error && (
           <SlideFade in={error} unmountOnExit={true}>
             <Alert status="error" mb={2} borderRadius="md" padding={4}>
-              {err}
+              {errorMessage}
             </Alert>
           </SlideFade>
-        ))}
+        )}
 
         <Button colorScheme={"yellow"} mb={0} onClick={validateAndRegister}>
           Register
