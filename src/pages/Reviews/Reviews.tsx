@@ -8,6 +8,7 @@ import {
   Heading,
   Icon,
   Image,
+  Spacer,
   Stack,
   Text,
   Textarea,
@@ -117,12 +118,21 @@ const Reviews = () => {
                 <Text fontSize="sm" color="gray.500" textAlign="justify">
                   Year: {item?.year}
                 </Text>
+                <Flex justify="flex-end" >
+                <Box mb="6" mr="2"><Button size="sm" colorScheme="yellow">Trivia Quiz</Button></Box>
+                <Box mb="6"><Button size="sm" colorScheme="yellow">Parents Guide</Button></Box>
+                </Flex>
               </CardBody>
             </Stack>
           </Card>
 
-          <Flex flexDirection="column" alignItems="center">
-            <CustomContainer p="2" ml="20" width="85%">
+          <Flex
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+           
+            <Box boxShadow="2xl" p="2" mb="4" ml="20" width="85%">
               <Text mb={2} color="gray.600" fontWeight="medium">
                 Add Rating
               </Text>
@@ -139,7 +149,7 @@ const Reviews = () => {
                   </Button>
                 ))}
               </ButtonGroup>
-            </CustomContainer>
+            </Box>
 
             <Box
               borderWidth="1px"
@@ -150,7 +160,7 @@ const Reviews = () => {
               boxShadow="xl"
               ml="6rem"
               width="90%"
-              h="40vh"
+              h="50vh"
               backgroundColor="gray.100"
             >
               <Text mb={3} fontWeight="medium">
