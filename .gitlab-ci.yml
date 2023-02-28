@@ -10,7 +10,7 @@ stages:
 deploy:
   stage: deploy
   tags:
-    - grad
+    - dalfcs_docker_kvm
   script:
     - npm ci
     - apk add --no-cache zip curl
