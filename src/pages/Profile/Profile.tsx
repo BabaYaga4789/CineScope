@@ -15,14 +15,14 @@ import { useNavigate } from "react-router";
 const movies = [
   {
     id: 1,
-    poster: "src/assets/images/ShawshankRedemptionMoviePoster.jpeg",
+    poster: "/img/ShawshankRedemptionMoviePoster.jpeg",
     title: "The Shawshank Redemption",
     description:
       "The Shawshank Redemption is a 1994 American drama film directed by Frank Darabont. The film is based on the novella 'Rita Hayworth and Shawshank Redemption' by Stephen King. The film stars Tim Robbins as Andy Dufresne, a banker who is wrongly convicted of murder and sent to Shawshank State Penitentiary. While in prison, Andy forms an unlikely friendship with a fellow inmate named Red, played by Morgan Freeman. Over time, Andy uses his wit and determination to help himself and his fellow prisoners, ultimately leading to his escape from Shawshank. The film was well-received by audiences and critics, and is widely regarded as one of the greatest films of all time.",
   },
   {
     id: 2,
-    poster: "src/assets/images/AvatarPoster.jpeg",
+    poster: "/img/AvatarPoster.jpeg",
     title: "Avatar: The Way of Water",
     description:
       "Jake Sully lives with his newfound family formed on the extrasolar moon Pandora. Once a familiar threat returns to finish what was previously started, Jake must work with Neytiri and the army of the Na'vi race to protect their home.",
