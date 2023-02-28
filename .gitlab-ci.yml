@@ -10,7 +10,7 @@ stages:
 deploy:
   stage: deploy
   tags:
-    - dalfcs_docker_kvm
+    - dalfcs_docker_autoscale
   script:
     - npm ci
     - apk add --no-cache zip curl
