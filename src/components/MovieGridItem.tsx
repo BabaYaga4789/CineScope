@@ -6,6 +6,7 @@ import {
   Button,
   Card,
   CardBody,
+  CardFooter,
   Image,
   Text,
   useDisclosure,
@@ -42,7 +43,7 @@ export default function MovieGridItem(props: MovieGridItemProps): JSX.Element {
         alt={props.movie.imageAlt}
         objectFit="cover"
         height="300px"
-        width="200px"
+        width="100%"
       />
       <CardBody color="gray.500">
         <Text>{props.movie.title}</Text>

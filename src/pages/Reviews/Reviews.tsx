@@ -21,6 +21,7 @@ import { useLocation } from "react-router-dom";
 import CommentBox from "@/components/CommentBox";
 import React from "react";
 import { MovieDetails } from "../MovieData";
+import CustomContainer from "@/components/CustomContainer";
 
 interface Review {
   rating: number;
@@ -47,7 +48,6 @@ const Reviews = () => {
   const item = MovieDetails.find(
     (item: movieDet) => item.id === parseInt(movieDetail)
   );
-
 
   const handleRatingClick = (value: number) => {
     setRating(value);
@@ -78,14 +78,12 @@ const Reviews = () => {
     }
   };
 
- 
-
   return (
     <>
       <Flex direction="column">
         <Flex
           direction={{ base: "column", md: "row" }}
-          justifyContent="space-around"
+          justifyContent="center"
           align="center"
           p={5}
         >
@@ -162,7 +160,7 @@ const Reviews = () => {
               boxShadow="xl"
               ml="6rem"
               width="90%"
-              h="40vh"
+              h="50vh"
               backgroundColor="gray.100"
             >
               <Text mb={3} fontWeight="medium">
@@ -174,8 +172,7 @@ const Reviews = () => {
                 resize="none"
                 border="none"
                 _focus={{ outline: "none" }}
-                width="80%"
-                height="60%"
+                height="75%"
                 bg="white"
                 value={comment}
                 onChange={handleTextChange}

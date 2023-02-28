@@ -8,26 +8,27 @@ import {
   Flex,
   Heading,
   Image,
-  Link,
   Spacer,
   Stack,
   Text,
   useToast,
-  VStack,
 } from "@chakra-ui/react";
+import { Link, useNavigate } from "react-router-dom";
 
 const today = new Date();
 
 export default function News() {
   const toast = useToast();
+  const navigate = useNavigate();
 
   const onClick = (event: any) => {
     event.preventDefault();
     toast({
       title: "Subscribed",
-      description: "You have been subscribed to the newsletter",
+      description: "You have subscribed to our newsletter successfully",
       status: "success",
-      duration: 3000,
+      duration: 4000,
+      isClosable: true,
     });
   };
   return (
@@ -35,9 +36,9 @@ export default function News() {
       <Flex as="nav" justify="space-between" paddingBottom={"4"}>
         <Box>
           <Heading
-            p={"10"}
+            p={"10px"}
             fontFamily={"heading"}
-            color="silver"
+            color="Silver"
             fontSize="5xl"
           >
             Top news
@@ -62,20 +63,27 @@ export default function News() {
           bg={{ base: "transparent", sm: "bg-surface" }}
           boxShadow={{ base: "none", sm: "md" }}
           borderRadius={{ base: "none", sm: "xl" }}
-          pt={"10px"}
+          {...{ mt: "10px" }}
         >
-          <Card direction={{ base: "column" }} overflow="hidden">
-            <CardHeader>
-              <Heading fontSize={"3xl"} fontStyle="bold" textAlign="left">
+          <Card onClick={() => navigate("/news-details")} cursor="pointer">
+            <Heading
+              fontSize={"3xl"}
+              fontStyle="bold"
+              textAlign="left"
+              paddingBottom={"2"}
+            >
+              <Link to="/news-details">
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-              </Heading>
-            </CardHeader>
-            <Image
-              objectFit={"cover"}
-              maxW={{ base: "100%", sm: "300px" }}
-              src="https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"
-              alt="image"
-            />
+              </Link>
+            </Heading>
+            <Stack>
+              <Image
+                objectFit={"cover"}
+                maxW={{ base: "100%", sm: "300px" }}
+                src="https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"
+                alt="image"
+              />
+            </Stack>
             <Stack>
               <CardBody>
                 <Text py="2">
@@ -100,19 +108,20 @@ export default function News() {
           </Card>
         </Box>
 
-        <Box h={10} />
         <Box
           py={{ base: "0", sm: "8" }}
           px={{ base: "4", sm: "10" }}
           bg={{ base: "transparent", sm: "bg-surface" }}
           boxShadow={{ base: "none", sm: "md" }}
           borderRadius={{ base: "none", sm: "xl" }}
-          pt={"10px"}
+          {...{ mt: "10px" }}
         >
-          <Card direction={{ base: "column" }} overflow="hidden">
+          <Card onClick={() => navigate("/news-details")} cursor="pointer">
             <CardHeader>
               <Heading fontSize={"3xl"} fontStyle="bold" textAlign="left">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                <Link to="/news-details">
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                </Link>
               </Heading>
             </CardHeader>
             <Image
