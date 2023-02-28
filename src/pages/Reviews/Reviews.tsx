@@ -8,6 +8,7 @@ import {
   Heading,
   Icon,
   Image,
+  Spacer,
   Stack,
   Text,
   Textarea,
@@ -119,6 +120,10 @@ const Reviews = () => {
                 <Text fontSize="sm" color="gray.500" textAlign="justify">
                   Year: {item?.year}
                 </Text>
+                <Flex justify="flex-end" >
+                <Box mb="6" mr="2"><Button size="sm" colorScheme="yellow">Trivia Quiz</Button></Box>
+                <Box mb="6"><Button size="sm" colorScheme="yellow">Parents Guide</Button></Box>
+                </Flex>
               </CardBody>
             </Stack>
           </Card>
@@ -128,6 +133,7 @@ const Reviews = () => {
             alignItems="center"
             justifyContent="space-between"
           >
+           
             <Box boxShadow="2xl" p="2" mb="4" ml="20" width="85%">
               <Text mb={2} color="gray.600" fontWeight="medium">
                 Add Rating
