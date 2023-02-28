@@ -37,7 +37,7 @@ const NavBar = () => {
       <Flex
         as="nav"
         p="10px"
-        mb="50px"
+        mb="20px"
         alignItems="center"
         shadow="10px"
         align="center"

@@ -1,31 +1,46 @@
-import FilterDropdown from "@/components/FilterDropdown";
 import MovieGridItem from "@/components/MovieGridItem";
-import SearchBar from "@/components/SearchBar";
-import { SimpleGrid, VStack, Text } from "@chakra-ui/react";
+import { SimpleGrid, VStack } from "@chakra-ui/react";
 import { MovieDetails } from "../MovieData";
+import { LabelNewReleased } from "@/components/LabelNewReleased";
+import { LabelMostRated } from "@/components/LabelMostRated";
+import { LabelAllMovies } from "@/components/LabelAllMovies";
 
 export default function Home() {
-  const movies = MovieDetails.map((movie) => (
+  
+  const ratedMovies =  MovieDetails.filter((movie) => {
+    return movie.rating > 8});
+
+  const newRealesed =  MovieDetails.filter((movie) => {
+      return movie.year > 2019});
+
+  const mostRatedMovies = ratedMovies.map((movie) => (
+    <MovieGridItem key={movie.id} movie={movie} />
+  ));
+
+  const newRealesedMovies = newRealesed.map((movie) => (
+    <MovieGridItem key={movie.id} movie={movie} />
+  ));
+
+  const allMovies = MovieDetails.map((movie) => (
     <MovieGridItem key={movie.id} movie={movie} />
   ));
 
   return (
     <VStack w="100%">
-      <SearchBar />
-      <FilterDropdown />
+      <LabelMostRated/>
       {/* Reference: https://chakra-ui.com/docs/components/simple-grid */}
-      <Text fontSize="2xl" fontWeight="bold" px={8} alignSelf="flex-start">
-        Top Movies
-      </Text>
       <SimpleGrid p={4} w="100%" columns={{ base: 1, md: 3, lg: 7 }} gap={6}>
-        {movies}
+        {mostRatedMovies}
       </SimpleGrid>
-      <Text fontSize="2xl" fontWeight="bold" px={8} alignSelf="flex-start">
-        New Movies
-      </Text>
+      <LabelNewReleased/>
       <SimpleGrid p={4} w="100%" columns={{ base: 1, md: 3, lg: 7 }} gap={6}>
-        {movies}
+        {newRealesedMovies}
       </SimpleGrid>
+      <LabelAllMovies/>
+      <SimpleGrid p={4} w="100%" columns={{ base: 1, md: 3, lg: 7 }} gap={6}>
+        {allMovies}
+      </SimpleGrid>
+
     </VStack>
   );
 }
