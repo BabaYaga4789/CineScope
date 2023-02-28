@@ -1,6 +1,15 @@
 import CustomContainer from "@/components/CustomContainer";
-import { Box, Flex, HStack, Link, Spacer, VStack } from "@chakra-ui/layout";
+import {
+  Box,
+  Flex,
+  HStack,
+  Link,
+  Spacer,
+  Stack,
+  VStack,
+} from "@chakra-ui/layout";
 import { Button, Image, Text } from "@chakra-ui/react";
+import { useState } from "react";
 import { useNavigate } from "react-router";
 
 const movies = [
@@ -41,16 +50,22 @@ const activity = [
 const Profile = () => {
   const navigate = useNavigate();
 
+  const [m, setMovies] = useState(movies);
+
+  const removeMovie = (id: number) => {
+    setMovies(movies.filter((movie) => movie.id !== id));
+  };
+
   return (
-    <Flex
-      height="100%"
-      flexShrink={"0"}
-      mx={4}
-      justifyContent="center"
-      alignItems="center"
-    >
-      <HStack h={"calc(93vh - 20px)"}>
-        <CustomContainer h="100%" w={350}>
+    <Flex height="100%" flexShrink={"0"} mx={4} justifyContent="center">
+      <Stack
+        h={{ base: "calc(100vh - 20px)", md: "calc(83vh - 20px)" }}
+        w={"100%"}
+        flexDirection={{ base: "column", md: "row" }}
+        alignItems={{ base: "center", md: "flex-start" }}
+        justifyContent={"flex-start"}
+      >
+        <CustomContainer h="100%" w={{ base: "100%", md: "30%" }} mx={4}>
           <VStack>
             <Image
               boxShadow={"xl"}
@@ -103,7 +118,11 @@ const Profile = () => {
             </VStack>
           </VStack>
         </CustomContainer>
-        <CustomContainer h="100%" w={"calc(93vw - 350px)"}>
+        <CustomContainer
+          h="100%"
+          w={{ base: "100%", md: "calc(93vw-350px)" }}
+          mx={4}
+        >
           <CustomContainer p={6} boxShadow="md">
             <VStack alignItems={"left"} justifyContent="center" spacing={4}>
               <HStack>
@@ -121,7 +140,7 @@ const Profile = () => {
                   View All
                 </Link>
               </HStack>
-              {movies.map((movie) => (
+              {m.map((movie) => (
                 <CustomContainer boxShadow="md" key={movie.id} w={"100%"} p={2}>
                   <HStack alignItems="center">
                     <Image
@@ -137,7 +156,11 @@ const Profile = () => {
                         {movie.title}
                       </Text>
                       <Spacer />
-                      <Button colorScheme="red" size="sm">
+                      <Button
+                        colorScheme="red"
+                        size="sm"
+                        onClick={() => removeMovie(movie.id)}
+                      >
                         Remove
                       </Button>
                     </HStack>
@@ -153,7 +176,13 @@ const Profile = () => {
                 Recent Activity
               </Text>
               {activity.map((act) => (
-                <CustomContainer boxShadow="md" key={act.id} w={"100%"} p={2}>
+                <CustomContainer
+                  cursor="pointer"
+                  boxShadow="md"
+                  key={act.id}
+                  w={"100%"}
+                  p={2}
+                >
                   <HStack alignItems="center">
                     <HStack w="100%" p={2} justifyContent={"space-between"}>
                       <Text fontSize={"lg"} fontWeight="semibold">
@@ -170,7 +199,7 @@ const Profile = () => {
             </VStack>
           </CustomContainer>
         </CustomContainer>
-      </HStack>
+      </Stack>
     </Flex>
   );
 };
