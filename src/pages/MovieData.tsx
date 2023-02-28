@@ -3,7 +3,7 @@ import Movie from "@/common/Movie";
 export const MovieDetails: Movie[] = [
   {
     id: 1,
-    poster: "src/assets/MovieImages/1.jpeg",
+    poster: "/img/1.jpeg",
     imageAlt: "Movie",
     title: "Avengers",
     rating: 8.5,
@@ -14,7 +14,7 @@ export const MovieDetails: Movie[] = [
   },
   {
     id: 2,
-    poster: "src/assets/MovieImages/2.jpeg",
+    poster: "/img/2.jpeg",
     imageAlt: "Movie",
     title: "Spiderman",
     rating: 8,
@@ -25,7 +25,7 @@ export const MovieDetails: Movie[] = [
   },
   {
     id: 3,
-    poster: "src/assets/MovieImages/3.jpeg",
+    poster: "/img/3.jpeg",
     imageAlt: "Movie",
     title: "Space",
     rating: 7,
@@ -36,7 +36,7 @@ export const MovieDetails: Movie[] = [
   },
   {
     id: 4,
-    poster: "src/assets/MovieImages/4.jpeg",
+    poster: "/img/4.jpeg",
     imageAlt: "Movie",
     title: "Avatar",
     rating: 9,
@@ -47,7 +47,7 @@ export const MovieDetails: Movie[] = [
   },
   {
     id: 5,
-    poster: "src/assets/MovieImages/5.jpeg",
+    poster: "/img/5.jpeg",
     imageAlt: "Movie",
     title: "Knock at the cabin",
     rating: 10,
@@ -58,7 +58,7 @@ export const MovieDetails: Movie[] = [
   },
   {
     id: 6,
-    poster: "src/assets/MovieImages/6.jpeg",
+    poster: "/img/6.jpeg",
     imageAlt: "Movie",
     title: "Pathaan",
     rating: 9,
@@ -69,7 +69,7 @@ export const MovieDetails: Movie[] = [
   },
   {
     id: 7,
-    poster: "src/assets/MovieImages/7.jpeg",
+    poster: "/img/7.jpeg",
     imageAlt: "Movie",
     title: "The Empire Strikes Back",
     rating: 4,
@@ -80,7 +80,7 @@ export const MovieDetails: Movie[] = [
   },
   {
     id: 8,
-    poster: "src/assets/MovieImages/8.jpeg",
+    poster: "/img/8.jpeg",
     imageAlt: "Movie",
     title: "Megan",
     rating: 0,
@@ -91,7 +91,7 @@ export const MovieDetails: Movie[] = [
   },
   {
     id: 9,
-    poster: "src/assets/MovieImages/9.jpeg",
+    poster: "/img/9.jpeg",
     imageAlt: "Movie",
     title: "Infinity Pool",
     rating: 4,
@@ -102,7 +102,7 @@ export const MovieDetails: Movie[] = [
   },
   {
     id: 10,
-    poster: "src/assets/MovieImages/10.jpeg",
+    poster: "/img/10.jpeg",
     imageAlt: "Movie",
     title: "Glass Onion",
     rating: 7,
