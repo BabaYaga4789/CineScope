@@ -1,5 +1,13 @@
 import CustomContainer from "@/components/CustomContainer";
-import { Box, Flex, HStack, Link, Spacer, VStack } from "@chakra-ui/layout";
+import {
+  Box,
+  Flex,
+  HStack,
+  Link,
+  Spacer,
+  Stack,
+  VStack,
+} from "@chakra-ui/layout";
 import { Button, Image, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
@@ -49,15 +57,15 @@ const Profile = () => {
   };
 
   return (
-    <Flex
-      height="100%"
-      flexShrink={"0"}
-      mx={4}
-      justifyContent="center"
-      alignItems="center"
-    >
-      <HStack h={"calc(93vh - 20px)"}>
-        <CustomContainer h="100%" w={350}>
+    <Flex height="100%" flexShrink={"0"} mx={4} justifyContent="center">
+      <Stack
+        h={{ base: "calc(100vh - 20px)", md: "calc(83vh - 20px)" }}
+        w={"100%"}
+        flexDirection={{ base: "column", md: "row" }}
+        alignItems={{ base: "center", md: "flex-start" }}
+        justifyContent={"flex-start"}
+      >
+        <CustomContainer h="100%" w={{ base: "100%", md: "30%" }} mx={4}>
           <VStack>
             <Image
               boxShadow={"xl"}
@@ -110,7 +118,11 @@ const Profile = () => {
             </VStack>
           </VStack>
         </CustomContainer>
-        <CustomContainer h="100%" w={"calc(93vw - 350px)"}>
+        <CustomContainer
+          h="100%"
+          w={{ base: "100%", md: "calc(93vw-350px)" }}
+          mx={4}
+        >
           <CustomContainer p={6} boxShadow="md">
             <VStack alignItems={"left"} justifyContent="center" spacing={4}>
               <HStack>
@@ -187,7 +199,7 @@ const Profile = () => {
             </VStack>
           </CustomContainer>
         </CustomContainer>
-      </HStack>
+      </Stack>
     </Flex>
   );
 };
