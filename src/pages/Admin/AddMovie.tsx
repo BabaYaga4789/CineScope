@@ -142,13 +142,13 @@ export default function AddMovie() {
         status: 'success',
         isClosable: true,
       })
-        navigate('/admin-home/')
+        navigate('/')
     }
    
   };
 
   const handleCancel = (event: any) => {
-      navigate('/admin-home/')
+      navigate('/')
   };
 
 
