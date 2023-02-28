@@ -1,4 +1,9 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { useEffect, useState } from "react";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  useLocation,
+} from "react-router-dom";
 import RootLayout from "./layout/RootLayout";
 import AccountSettings from "./pages/AccountSettings/AccountSettings";
 import AddMovie from "./pages/Admin/AddMovie";
@@ -14,8 +19,6 @@ import ResetPassword from "./pages/ResetPassword/ResetPassword";
 import Reviews from "./pages/Reviews/Reviews";
 import SignIn from "./pages/SignIn";
 import Watchlist from "./pages/Watchlist/Watchlist";
-
-const isAdmin = localStorage.getItem("isAdmin") === "true";
 
 const adminRouter = createBrowserRouter([
   {
@@ -90,6 +93,22 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
+  const isAdmin = localStorage.getItem("isAdmin") === "true";
+
+  const [isInAuthenticationPage, setIsInAuthenticationPage] = useState(false);
+
+  useEffect(() => {
+    if (
+      location.pathname === "/login" ||
+      location.pathname === "/register" ||
+      location.pathname === "/reset-password"
+    ) {
+      setIsInAuthenticationPage(true);
+    } else {
+      setIsInAuthenticationPage(false);
+    }
+  }, [location]);
+
   return <RouterProvider router={isAdmin ? adminRouter : router} />;
 };
 

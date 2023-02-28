@@ -16,13 +16,15 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { AiFillLock, AiOutlineUser } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SignIn() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [message, setMessage] = useState("");
+
+  const navigate = useNavigate();
 
   const validateEmail = (email: string) => {
     // reference: https://regexr.com/3e48o
@@ -52,6 +54,7 @@ export default function SignIn() {
     } else {
       setError(false);
       setMessage("Sign In successful");
+      navigate("/");
     }
   };
 
