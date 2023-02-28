@@ -9,7 +9,7 @@ export default function RootLayout() {
   );
 
   return (
-    <Box h="100vh" w="100vw">
+    <Box h="100vh" w="100%">
       {isAdmin ? <AdminNavBar /> : <NavBar />}
       <Outlet />
     </Box>
