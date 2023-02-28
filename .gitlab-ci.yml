@@ -5,10 +5,10 @@ variables:
   NETLIFY_AUTH_TOKEN: $NETLIFY_AUTH_TOKEN
 
 stages:
-  - preview
+  - deploy
 
-preview:
-  stage: preview
+deploy:
+  stage: deploy
   tags:
     - dalfcs_docker_autoscale
   script:
@@ -26,4 +26,5 @@ preview:
     key:
       files:
         - package-lock.json
-      
+  only: 
+  - main      
