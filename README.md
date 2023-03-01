@@ -73,7 +73,7 @@ To deploy this application, Netlify was used. You can follow the Tutorial 2 Netl
 
 ## Sources Used
 
-### UpdateMovieDetails.tsx
+### UpdateMovieDetails.tsx | Ketul Patel
 
 *Lines 201 - 209*
 
@@ -90,7 +90,7 @@ To deploy this application, Netlify was used. You can follow the Tutorial 2 Netl
 
 ```
 
-The code above was created by adapting the code in [ChakrUI](https://chakra-ui.com/getting-started/with-hook-form) as shown below: 
+The code above was created by adapting the code in [ChakraUI](https://chakra-ui.com/getting-started/with-hook-form) as shown below: 
 
 ```
 <FormLabel htmlFor='name'>First name</FormLabel>
@@ -108,12 +108,12 @@ The code above was created by adapting the code in [ChakrUI](https://chakra-ui.c
 
 ```
 
-- <!---How---> The code in [ChakrUI](https://chakra-ui.com/getting-started/with-hook-form) was implemented by author.
-- <!---Why---> [ChakrUI](https://chakra-ui.com/getting-started/with-hook-form)'s Code was used because I wanted to provide form validation and errors for the constraints.
-- <!---How---> [ChakrUI](https://chakra-ui.com/getting-started/with-hook-form)'s Code was modified by changing the required elements and type of errors I wanted according to validations needed.
+- <!---How---> The code in [ChakraUI](https://chakra-ui.com/getting-started/with-hook-form) was implemented by author.
+- <!---Why---> [ChakraUI](https://chakra-ui.com/getting-started/with-hook-form)'s Code was used because I wanted to provide form validation and errors for the constraints.
+- <!---How---> [ChakraUI](https://chakra-ui.com/getting-started/with-hook-form)'s Code was modified by changing the required elements and type of errors I wanted according to validations needed.
 
 
-### ListOfTopMovies.tsx
+### ListOfTopMovies.tsx | Ketul Patel
 
 *Lines 40 - 44*
 
@@ -144,7 +144,7 @@ toast({
 - <!---How---> [ChakraUI](https://chakra-ui.com/docs/components/toast)'s Code was modified by changing toast message according to requirement.
 
 
-### ListOfNewMovies.tsx
+### ListOfNewMovies.tsx | Ketul Patel
 
 *Lines 38 - 42*
 
