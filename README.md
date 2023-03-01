@@ -174,6 +174,44 @@ toast({
 - <!---Why---> [ChakraUI](https://chakra-ui.com/docs/components/toast)'s Code was  was used because I wanted to provide toast message as success.
 - <!---How---> [ChakraUI](https://chakra-ui.com/docs/components/toast)'s Code was modified by changing toast message according to requirement.
 
+
+### FilterResults.tsx
+
+*Lines 15 - 21*
+
+```
+const searchMovies = () => {
+        const filteredMovies =  MovieDetails.filter(
+          (movie) => {
+            return movie.title.toLowerCase().includes(newKeyword.toLowerCase());
+          });
+          setAfterFilteration(filteredMovies);
+    }
+```
+The code above was created by adapting the code of [Shashank Singh](https://medium.com/geekculture/create-a-simple-search-component-in-react-js-using-react-hooks-710c1dfe8b58#:~:text=Firstly%2C%20we%20import%20useState%20from) as shown below: 
+
+```
+const filteredPersons = details.filter(
+    person => {
+      return (
+        person
+        .name
+        .toLowerCase()
+        .includes(searchField.toLowerCase()) ||
+        person
+        .email
+        .toLowerCase()
+        .includes(searchField.toLowerCase())
+      );
+    }
+  );
+```
+
+- I took the reference from the code written by [Shashank Singh](https://medium.com/@singhshashank) to implement standard search functionality.
+- [Shashank Singh](https://medium.com/@singhshashank)'s code was used because I wanted to implement Search functionality.
+- [Shashank Singh](https://medium.com/@singhshashank)'s code was modified by changing parameters for filtering according to requirement.
+
+
 ## Acknowledgments
 
 - [1] Hrishi Patel, “Tutorial 3, README.md”. [Online]. Available: https://git.cs.dal.ca/hrishi/csci5709/-/tree/tutorial3 [Accessed: 18-Feb-2023].
@@ -183,3 +221,6 @@ toast({
 - [5] “React,” Reactjs.org. [Online]. Available: https://reactjs.org/. [Accessed: 01-Mar-2023].
 - [6] “JavaScript with syntax for types,” Typescriptlang.org. [Online]. Available: https://www.typescriptlang.org/. [Accessed: 01-Mar-2023].
 - [7] Ketul Patel, “Assignment - 1” GitLab. [Online]. Available: https://git.cs.dal.ca/ketul/csci5709/-/tree/assignment1. [Accessed: 01-Mar-2023].
+- [8] Priyal Patel, "Assignment 1", Dalhousie University. [Online]. Available: https://git.cs.dal.ca/priyalp/csci5709/-/tree/assignment1 [Accessed: 25-Feb-2023].
+‌- [9] J. Watmore, “React - Display a list of items,” Jasonwatmore.com, Sep. 13, 2020. Available: https://jasonwatmore.com/post/2020/09/13/react-display-a-list-of-items [Accessed 25-Feb-2023].
+- [11] S. Singh, “Create a Simple Search Component in React.js using React Hooks | Geek Culture,” Medium, May 25, 2021. https://medium.com/geekculture/create-a-simple-search-component-in-react-js-using-react-hooks-710c1dfe8b58#:~:text=Firstly%2C%20we%20import%20useState%20from,list%20received%20from%20the%20parent [Accessed 25-Feb-2023].
