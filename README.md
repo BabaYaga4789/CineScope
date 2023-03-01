@@ -73,49 +73,106 @@ To deploy this application, Netlify was used. You can follow the Tutorial 2 Netl
 
 ## Sources Used
 
-### File Name
+### UpdateMovieDetails.tsx
 
-*Lines ## - ##*
-
-```
-Copy and paste your code on lines mentioned 
+*Lines 201 - 209*
 
 ```
-
-The code above was created by adapting the code in [NAME](link) as shown below: 
-
-```
-Copy and paste the snippet of code you are referencing
-
-```
-
-- <!---How---> The code in [NAME](link) was implemented by...
-- <!---Why---> [NAME](link)'s Code was used because...
-- <!---How---> [NAME](link)'s Code was modified by...
-
-*Repeat as needed*
-
-### File Name
-
-*Lines ## - ##*
-
-```
-Copy and paste your code on lines mentioned 
+<FormControl isInvalid={!!formErrors?.get("title")}>
+                <FormLabel htmlFor="title">Movie Title</FormLabel>
+                <Input
+                  type="text"
+                  id="title"
+                  name="title"
+                  value={formValues.title}
+                  onChange={handleInputChange}
+                />
 
 ```
 
-The code above was created by adapting the code in [NAME](link) as shown below: 
+The code above was created by adapting the code in [ChakrUI](https://chakra-ui.com/getting-started/with-hook-form) as shown below: 
 
 ```
-Copy and paste the snippet of code you are referencing
+<FormLabel htmlFor='name'>First name</FormLabel>
+        <Input
+          id='name'
+          placeholder='name'
+          {...register('name', {
+            required: 'This is required',
+            minLength: { value: 4, message: 'Minimum length should be 4' },
+          })}
+        />
+        <FormErrorMessage>
+          {errors.name && errors.name.message}
+        </FormErrorMessage>
 
 ```
 
-- <!---How---> The code in [NAME](link) was implemented by...
-- <!---Why---> [NAME](link)'s Code was used because...
-- <!---How---> [NAME](link)'s Code was modified by...
+- <!---How---> The code in [ChakrUI](https://chakra-ui.com/getting-started/with-hook-form) was implemented by author.
+- <!---Why---> [ChakrUI](https://chakra-ui.com/getting-started/with-hook-form)'s Code was used because I wanted to provide form validation and errors for the constraints.
+- <!---How---> [ChakrUI](https://chakra-ui.com/getting-started/with-hook-form)'s Code was modified by changing the required elements and type of errors I wanted according to validations needed.
 
-*Repeat as needed*
+
+### ListOfTopMovies.tsx
+
+*Lines 40 - 44*
+
+```
+toast({
+                    title: `Movie deleted sucessfully.`,
+                    status: 'success',
+                    isClosable: true,
+                  })
+
+```
+
+The code above was created by adapting the code in [ChakraUI](https://chakra-ui.com/docs/components/toast) as shown below: 
+
+```
+toast({
+          title: 'Account created.',
+          description: "We've created your account for you.",
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+        })
+
+```
+
+- <!---How---> The code in [ChakraUI](https://chakra-ui.com/docs/components/toast) was provided in the official documentation.
+- <!---Why---> [ChakraUI](https://chakra-ui.com/docs/components/toast)'s Code was  was used because I wanted to provide toast message as success.
+- <!---How---> [ChakraUI](https://chakra-ui.com/docs/components/toast)'s Code was modified by changing toast message according to requirement.
+
+
+### ListOfNewMovies.tsx
+
+*Lines 38 - 42*
+
+```
+toast({
+                    title: `Movie deleted sucessfully.`,
+                    status: 'success',
+                    isClosable: true,
+                  })
+
+```
+
+The code above was created by adapting the code in [ChakraUI](https://chakra-ui.com/docs/components/toast) as shown below: 
+
+```
+toast({
+          title: 'Account created.',
+          description: "We've created your account for you.",
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+        })
+
+```
+
+- <!---How---> The code in [ChakraUI](https://chakra-ui.com/docs/components/toast) was provided in the official documentation.
+- <!---Why---> [ChakraUI](https://chakra-ui.com/docs/components/toast)'s Code was  was used because I wanted to provide toast message as success.
+- <!---How---> [ChakraUI](https://chakra-ui.com/docs/components/toast)'s Code was modified by changing toast message according to requirement.
 
 ## Acknowledgments
 
@@ -125,3 +182,4 @@ Copy and paste the snippet of code you are referencing
 - [4] “Vite,” Vitejs.dev. [Online]. Available: https://vitejs.dev/. [Accessed: 01-Mar-2023].
 - [5] “React,” Reactjs.org. [Online]. Available: https://reactjs.org/. [Accessed: 01-Mar-2023].
 - [6] “JavaScript with syntax for types,” Typescriptlang.org. [Online]. Available: https://www.typescriptlang.org/. [Accessed: 01-Mar-2023].
+- [7] Ketul Patel, “Assignment - 1” GitLab. [Online]. Available: https://git.cs.dal.ca/ketul/csci5709/-/tree/assignment1. [Accessed: 01-Mar-2023].
