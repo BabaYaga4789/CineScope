@@ -3,7 +3,7 @@ import { createUser, getUser } from "../models/User";
 
 const UserController = {
   async getUser(req: Request, res: Response) {
-    const id = req.params.id;
+    const id = req.params.userId;
     try {
       const user = await getUser(id);
       res.json(user);

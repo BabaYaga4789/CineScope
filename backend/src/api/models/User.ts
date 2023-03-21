@@ -50,9 +50,9 @@ export async function createUser(
   const newUser = new User({
     email: email,
     password: password,
-    name: name,
     displayName: displayName,
     genres: genres,
+    dob: dob,
   });
   try {
     newUser.save();
@@ -61,16 +61,13 @@ export async function createUser(
   }
 }
 
-export function updateUser(User: any) {
-  if (User.email === undefined) {
+export function updateUser(user: any) {
+  if (user.email === undefined) {
     throw "Oi! You forgot to pass an email!";
   }
-  User.findByIdAndUpdate(User.email, User, (err: any, user: any) => {
-    if (err) {
-      throw err;
-    }
-    return user;
-  });
+
+  const usr = User.find({ email: user.email }).updateOne(user);
+  return usr;
 }
 
 export function deleteUser(email: String) {
