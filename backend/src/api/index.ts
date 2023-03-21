@@ -1,14 +1,14 @@
 import express, { Request, Response, Router } from "express";
-// import authentication from './authentication';
+import userRoute from "./routes/userRoute";
 
 const router: Router = express.Router();
 
-router.get("/", (req: Request, res: Response) => {
+router.get("/", (_req: Request, res: Response) => {
   res.json({
     message: "Base route",
   });
 });
 
-// router.use('/authentication', authentication);
+router.use("/user", userRoute());
 
 export default router;
