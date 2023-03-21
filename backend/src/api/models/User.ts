@@ -70,16 +70,17 @@ export function updateUser(user: any) {
   return usr;
 }
 
-export function deleteUser(email: String) {
-  if (email === undefined) {
-    throw "Oi! You forgot to pass an email!";
+export async function deleteUser(userID: String) {
+  if (userID === undefined) {
+    throw "Oi! You forgot to pass the userID!";
   }
-  User.findByIdAndDelete(email, (err: any, user: any) => {
-    if (err) {
-      throw err;
-    }
-    return user;
-  });
+
+  const response = await User.deleteOne({ email: userID });
+
+  console.log(response);
+  if (response.deletedCount === 0) {
+    throw "User not found";
+  }
 }
 
 export default mongoose.model("User", user);
