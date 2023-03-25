@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AccountSettings from "./pages/AccountSettings/AccountSettings";
 import AddMovie from "./pages/Admin/AddMovie";
+import AddNews from "./pages/Admin/AddNews";
 import UpdateMovieDetails from "./pages/Admin/UpdateMovieDetails";
 import { FilterResults } from "./pages/Filter/FilterResults";
 import AdminHome from "./pages/Home/AdminHome";
@@ -27,6 +28,10 @@ const adminRouter = createBrowserRouter([
   {
     path: "/add-movie",
     element: <AddMovie />,
+  },
+  {
+    path: "/add-news",
+    element: <AddNews />,
   },
 ]);
 
