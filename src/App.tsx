@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import RootLayout from "./layout/RootLayout";
 import AccountSettings from "./pages/AccountSettings/AccountSettings";
 import AddMovie from "./pages/Admin/AddMovie";
 import UpdateMovieDetails from "./pages/Admin/UpdateMovieDetails";
@@ -15,6 +13,7 @@ import ResetPassword from "./pages/ResetPassword/ResetPassword";
 import Reviews from "./pages/Reviews/Reviews";
 import SignIn from "./pages/SignIn";
 import Watchlist from "./pages/Watchlist/Watchlist";
+import RootLayout from "./RootLayout";
 
 const adminRouter = createBrowserRouter([
   {
