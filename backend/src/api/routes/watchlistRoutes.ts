@@ -8,9 +8,12 @@ const watchlistRoute = (): Router => {
     .route("/")
     .post(watchlistController.addToWatchlist)
     .put(watchlistController.updateWatchlist)
-    .delete(watchlistController.removeFromWatchlist)
+    .delete(watchlistController.removeFromWatchlist);
+
+  router
+    .route("/:userId/")
+    .get(watchlistController.readWatchlist)
     .delete(watchlistController.clearWatchlist);
-  router.route("/:userId/").get(watchlistController.readWatchlist);
 
   //   router
   //     .route("/:movieId")

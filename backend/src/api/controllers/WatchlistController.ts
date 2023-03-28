@@ -67,7 +67,7 @@ const clearWatchlist = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { userId } = req.body;
+  const userId = req.params.userId;
   try {
     const watchlist = await clearAllMoviesFromWatchlist(userId);
     res.json(watchlist);
