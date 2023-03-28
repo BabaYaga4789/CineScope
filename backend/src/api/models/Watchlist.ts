@@ -62,17 +62,29 @@ export async function removeMovieFromWatchlist(
   }
 }
 
-export async function clearWatchlist(
+export async function clearAllMoviesFromWatchlist(
   userId: String
 ) {
   if (userId === undefined) {
     throw "Oi! You forgot to pass the userID!";
   }
-  const response = await Watchlist.deleteOne({ userId: userId });
+  const response = await Watchlist.deleteMany({ userId: userId });
   console.log(response);
   if (response.deletedCount === 0) {
     throw "User not found";
   }
+}
+
+export async function updateStatusOfMovieInWatchlist(
+  userId: String,
+  movieId: String,
+  status: String
+){
+  if(userId === undefined || movieId === undefined || status === undefined){
+    throw "Oi! You forgot to pass userId, movieId, Status"
+  }
+  
+
 }
 
 export default mongoose.model<IWatchlistModel>("Watchlist", WatchlistSchema);
