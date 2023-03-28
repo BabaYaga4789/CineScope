@@ -22,12 +22,13 @@ export default function AddMovie() {
   const [cast, setCast] = useState<string[]>([]);
   const [genre, setGenre] = useState<string[]>([]);
   const [image, setImage] = useState<string[]>([]);
-
+  const [todayDate, setTodayDate] = useState<any>();
   const toast = useToast();
 
   useEffect(() => {
     var today = new Date().toISOString().split("T")[0];
-    document.getElementById("released_date").setAttribute("max", today);
+    setTodayDate(today);
+    // document.getElementById("released_date").setAttribute("max", today);
   }, []);
 
   const [formValues, setFormValues] = useState({
@@ -332,13 +333,14 @@ export default function AddMovie() {
           </FormControl>
 
           <FormControl isInvalid={!!formErrors?.get("released_date")}>
-            <FormLabel htmlFor="firstname">Released Date</FormLabel>
+            <FormLabel htmlFor="released_date">Released Date</FormLabel>
             <Input
               value={formValues.released_date}
               onChange={handleInputChange}
               id="released_date"
               name="released_date"
               type="date"
+              max = {todayDate}
             ></Input>
             <FormErrorMessage>
               {formErrors?.get("released_date")}
