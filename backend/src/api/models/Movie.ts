@@ -80,6 +80,34 @@ export async function createMovie(
   }
 }
 
+export function searchMovie(keyword: any){
+  try {
+    const regex = new RegExp(keyword, "i");
+    const movies = Movie.find({title:{ $regex: regex } });
+    return movies;
+  } catch (err) {
+    throw err;         
+  }
+}
+
+export function filterMovie(ratings: any, genre: any, year: any){
+  try {
+    let filteredMovies = {};
+    if (year){
+      const isoYear = new Date(`${year}-01-01T00:00:00.000Z`).toISOString();
+      filteredMovies = Movie.find({ released_date: { $gte: isoYear, $lt: `${parseInt(year)+1}-01-01T00:00:00.000Z` } })
+    }
+    if (genre){
+      filteredMovies = Movie.find({ genres: { $all: genre } });
+    }
+    if (ratings){
+      
+    }
+    return filteredMovies;
+  } catch (err) {
+    throw err;         
+  }
+}
 // export function updateUser(user: any) {
 //   if (user.email === undefined) {
 //     throw "Oi! You forgot to pass an email!";

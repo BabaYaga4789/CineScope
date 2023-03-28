@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createMovie, fetchLastestMovies } from "../models/Movie";
+import { createMovie, fetchLastestMovies, searchMovie, filterMovie } from "../models/Movie";
 
 const MovieController = {
 
@@ -49,6 +49,44 @@ const MovieController = {
     }
   },
 
+  async searchMovie(req: Request, res: Response){
+    const keyword = req.params.keyword;
+    try{
+      const movies = await searchMovie(keyword);
+      res.json(movies);
+    } catch (err: any){
+      console.log(err);
+      res.status(500).json({ message: err.message ?? err });
+    }
+  },
+
+  async filterMovie(req: Request, res: Response){
+    const{
+      keyword,
+      ratings,
+      genre,
+      year
+    } = req.body;
+    
+    if (keyword){
+      try{
+        const movies = await searchMovie(keyword);
+        res.json(movies);
+      } catch (err: any){
+        console.log(err);
+        res.status(500).json({ message: err.message ?? err });
+      }
+    }
+    else{
+      try{
+        const movies = await filterMovie(ratings, genre, year);
+        res.json(movies);
+      } catch (err: any){
+        console.log(err);
+        res.status(500).json({ message: err.message ?? err });
+      }
+    }
+  },
   //   async updateUser(req: Request, res: Response) {
   //     const { email, password, name, displayName, genres } = req.body;
   //     try {
