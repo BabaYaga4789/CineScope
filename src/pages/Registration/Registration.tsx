@@ -25,14 +25,15 @@ import {
 } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { Data } from "./Data";
+import UserManagementService from "@/services/UserManagementService";
 
 export default function Registration() {
   const [data, setData] = useState({
-    userName: "",
+    displayName: "",
     email: "",
     password: "",
     confirmPassword: "",
-    dateOfBirth: "",
+    dob: "",
     genres: [],
   } as Data);
   const [error, setError] = useState(false);
@@ -41,7 +42,7 @@ export default function Registration() {
 
   const navigate = useNavigate();
 
-  const validateAndRegister = (event: any) => {
+  const validateAndRegister = async (event: any) => {
     event.preventDefault();
 
     setError(false);
@@ -49,8 +50,14 @@ export default function Registration() {
 
     console.log(data);
 
-    const { userName, email, password, confirmPassword, dateOfBirth, genres } =
-      data;
+    const {
+      displayName,
+      email,
+      password,
+      confirmPassword,
+      dob: dateOfBirth,
+      genres,
+    } = data;
 
     // regex
     // generated using https://regex-generator.olafneumann.org/
@@ -68,11 +75,11 @@ export default function Registration() {
     const age = today.getFullYear() - bDate.getFullYear();
 
     if (
-      (userName.length === 0 || userName === "") &&
-      !nameRegex.test(userName)
+      (displayName.length === 0 || displayName === "") &&
+      !nameRegex.test(displayName)
     ) {
       setErrorMessage(
-        "Invalid username. It can't be empty and should contain only letters."
+        "Invalid displayName. It can't be empty and should contain only letters."
       );
       setError(true);
       return;
@@ -101,7 +108,15 @@ export default function Registration() {
     setError(false);
     setErrorMessage("");
 
-    navigate("/profile", { state: data });
+    const userManagementService = new UserManagementService();
+    const message = await userManagementService.register(data);
+
+    if (message === "Registration successful") {
+      navigate("/profile", { state: data });
+    } else {
+      setError(true);
+      setErrorMessage(message);
+    }
   };
 
   const accent = "yellow.500";
@@ -114,9 +129,7 @@ export default function Registration() {
       justifyContent="center"
       alignItems="center"
     >
-      <CustomContainer
-        width="30%"
-      >
+      <CustomContainer width="30%">
         <Center mb={6}>
           <VStack>
             <Heading>Register</Heading>
@@ -134,7 +147,7 @@ export default function Registration() {
         {/* First Name Input */}
         <CustomInputField
           icon={<AiOutlineUser color="gray.300" />}
-          id="userName"
+          id="displayName"
           type="name"
           placeholder="User Name"
           focusBorderColor={accent}
@@ -190,7 +203,7 @@ export default function Registration() {
             children={<AiOutlineCalendar color="gray.300" />}
           />
           <Input
-            id="dateOfBirth"
+            id="dob"
             type="text"
             variant="outline"
             placeholder="Date of Birth"

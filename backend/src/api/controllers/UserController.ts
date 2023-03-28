@@ -2,6 +2,25 @@ import { Request, Response } from "express";
 import { createUser, getUser, deleteUser } from "../models/User";
 
 const UserController = {
+  async login(req: Request, res: Response) {
+    const { username, password } = req.body;
+    try {
+      const user = await getUser(username);
+      if (user.length === 0) {
+        res.status(404).json({ message: "User not found" });
+      } else {
+        if (user[0].password === password) {
+          res.json(user);
+        } else {
+          res.status(401).json({ message: "Incorrect password" });
+        }
+      }
+    } catch (err: any) {
+      console.log(err);
+      res.status(500).json({ message: err.message ?? err });
+    }
+  },
+
   async getUser(req: Request, res: Response) {
     const id = req.params.userId;
     try {
@@ -14,10 +33,10 @@ const UserController = {
   },
 
   async createUser(req: Request, res: Response) {
-    const { email, password, name, displayName, genres } = req.body;
+    const { email, password, displayName, genres, dob } = req.body;
 
     try {
-      const user = await createUser(email, password, name, displayName, genres);
+      const user = await createUser(email, password, displayName, genres, dob);
       res.json(user);
     } catch (err: any) {
       console.log(err);

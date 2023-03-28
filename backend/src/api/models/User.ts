@@ -5,7 +5,6 @@ const Schema = mongoose.Schema;
 const user = new Schema({
   email: String,
   password: String,
-  name: String,
   displayName: String,
   genres: [String],
   dob: Date,
@@ -56,6 +55,7 @@ export async function createUser(
   });
   try {
     newUser.save();
+    return newUser;
   } catch (err) {
     throw err;
   }
