@@ -3,7 +3,9 @@ import mongoose, { Document, Schema } from "mongoose";
 
 export interface IWatchlist {
   userId: String;
-  watchlistId: String;
+  movieId: String;
+  status: String;
+  last_update: Date;
 }
 
 export interface IWatchlistModel extends IWatchlist, Document {}
@@ -55,16 +57,17 @@ export async function removeMovieFromWatchlist(
   if (userId === undefined || movieId === undefined) {
     throw "Oi! You forgot to pass the userID!";
   }
-  const response = await Watchlist.deleteOne({ userId: userId, movieId: movieId });
+  const response = await Watchlist.deleteOne({
+    userId: userId,
+    movieId: movieId,
+  });
   console.log(response);
   if (response.deletedCount === 0) {
     throw "User not found";
   }
 }
 
-export async function clearAllMoviesFromWatchlist(
-  userId: String
-) {
+export async function clearAllMoviesFromWatchlist(userId: String) {
   if (userId === undefined) {
     throw "Oi! You forgot to pass the userID!";
   }
@@ -75,16 +78,19 @@ export async function clearAllMoviesFromWatchlist(
   }
 }
 
-export async function updateStatusOfMovieInWatchlist(
-  userId: String,
-  movieId: String,
-  status: String
-){
-  if(userId === undefined || movieId === undefined || status === undefined){
-    throw "Oi! You forgot to pass userId, movieId, Status"
+export async function updateStatusOfMovieInWatchlist(watchlist: IWatchlist) {
+  if (
+    watchlist.userId === undefined ||
+    watchlist.movieId === undefined ||
+    watchlist.status === undefined
+  ) {
+    throw "Oi! You forgot to pass userId, movieId, Status";
   }
-  
-
+  const updatedWatchlist = Watchlist.find({
+    userId: watchlist.userId,
+    movieId: watchlist.movieId,
+  }).updateOne(watchlist);
+  return updatedWatchlist;
 }
 
 export default mongoose.model<IWatchlistModel>("Watchlist", WatchlistSchema);
