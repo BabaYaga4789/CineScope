@@ -114,7 +114,7 @@ export default function ListOfNewMovies() {
           mr={5}
         >
           <Flex justifyContent="space-around" wrap="wrap">
-            {newMovies.map((newMovie) => (
+            {newMovies.map((newMovie : any) => (
               <ListItem key={newMovie._id} boxSize={["50px", "150px", "175px"]}>
                 <Image src={newMovie.poster} alt="Film" boxSize="200px" />
                 <Text fontWeight="bold" fontSize="20px">
