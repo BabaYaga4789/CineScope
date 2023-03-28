@@ -1,8 +1,10 @@
 import Genres from "@/common/Genres";
+import { SessionManager } from "@/common/SessionManager";
 import ChangePasswordDialog from "@/components/ChangePasswordDialog";
 import CustomContainer from "@/components/CustomContainer";
 import CustomInputField from "@/components/CustomInputField";
 import DeleteProfileDialog from "@/components/DeleteProfileDialog";
+import UserManagementService from "@/services/UserManagementService";
 import {
   Alert,
   Button,
@@ -28,22 +30,44 @@ import {
 import { useNavigate } from "react-router-dom";
 
 export default function AccountSettings() {
+  const sessionManager = new SessionManager();
+
   const [data, setData] = useState({
     userName: "avocado",
     email: "hrishi.patel@dal.ca",
     dateOfBirth: "10-10-1999",
     genres: [],
+    password: "",
   });
   const [error, setError] = useState(false);
   const [errors, setErrors] = useState([] as string[]);
   const [result, setResult] = React.useState<Option[]>([]);
 
   useEffect(() => {
-    setResult(
-      Genres.filter(
-        (genre) => genre.label === "Action" || genre.label === "Comedy"
-      )
-    );
+    if (!sessionManager.isLoggedIn()) {
+      navigate("/login");
+    }
+
+    const getUser = async () => {
+      const userID = sessionManager.getUserID();
+      const userManagementService = new UserManagementService();
+      const userData = await userManagementService.getUser(userID!!);
+      setData({
+        userName: userData.displayName,
+        email: userData.email,
+        dateOfBirth: userData.date,
+        genres: userData.genres,
+        password: userData.password ,
+      });
+    };
+
+    getUser();
+
+    // setResult(
+    //   Genres.filter(
+    //     (genre) => genre.label === "Action" || genre.label === "Comedy"
+    //   )
+    // );
   }, []);
 
   const navigate = useNavigate();

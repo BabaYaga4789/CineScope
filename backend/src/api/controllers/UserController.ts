@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createUser, getUser, deleteUser } from "../models/User";
+import { createUser, deleteUser, getUser, getUserById } from "../models/User";
 
 const UserController = {
   async login(req: Request, res: Response) {
@@ -21,10 +21,10 @@ const UserController = {
     }
   },
 
-  async getUser(req: Request, res: Response) {
+  async getUserByID(req: Request, res: Response) {
     const id = req.params.userId;
     try {
-      const user = await getUser(id);
+      const user = await getUserById(id);
       res.json(user);
     } catch (err: any) {
       console.log(err);

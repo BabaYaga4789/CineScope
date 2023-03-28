@@ -12,6 +12,15 @@ const user = new Schema({
 
 const User = mongoose.model("User", user);
 
+export function getUserById(id: String) {
+  if (id === undefined) {
+    throw "Oi! You forgot to pass an id!";
+  }
+
+  const user = User.findById(id);
+  return user;
+}
+
 export function getUser(email: String) {
   if (email === undefined) {
     throw "Oi! You forgot to pass an email!";
@@ -55,7 +64,6 @@ export async function createUser(
   });
   try {
     newUser.save();
-    return newUser;
   } catch (err) {
     throw err;
   }

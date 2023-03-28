@@ -1,3 +1,4 @@
+import { SessionManager } from "@/common/SessionManager";
 import { Data } from "@/pages/Registration/Data";
 
 export default class UserManagementService {
@@ -37,15 +38,29 @@ export default class UserManagementService {
     });
 
     const body = await response.json();
-    let m = body.message;
 
     if (response.status === 404) {
       return "User not found";
     } else if (response.status === 200) {
+      const sessionManager = new SessionManager();
+      sessionManager.login(body[0]._id);
       return "Login successful";
     } else if (response.status === 401) {
       return "Incorrect password";
     }
     return "Login Successful";
+  }
+
+  async getUser(userID: string) {
+    const response = await fetch(`http://localhost:3000/users/${userID}`, {
+      method: "GET",
+    });
+
+    if (response.status === 200) {
+      const body = await response.json();
+      return body;
+    } else {
+      return null;
+    }
   }
 }
