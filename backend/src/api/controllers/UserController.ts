@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createUser, getUser } from "../models/User";
+import { createUser, getUser, deleteUser } from "../models/User";
 
 const UserController = {
   async getUser(req: Request, res: Response) {
@@ -37,9 +37,9 @@ const UserController = {
   },
 
   async deleteUser(req: Request, res: Response) {
-    const id = req.params.id;
+    const id = req.params.userId;
     try {
-      const user = await getUser(id);
+      const user = await deleteUser(id);
       res.json(user);
     } catch (err: any) {
       console.log(err);

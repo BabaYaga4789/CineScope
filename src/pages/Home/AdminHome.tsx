@@ -6,7 +6,7 @@ export default function AdminHome() {
     <div>
       <AdminNavBar></AdminNavBar>
       <ListOfNewMovies></ListOfNewMovies>
-      <ListOfTopMovies></ListOfTopMovies>
+      {/* <ListOfTopMovies></ListOfTopMovies> */}
     </div>
   );
 }
