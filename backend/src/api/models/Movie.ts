@@ -101,7 +101,7 @@ export function filterMovie(ratings: any, genre: any, year: any){
       filteredMovies = Movie.find({ genres: { $all: genre } });
     }
     if (ratings){
-      
+        
     }
     return filteredMovies;
   } catch (err) {
