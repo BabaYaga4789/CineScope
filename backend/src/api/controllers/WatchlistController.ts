@@ -118,4 +118,10 @@ const getWatchlistCount = (
 ) => {};
 
 // These functions would allow you to create a basic Watchlist management system in your Node controller. You would also need to implement appropriate database queries or other storage mechanisms to save and retrieve the user's watchlist data
-export default { readWatchlist, addToWatchlist };
+export default {
+  readWatchlist,
+  addToWatchlist,
+  updateWatchlist,
+  clearWatchlist,
+  removeFromWatchlist,
+};
