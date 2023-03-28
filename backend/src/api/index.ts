@@ -9,7 +9,7 @@ router.get("/", (_req: Request, res: Response) => {
   });
 });
 
-router.use("/user", userRoute());
+router.use("/users", userRoute());
 router.use("/movie", movieRoute());
 
 export default router;

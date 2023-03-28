@@ -1,8 +1,8 @@
 export interface Data {
-  userName: string;
+  displayName: string;
   email: string;
   password: string;
   confirmPassword: string;
-  dateOfBirth: string;
+  dob: string;
   genres: string[];
 }

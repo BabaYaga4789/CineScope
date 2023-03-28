@@ -27,7 +27,6 @@ const MovieController = {
       poster,
       trailor
     } = req.body;
-    console.log(req);
     try {
       const movie = await createMovie(
         title,
