@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { createMovie, fetchLastestMovies } from "../models/Movie";
 
 const MovieController = {
-
     async fetchLastestMovies(req: Request, res: Response) {
       try {
         const movies = await fetchLastestMovies();

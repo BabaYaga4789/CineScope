@@ -1,18 +1,42 @@
 import { NextFunction, Request, Response } from "express";
-import mongoose from "mongoose";
-import User from "../models/User";
-import Watchlist from "../models/Watchlist";
+import { addMovieToWatchlist, getWatchlist } from "../models/Watchlist";
 
 // In a controller for maintaining a Watchlist for a user in Node,  you would typically need the following functions:
 
 // getWatchlist: This function would retrieve the current watchlist for a given user.
-const getWatchlist = (req: Request, res: Response, next: NextFunction) => {};
+const readWatchlist = async (req: Request, res: Response, next: NextFunction) => {
+  const userId  = req.params.userId;
+  try {
+    const watchlist = await getWatchlist(userId);
+    res.json(watchlist);
+  } catch (err: any) {
+    console.log(err);
+    res.status(500).json({ message: err.message ?? err });
+  }
+};
+
 
 // addToWatchlist: This function would add a new item to the user's watchlist.
-const addToWatchlist = (req: Request, res: Response, next: NextFunction) => {};
+const addToWatchlist = async (req: Request, res: Response, next: NextFunction) => {
+    const { userId, movieId, status} = req.body;
+    try{
+        const watchlist = await addMovieToWatchlist(userId, movieId, status);
+        res.json(watchlist);
+    }
+    catch (err: any){
+        console.log(err);
+        res.status(500).json({
+            message: err.message ?? err
+        });
+    }
+};
 
 // removeFromWatchlist: This function would remove an item from the user's watchlist.
-const removeFromWatchlist = (req: Request, res: Response, next: NextFunction) => {};
+const removeFromWatchlist = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {};
 
 // clearWatchlist: This function would remove all items from the user's watchlist.
 const clearWatchlist = (req: Request, res: Response, next: NextFunction) => {};
@@ -21,9 +45,18 @@ const clearWatchlist = (req: Request, res: Response, next: NextFunction) => {};
 const updateWatchlist = (req: Request, res: Response, next: NextFunction) => {};
 
 // getWatchlistItem: This function would retrieve a specific item from the user's watchlist based on its ID.
-const getWatchlistItem = (req: Request, res: Response, next: NextFunction) => {};
+const getWatchlistItem = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {};
 
 // getWatchlistCount: This function would return the total number of items in the user's watchlist.
-const getWatchlistCount = (req: Request, res: Response, next: NextFunction) => {};
+const getWatchlistCount = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {};
 
 // These functions would allow you to create a basic Watchlist management system in your Node controller. You would also need to implement appropriate database queries or other storage mechanisms to save and retrieve the user's watchlist data
+export default {readWatchlist, addToWatchlist};
