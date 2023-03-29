@@ -1,5 +1,11 @@
 import { Request, Response } from "express";
-import { createUser, deleteUser, getUser, getUserById } from "../models/User";
+import {
+  createUser,
+  deleteUser,
+  getUser,
+  getUserById,
+  updateUser,
+} from "../models/User";
 
 const UserController = {
   async login(req: Request, res: Response) {
@@ -33,10 +39,10 @@ const UserController = {
   },
 
   async createUser(req: Request, res: Response) {
-    const { email, password, displayName, genres, dob } = req.body;
+    const { email, password, userName, genres, dob } = req.body;
 
     try {
-      const user = await createUser(email, password, displayName, genres, dob);
+      const user = await createUser(email, password, userName, genres, dob);
       res.json(user);
     } catch (err: any) {
       console.log(err);
@@ -45,9 +51,9 @@ const UserController = {
   },
 
   async updateUser(req: Request, res: Response) {
-    const { email, password, name, displayName, genres } = req.body;
     try {
-      const user = await createUser(email, password, name, displayName, genres);
+      const { email, password, userName, genres, dob } = req.body;
+      const user = await updateUser({ email, password, userName, genres, dob });
       res.json(user);
     } catch (err: any) {
       console.log(err);

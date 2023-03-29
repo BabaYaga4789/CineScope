@@ -18,7 +18,7 @@ import {
 import { useState } from "react";
 import { AiFillLock, AiOutlineUser } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
-import { Data } from "./Registration/Data";
+import { UserData } from "./Registration/UserData";
 
 export default function SignIn() {
   const [username, setUsername] = useState("");

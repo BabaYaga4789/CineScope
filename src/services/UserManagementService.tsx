@@ -1,8 +1,8 @@
 import { SessionManager } from "@/common/SessionManager";
-import { Data } from "@/pages/Registration/Data";
+import { UserData } from "@/pages/Registration/UserData";
 
 export default class UserManagementService {
-  async register(data: Data) {
+  async register(data: UserData) {
     console.log(data);
     const response = await fetch("http://localhost:3000/users", {
       method: "POST",
@@ -61,6 +61,34 @@ export default class UserManagementService {
       return body;
     } else {
       return null;
+    }
+  }
+
+  async updateUser(userID: string, data: UserData) {
+    const response = await fetch(`http://localhost:3000/users/${userID}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (response.status === 200) {
+      return "Update successful";
+    } else {
+      return "Update failed";
+    }
+  }
+
+  async deleteUser(userID: string) {
+    const response = await fetch(`http://localhost:3000/users/${userID}`, {
+      method: "DELETE",
+    });
+
+    if (response.status === 200) {
+      return "Delete successful";
+    } else {
+      return "Delete failed";
     }
   }
 }
