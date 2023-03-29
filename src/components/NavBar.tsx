@@ -20,6 +20,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 
 const NavBar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const isLoggedIn = SessionManager.isLoggedIn();
   const navigate = useNavigate();
 
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -34,8 +35,7 @@ const NavBar = () => {
   };
 
   const logout = () => {
-    const sessionManager = new SessionManager();
-    sessionManager.logout();
+    SessionManager.logout();
     navigate("/");
   };
 
@@ -126,26 +126,28 @@ const NavBar = () => {
               <Avatar name="Harsh" />
             </MenuButton>
             <MenuList onMouseEnter={onOpen} onMouseLeave={onClose}>
-              <MenuItem
-                onClick={() => {
-                  navigate("login");
-                }}
-              >
-                Login
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  navigate("account-settings");
-                }}
-              >
-                Account Settings
-              </MenuItem>
-              <MenuItem
-                onClick={logout}
-              >
-                Logout
-              </MenuItem>
-              <MenuItem onClick={switchToAdmin}>Switch to Admin</MenuItem>
+              {!isLoggedIn && (
+                <MenuItem
+                  onClick={() => {
+                    navigate("login");
+                  }}
+                >
+                  Login
+                </MenuItem>
+              )}
+              {isLoggedIn && (
+                <MenuItem
+                  onClick={() => {
+                    navigate("account-settings");
+                  }}
+                >
+                  Account Settings
+                </MenuItem>
+              )}
+              {isLoggedIn && <MenuItem onClick={logout}>Logout</MenuItem>}
+              {isLoggedIn && (
+                <MenuItem onClick={switchToAdmin}>Switch to Admin</MenuItem>
+              )}
             </MenuList>
           </Menu>
           <Box display={{ base: "flex", md: "none" }} onClick={toggle}>

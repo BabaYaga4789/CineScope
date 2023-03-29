@@ -30,7 +30,6 @@ import {
 import { useNavigate } from "react-router-dom";
 
 export default function AccountSettings() {
-  const sessionManager = new SessionManager();
 
   const [data, setData] = useState({
     userName: "avocado",
@@ -53,12 +52,12 @@ export default function AccountSettings() {
   } = useDisclosure();
 
   useEffect(() => {
-    if (!sessionManager.isLoggedIn()) {
+    if (!SessionManager.isLoggedIn()) {
       navigate("/login");
     }
 
     const getUser = async () => {
-      const userID = sessionManager.getUserID();
+      const userID = SessionManager.getUserID();
       const userManagementService = new UserManagementService();
       const userData = await userManagementService.getUser(userID!!);
 
@@ -91,7 +90,7 @@ export default function AccountSettings() {
   }, []);
 
   const updateUser = async () => {
-    const userID = sessionManager.getUserID();
+    const userID = SessionManager.getUserID();
     const userManagementService = new UserManagementService();
     await userManagementService.updateUser(userID!!, {
       userName: data.userName,

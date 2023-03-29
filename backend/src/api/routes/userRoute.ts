@@ -13,6 +13,7 @@ const userRoute = (): Router => {
     .delete(userController.deleteUser);
 
   router.route("/login").post(userController.login);
+  router.route("/reset").post(userController.sendPasswordResetEmail);
 
   return router;
 };

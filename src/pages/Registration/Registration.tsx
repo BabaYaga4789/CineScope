@@ -79,7 +79,7 @@ export default function Registration() {
       !nameRegex.test(userName)
     ) {
       setErrorMessage(
-        "Invalid userName. It can't be empty and should contain only letters."
+        "Invalid user name. It can't be empty and should contain only letters."
       );
       setError(true);
       return;
@@ -109,7 +109,8 @@ export default function Registration() {
     setErrorMessage("");
 
     const userManagementService = new UserManagementService();
-    const message = await userManagementService.register(data);
+    const userData = { ...data, genres: result.map((genre) => genre.label) };
+    const message = await userManagementService.register(userData);
 
     if (message === "Registration successful") {
       navigate("/profile", { state: data });
