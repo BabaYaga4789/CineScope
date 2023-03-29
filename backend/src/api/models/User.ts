@@ -1,14 +1,23 @@
 import mongoose from "mongoose";
+import nodemailer from "nodemailer";
 
 const Schema = mongoose.Schema;
 
 const user = new Schema({
   email: String,
   password: String,
-  displayName: String,
+  userName: String,
   genres: [String],
   dob: Date,
 });
+
+interface Data {
+  email: String;
+  password: String;
+  userName: String;
+  genres: string[];
+  dob: Date;
+}
 
 const User = mongoose.model("User", user);
 
@@ -21,61 +30,68 @@ export function getUserById(id: String) {
   return user;
 }
 
-export function getUser(email: String) {
+export async function getUser(email: String) {
   if (email === undefined) {
     throw "Oi! You forgot to pass an email!";
   }
-  const user = User.find({ email: email });
+  const user = await User.findOne({ email: email });
   return user;
 }
 
 export async function createUser(
   email: String,
   password: String,
-  displayName: String,
+  userName: String,
   genres: [String],
   dob: Date
 ) {
   if (
     email === undefined ||
     password === undefined ||
-    displayName === undefined ||
+    userName === undefined ||
     genres === undefined ||
     dob === undefined ||
     email === "" ||
     password === "" ||
-    displayName === ""
+    userName === ""
   ) {
     throw "Missing parameters";
   }
 
   const user = await getUser(email);
-  console.log(typeof user);
-  if (user.length > 0) {
+  if (user !== null) {
     throw "User already exists";
   }
 
   const newUser = new User({
     email: email,
     password: password,
-    displayName: displayName,
+    userName: userName,
     genres: genres,
     dob: dob,
   });
   try {
-    newUser.save();
+    await newUser.save();
   } catch (err) {
     throw err;
   }
 }
 
-export function updateUser(user: any) {
+export async function updateUser(user: Data) {
   if (user.email === undefined) {
     throw "Oi! You forgot to pass an email!";
   }
 
-  const usr = User.find({ email: user.email }).updateOne(user);
-  return usr;
+  const usr = await User.find({ email: user.email }).updateOne(user);
+
+  if (usr.matchedCount === 0) {
+    throw "User not found";
+  } else if (usr.modifiedCount > 0) {
+    console.log("User updated");
+    return { message: "User updated" };
+  }
+
+  return { message: "No changes to user" };
 }
 
 export async function deleteUser(userID: String) {
@@ -83,11 +99,59 @@ export async function deleteUser(userID: String) {
     throw "Oi! You forgot to pass the userID!";
   }
 
-  const response = await User.deleteOne({ email: userID });
+  const response = await User.findByIdAndDelete(userID);
 
-  console.log(response);
-  if (response.deletedCount === 0) {
+  if (response === null) {
     throw "User not found";
+  }
+}
+
+// reference: https://stackoverflow.com/a/48924916
+export async function sendPasswordResetEmail(email: String) {
+  if (email === undefined) {
+    throw "Oi! You forgot to pass an email!";
+  }
+
+  const user = await getUser(email);
+  if (user === null) {
+    throw "User not found";
+  }
+
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.GMAIL_USER,
+      pass: process.env.GMAIL_PASSWORD,
+    },
+  });
+
+  const tempPass = Math.random().toString(36).slice(-8);
+
+  const userData = {
+    email: email,
+    password: tempPass,
+    userName: user.userName,
+    genres: user.genres,
+    dob: user.dob,
+  } as Data;
+
+  await updateUser(userData);
+
+  const mailOptions: any = {
+    from: process.env.EMAIL_USER,
+    to: email,
+    subject: "Password Reset",
+    text:
+      "Your password has been reset. Your new password is: " +
+      tempPass +
+      "\nMake sure to change it after logging in.",
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    return { message: "Password reset email sent successfully" };
+  } catch (err) {
+    throw err;
   }
 }
 

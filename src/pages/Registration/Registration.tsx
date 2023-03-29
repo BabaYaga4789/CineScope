@@ -24,18 +24,19 @@ import {
   AiOutlineUser,
 } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
-import { Data } from "./Data";
-import UserManagementService from "@/services/UserManagementService";
+import { UserData } from "./UserData";
+import UserManagementService from "@/services/UserManagementService/UserManagementService";
+import { UserManagementState } from "@/services/UserManagementService/UserManagementEnum";
 
 export default function Registration() {
   const [data, setData] = useState({
-    displayName: "",
+    userName: "",
     email: "",
     password: "",
     confirmPassword: "",
     dob: "",
     genres: [],
-  } as Data);
+  } as UserData);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [result, setResult] = React.useState<Option[]>([]);
@@ -51,7 +52,7 @@ export default function Registration() {
     console.log(data);
 
     const {
-      displayName,
+      userName,
       email,
       password,
       confirmPassword,
@@ -75,11 +76,11 @@ export default function Registration() {
     const age = today.getFullYear() - bDate.getFullYear();
 
     if (
-      (displayName.length === 0 || displayName === "") &&
-      !nameRegex.test(displayName)
+      (userName.length === 0 || userName === "") &&
+      !nameRegex.test(userName)
     ) {
       setErrorMessage(
-        "Invalid displayName. It can't be empty and should contain only letters."
+        "Invalid user name. It can't be empty and should contain only letters."
       );
       setError(true);
       return;
@@ -109,9 +110,10 @@ export default function Registration() {
     setErrorMessage("");
 
     const userManagementService = new UserManagementService();
-    const message = await userManagementService.register(data);
+    const userData = { ...data, genres: result.map((genre) => genre.label) };
+    const message = await userManagementService.register(userData);
 
-    if (message === "Registration successful") {
+    if (message === UserManagementState.UserRegistrationSuccess) {
       navigate("/profile", { state: data });
     } else {
       setError(true);
@@ -147,7 +149,7 @@ export default function Registration() {
         {/* First Name Input */}
         <CustomInputField
           icon={<AiOutlineUser color="gray.300" />}
-          id="displayName"
+          id="userName"
           type="name"
           placeholder="User Name"
           focusBorderColor={accent}

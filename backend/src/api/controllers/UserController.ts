@@ -1,15 +1,22 @@
 import { Request, Response } from "express";
-import { createUser, deleteUser, getUser, getUserById } from "../models/User";
+import {
+  createUser,
+  deleteUser,
+  getUser,
+  getUserById,
+  sendPasswordResetEmail,
+  updateUser,
+} from "../models/User";
 
 const UserController = {
   async login(req: Request, res: Response) {
     const { username, password } = req.body;
     try {
       const user = await getUser(username);
-      if (user.length === 0) {
+      if (user === null) {
         res.status(404).json({ message: "User not found" });
       } else {
-        if (user[0].password === password) {
+        if (user.password === password) {
           res.json(user);
         } else {
           res.status(401).json({ message: "Incorrect password" });
@@ -33,10 +40,10 @@ const UserController = {
   },
 
   async createUser(req: Request, res: Response) {
-    const { email, password, displayName, genres, dob } = req.body;
+    const { email, password, userName, genres, dob } = req.body;
 
     try {
-      const user = await createUser(email, password, displayName, genres, dob);
+      const user = await createUser(email, password, userName, genres, dob);
       res.json(user);
     } catch (err: any) {
       console.log(err);
@@ -45,9 +52,9 @@ const UserController = {
   },
 
   async updateUser(req: Request, res: Response) {
-    const { email, password, name, displayName, genres } = req.body;
     try {
-      const user = await createUser(email, password, name, displayName, genres);
+      const { email, password, userName, genres, dob } = req.body;
+      const user = await updateUser({ email, password, userName, genres, dob });
       res.json(user);
     } catch (err: any) {
       console.log(err);
@@ -59,6 +66,22 @@ const UserController = {
     const id = req.params.userId;
     try {
       const user = await deleteUser(id);
+      res.json(user);
+    } catch (err: any) {
+      console.log(err);
+      res.status(500).json({ message: err.message ?? err });
+    }
+  },
+
+  async sendPasswordResetEmail(req: Request, res: Response) {
+    const email: any = req.query.email;
+    if (email === undefined) {
+      res
+        .status(400)
+        .json({ message: "Oi! Please pass an email address as query" });
+    }
+    try {
+      const user = await sendPasswordResetEmail(email);
       res.json(user);
     } catch (err: any) {
       console.log(err);
