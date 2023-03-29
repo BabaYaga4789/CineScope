@@ -20,9 +20,8 @@ import { useLocation } from "react-router-dom";
 
 import CommentBox from "@/components/CommentBox";
 import React from "react";
-import { MovieDetails } from "../MovieData";
-import CustomContainer from "@/components/CustomContainer";
 import Movie from "../Watchlist/Data";
+import MovieMagementService from "@/services/MovieManagementService";
 
 interface Review {
   rating: number;
@@ -41,19 +40,7 @@ const Reviews = () => {
   const toast = useToast();
   const location = useLocation();
   const movieId = location.state;
-  console.log(movieId, "these are movie details from state i.e id");
-  console.log(typeof movieId);
-
-  // type movieDet = {
-  //   id: number;
-  //   poster: string;
-  //   title: string;
-  //   genre: string;
-  // };
-
-  // const item = MovieDetails.find(
-  //   (item: movieDet) => item.id === parseInt(movieId)
-  // );
+  const movieManagementService = new MovieMagementService();
 
   const handleRatingClick = (value: number) => {
     setRating(value);
@@ -85,31 +72,13 @@ const Reviews = () => {
   };
 
   const fetchMovieDetails = async () => {
-    var myHeaders = new Headers();
-      var raw = JSON.stringify({
-        movieId: movieId,
-      });
-      myHeaders.append("Content-Type", "application/json");
-      let requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-        body: raw
-      };
-      let url = "http://localhost:3001/movie/fetch-movie-by-id";
-      fetch(url, requestOptions)
-        .then(async (res) => {
-            if(res.status == 200){
-              const data = await res.json();
-              setMovieDetails(data);
-            }
-            else{
-              alert("Something went wrong while fetching movie ...")
-            }
-        })
-        .catch((error) => {
-          console.log(error);
-          alert("Interal server error.");
-        });
+    const body: any = await movieManagementService.fetchMovieByID(movieId);
+      if(body == null){
+        alert("Something went wrong while loading movie details. Please try again.")
+      }
+      else{
+        setMovieDetails(body);
+      }
   };
 
   useEffect(() => {

@@ -59,4 +59,46 @@ export default class MovieMagementService {
       return null;
     }
   }
+
+  async searchMovie(keyword: any){
+    var myHeaders = new Headers();
+    var raw = JSON.stringify({
+      keyword: keyword,
+    });
+    myHeaders.append("Content-Type", "application/json");
+          let requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw
+          };
+    const response = await fetch("http://127.0.0.1:3000/movie/search", requestOptions);
+    if (response.status === 200) {
+      const body = await response.json();
+      return body;
+    } else {
+      return null;
+    }
+  }
+
+  async filterMovie(year: any, rating: any, genre: any){
+    var myHeaders = new Headers();
+    var raw = JSON.stringify({
+      year: year,
+      ratings: rating,
+      genre: genre,
+    });
+    myHeaders.append("Content-Type", "application/json");
+    let requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw
+    };
+    const response = await fetch("http://127.0.0.1:3000/movie/search", requestOptions);
+    if (response.status === 200) {
+      const body = await response.json();
+      return body;
+    } else {
+      return null;
+    }
+  }
 }
