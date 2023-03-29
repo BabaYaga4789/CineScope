@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import nodemailer from "nodemailer";
 
 const Schema = mongoose.Schema;
 
@@ -14,7 +15,7 @@ interface Data {
   email: String;
   password: String;
   userName: String;
-  genres: [String];
+  genres: string[];
   dob: Date;
 }
 
@@ -33,7 +34,7 @@ export async function getUser(email: String) {
   if (email === undefined) {
     throw "Oi! You forgot to pass an email!";
   }
-  const user = await User.find({ email: email });
+  const user = await User.findOne({ email: email });
   return user;
 }
 
@@ -58,7 +59,7 @@ export async function createUser(
   }
 
   const user = await getUser(email);
-  if (user.length > 0) {
+  if (user !== null) {
     throw "User already exists";
   }
 
@@ -102,6 +103,55 @@ export async function deleteUser(userID: String) {
 
   if (response === null) {
     throw "User not found";
+  }
+}
+
+// reference: https://stackoverflow.com/a/48924916
+export async function sendPasswordResetEmail(email: String) {
+  if (email === undefined) {
+    throw "Oi! You forgot to pass an email!";
+  }
+
+  const user = await getUser(email);
+  if (user === null) {
+    throw "User not found";
+  }
+
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.GMAIL_USER,
+      pass: process.env.GMAIL_PASSWORD,
+    },
+  });
+
+  const tempPass = Math.random().toString(36).slice(-8);
+
+  const userData = {
+    email: email,
+    password: tempPass,
+    userName: user.userName,
+    genres: user.genres,
+    dob: user.dob,
+  } as Data;
+
+  await updateUser(userData);
+
+  const mailOptions: any = {
+    from: process.env.EMAIL_USER,
+    to: email,
+    subject: "Password Reset",
+    text:
+      "Your password has been reset. Your new password is: " +
+      tempPass +
+      "\nMake sure to change it after logging in.",
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    return { message: "Password reset email sent successfully" };
+  } catch (err) {
+    throw err;
   }
 }
 

@@ -1,17 +1,17 @@
 export class SessionManager {
-  isLoggedIn() {
+  static isLoggedIn() {
     return !!localStorage.getItem("userID");
   }
 
-  logout() {
+  static logout() {
     localStorage.removeItem("userID");
   }
 
-  login(userID: string) {
+  static login(userID: string) {
     localStorage.setItem("userID", userID);
   }
 
-  getUserID() {
+  static getUserID() {
     return localStorage.getItem("userID");
   }
 }
