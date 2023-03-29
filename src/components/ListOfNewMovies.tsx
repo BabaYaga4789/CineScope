@@ -1,106 +1,93 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import {
-  useToast,
-  Button,
-  Text,
-  Box,
-  Heading,
-  List,
-  ListItem,
-  Image,
-  Flex,
-  HStack,
-  Spacer,
+  SimpleGrid,
+  VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
-import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogContent,
-  AlertDialogOverlay,
-} from "@chakra-ui/react";
-import { useRef } from "react";
-import newMoviesList from "../common/new-movies";
-import { useNavigate } from "react-router-dom";
+import MovieMagementService from "@/services/MovieManagementService";
+import { LabelMostRated } from "./LabelMostRated";
+import MovieGridItemAdmin from "./MovieGridItemAdmin";
+import { LabelNewReleased } from "./LabelNewReleased";
+import { LabelAllMovies } from "./LabelAllMovies";
 
 export default function ListOfNewMovies() {
+
   const [newMovies, setNewMovies] = useState<any>([]);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [deleteId, setDeleteID] = useState<any>();
-  const [deleteMovieTitle, setDeleteMovieTitle] = useState<string>("");
-  const toast = useToast();
-  const cancelRef = useRef<HTMLButtonElement>(null);
-  const navigate = useNavigate();
-
+  const [allMovies, setAllMovies] = useState<any>([]);
+  
   useEffect(() => {
+    
+    const fetchLatestMovies = async () => {
+      const movieManagementService = new MovieMagementService()
+      const body: any = await movieManagementService.fetchLatestMovies();
 
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    let requestOptions = {
-      method: "GET",
-      headers: myHeaders
-    };
-
-    let url = " http://127.0.0.1:3000/movie/fetch-latest-movies/";
-    const fetchLatestMovies = async ()  =>   {
-        await fetch(url, requestOptions)
-      .then((response) => response.json()).then((res) => {
-        for(let i =0 ;i < res.length; i++){
-            const released_date = new Date(res[i].released_date);
-            const yyyy = released_date.getFullYear();
-            let mm:any = released_date.getMonth() + 1; 
-            let dd:any = released_date.getDate();
-            if (dd < 10) dd = '0' + dd;
-            if (mm < 10) mm = '0' + mm;
-            const formattedReleasedDate = mm + '/' + dd + '/' + yyyy;
-            res[i].released_date = formattedReleasedDate;
-        }
-        setNewMovies(res);
-      })
-      
-        
-      .catch((error) => {
-        console.log(error);
-        alert("Interal server error.");
-      });
-    } 
-
-    fetchLatestMovies();
-
-  },[])
-
-  const onDeleteIcon = async (id: any, title: string) => {
-    setIsOpen(true);
-    setDeleteID(id);
-    setDeleteMovieTitle(title);
-  };
-
-  const onEditIcon = async (id: number) => {
-    navigate(`/update-movie-details/${id}`);
-  };
-
-  const onClickDelete = async (id: any) => {
-    setIsOpen(false);
-
-    for (let i = 0; i < newMovies.length; i++) {
-      let movie_id = newMovies[i].id;
-      if (movie_id == id.deleteId) {
-        newMovies.splice(i, 1);
-        setNewMovies(newMovies);
-        toast({
-          title: `Movie deleted sucessfully.`,
-          status: "success",
-          isClosable: true,
-        });
+      if(body == null){
+        alert("Something went wrong loading latest movies. Please try again.")
+      }
+      else{
+        for(let i =0 ;i < body.length; i++){
+              const released_date = new Date(body[i].released_date);
+              const yyyy = released_date.getFullYear();
+              let mm:any = released_date.getMonth() + 1; 
+              let dd:any = released_date.getDate();
+              if (dd < 10) dd = '0' + dd;
+              if (mm < 10) mm = '0' + mm;
+              const formattedReleasedDate = mm + '/' + dd + '/' + yyyy;
+              body[i].released_date = formattedReleasedDate;
+          }
+          setNewMovies(body);
       }
     }
-  };
+    const fetchAllMovies = async () => {
+      const movieManagementService = new MovieMagementService()
+      const body: any = await movieManagementService.fetchAllMovies();
+
+      if(body == null){
+        alert("Something went wrong loading latest movies. Please try again.")
+      }
+      else{
+        for(let i =0 ;i < body.length; i++){
+              const released_date = new Date(body[i].released_date);
+              const yyyy = released_date.getFullYear();
+              let mm:any = released_date.getMonth() + 1; 
+              let dd:any = released_date.getDate();
+              if (dd < 10) dd = '0' + dd;
+              if (mm < 10) mm = '0' + mm;
+              const formattedReleasedDate = mm + '/' + dd + '/' + yyyy;
+              body[i].released_date = formattedReleasedDate;
+          }
+          setAllMovies(body);
+      }
+    }
+    fetchLatestMovies();
+    fetchAllMovies();
+  },[])
+
   return (
     <div>
-      <Box>
+
+  <VStack w="100%">
+      {/* <LabelMostRated/> */}
+      {/* Reference: https://chakra-ui.com/docs/components/simple-grid */}
+      {/* <SimpleGrid p={4} w="100%" columns={{ base: 1, md: 3, lg: 7 }} gap={6}>
+        {mostRatedMovies}
+      </SimpleGrid>
+       */}
+       <LabelNewReleased/>
+      <SimpleGrid p={4} w="100%" columns={{ base: 1, md: 3, lg: 7 }} gap={6}>
+        {newMovies.map((newMovie : any) => (
+         <MovieGridItemAdmin key={newMovie._id} movie={newMovie} />
+      ))}
+      </SimpleGrid>
+      <LabelAllMovies/>
+      <SimpleGrid p={4} w="100%" columns={{ base: 1, md: 3, lg: 7 }} gap={6}>
+          {allMovies.map((movie : any) => (
+         <MovieGridItemAdmin key={movie._id} movie={movie} />
+      ))}
+      </SimpleGrid>
+
+    </VStack>
+      {/* <Box>
         <Heading as="h2" size={["sm", "md", "lg"]} textColor="black" p="10px">
           New Movies
         </Heading>
@@ -144,37 +131,9 @@ export default function ListOfNewMovies() {
             ))}
           </Flex>
         </List>
-      </Box>
+      </Box> */}
 
-      <AlertDialog
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-        leastDestructiveRef={cancelRef}
-      >
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Delete Movie
-            </AlertDialogHeader>
-
-            <AlertDialogBody>
-              Do you really want to delete movie <b>{deleteMovieTitle}</b>? You
-              can't undo this action afterwards.
-            </AlertDialogBody>
-
-            <AlertDialogFooter>
-              <Button onClick={() => setIsOpen(false)}>Cancel</Button>
-              <Button
-                colorScheme="red"
-                onClick={() => onClickDelete({ deleteId })}
-                ml={3}
-              >
-                Delete
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
+      
     </div>
   );
 }

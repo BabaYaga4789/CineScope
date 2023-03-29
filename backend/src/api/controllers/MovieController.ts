@@ -1,17 +1,30 @@
 import { Request, Response } from "express";
-import { createMovie, fetchLastestMovies } from "../models/Movie";
+import {
+  createMovie,
+  fetchLastestMovies,
+  fetchAllMovies,
+} from "../models/Movie";
 
 const MovieController = {
+  async fetchLastestMovies(req: Request, res: Response) {
+    try {
+      const movies = await fetchLastestMovies();
+      res.status(200).json(movies);
+    } catch (err: any) {
+      console.log(err);
+      res.status(500).json({ message: err.message ?? err });
+    }
+  },
 
-    async fetchLastestMovies(req: Request, res: Response) {
-      try {
-        const movies = await fetchLastestMovies();
-        res.status(200).json(movies);
-      } catch (err: any) {
-        console.log(err);
-        res.status(500).json({ message: err.message ?? err });
-      }
-    },
+  async fetchAllMovies(req: Request, res: Response) {
+    try {
+      const movies = await fetchAllMovies();
+      res.status(200).json(movies);
+    } catch (err: any) {
+      console.log(err);
+      res.status(500).json({ message: err.message ?? err });
+    }
+  },
 
   async createMovie(req: Request, res: Response) {
     const {
@@ -25,21 +38,21 @@ const MovieController = {
       images,
       thumbnail,
       poster,
-      trailor
+      trailor,
     } = req.body;
     try {
       const movie = await createMovie(
         title,
-      released_date,
-      director,
-      genres,
-      time_in_minutes,
-      plot,
-      cast,
-      images,
-      thumbnail,
-      poster,
-      trailor
+        released_date,
+        director,
+        genres,
+        time_in_minutes,
+        plot,
+        cast,
+        images,
+        thumbnail,
+        poster,
+        trailor
       );
       res.status(200).json(movie);
     } catch (err: any) {

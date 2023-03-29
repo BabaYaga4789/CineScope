@@ -25,6 +25,11 @@ export function fetchLastestMovies() {
   return movies;
 }
 
+export function fetchAllMovies() {
+  const movies = Movie.find({})
+  return movies;
+}
+
 export async function createMovie(
     title: String,
     released_date: Date,
