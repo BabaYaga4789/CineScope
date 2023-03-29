@@ -6,12 +6,10 @@ const movieRoute = (): Router => {
 
   router.route("/add-movie/").post(movieController.createMovie);
   router.route("/fetch-latest-movies/").get(movieController.fetchLastestMovies);
-
-//   router
-//     .route("/:movieId")
-//     .get(movieController.getmovie)
-//     .put(movieController.updatemovie)
-//     .delete(movieController.deletemovie);
+  router.route("/search/").post(movieController.filterMovie);
+  router.route("/fetch-all-movies/").get(movieController.fetchAllMovies);
+  router.route("/fetch-movie-by-id/").post(movieController.fetchMovieById);
+  router.route("/delete-movie-by-id/").delete(movieController.deleterMovieById);
 
   return router;
 };

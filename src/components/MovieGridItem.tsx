@@ -6,7 +6,6 @@ import {
   Button,
   Card,
   CardBody,
-  CardFooter,
   Image,
   Text,
   useDisclosure,
@@ -27,12 +26,12 @@ export default function MovieGridItem(props: MovieGridItemProps): JSX.Element {
 
   const getReviewPage = (e: any) => {
     e.preventDefault();
-    navigateTo("/reviews", { state: e.target.id });
+    navigateTo("/reviews", { state: props.movie._id });
   };
 
   return (
     <Card
-      key={props.movie.id}
+      key={props.movie._id}
       rounded="lg"
       width="100%"
       overflow="hidden"
@@ -40,7 +39,7 @@ export default function MovieGridItem(props: MovieGridItemProps): JSX.Element {
     >
       <Image
         src={props.movie.poster}
-        alt={props.movie.imageAlt}
+        alt= "Movie Image"
         objectFit="cover"
         height="300px"
         width="100%"
@@ -54,17 +53,20 @@ export default function MovieGridItem(props: MovieGridItemProps): JSX.Element {
           .map((_, i) => (
             <StarIcon
               key={i}
-              color={i < props.movie.rating / 2 ? "teal.500" : "gray.300"}
+              color={i < 9 / 2 ? "teal.500" : "gray.300"}
+              // color={i < props.movie.rating / 2 ? "teal.500" : "gray.300"}
             />
+
           ))}
         <Box as="span" ml="2" color="gray.600" fontSize="sm">
-          ({props.movie.reviewCount})
+          {/* ({props.movie.reviewCount}) */}
+          (20)
         </Box>
       </Box>
       <VStack w="100%" p={4}>
         <Button
           w="100%"
-          id={props.movie.id.toString()}
+          id={props.movie._id}
           onClick={getReviewPage}
           leftIcon={<ViewIcon />}
         >

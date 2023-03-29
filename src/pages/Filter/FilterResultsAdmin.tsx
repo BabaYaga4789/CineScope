@@ -5,60 +5,98 @@ import { MovieDetails } from "../MovieData";
 import { AlertForNoMovieFound } from "@/components/AlertForNoMovieFound";
 import { useState } from "react";
 import MovieGridItem from "@/components/MovieGridItem";
+import MovieGridItemAdmin from "@/components/MovieGridItemAdmin";
 import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
 
-export const FilterResults = () => {
+export const FilterResultsAdmin = () => {
     const [afterFilteration, setAfterFilteration] = useState([]);
     const [newKeyword, setNewKeyword] = useState("");
     const [rating, setRating] = useState("");
     const [genre, setGenre] = useState("");
     const [year, setYear] = useState("");
-    const movieManagementService = new MovieMagementService();
     
-    const fetchAllMovies = async ()  =>  {
+    const fetchAllMovies = async () => {
+      const movieManagementService = new MovieMagementService();
       const body: any = await movieManagementService.fetchAllMovies();
-      if(body == null){
-        alert("Something went wrong while loading movies. Please try again.")
-      }
-      else{
+
+      if (body == null) {
+        alert("Something went wrong loading latest movies. Please try again.");
+      } else {
+        for (let i = 0; i < body.length; i++) {
+          const released_date = new Date(body[i].released_date);
+          const yyyy = released_date.getFullYear();
+          let mm: any = released_date.getMonth() + 1;
+          let dd: any = released_date.getDate();
+          if (dd < 10) dd = "0" + dd;
+          if (mm < 10) mm = "0" + mm;
+          const formattedReleasedDate = mm + "/" + dd + "/" + yyyy;
+          body[i].released_date = formattedReleasedDate;
+        }
         setAfterFilteration(body);
       }
-    } 
-
-    const handleSearch = async () => {
-        if(newKeyword == "" || newKeyword == null){
-          fetchAllMovies();
-        }
-        else{
-          const body: any = await movieManagementService.searchMovie(newKeyword);
-          if(body == null){
-            alert("Something went wrong while searching movies. Please try again.")
-          }
-          else{
-            setAfterFilteration(body);
-          }
-        }
     };
+    
+    useEffect(() => {
+      fetchAllMovies();
+    },[])
 
-    const handleFilter = async () => {
-      if(rating == "" && genre == "" && year == "")
-      {
+    const handleSearch = async (event: any) => {
+      if(newKeyword == "" || newKeyword == null){
         fetchAllMovies();
+        setYear("");
       }
       else{
-        const body: any = await movieManagementService.filterMovie(year, rating, genre);
+        const movieManagementService = new MovieMagementService();
+        const body: any = await movieManagementService.searchMovie(newKeyword);
         if(body == null){
-          alert("Something went wrong while Filtering  movies. Please try again.")
+          alert("Something went wrong while searching movies. Please try again.")
         }
         else{
+          for (let i = 0; i < body.length; i++) {
+            const released_date = new Date(body[i].released_date);
+            const yyyy = released_date.getFullYear();
+            let mm: any = released_date.getMonth() + 1;
+            let dd: any = released_date.getDate();
+            if (dd < 10) dd = "0" + dd;
+            if (mm < 10) mm = "0" + mm;
+            const formattedReleasedDate = mm + "/" + dd + "/" + yyyy;
+            body[i].released_date = formattedReleasedDate;
+          }
           setAfterFilteration(body);
         }
       }
     };
 
-    useEffect(() => {
-      fetchAllMovies();
-    },[])
+    const handleReset = async () => {
+      window.location.reload();
+    }
+
+    const handleFilter = async (event: any) => {
+      if(rating == "" && genre == "" && year == "")
+      {
+        fetchAllMovies();
+      }
+      else{
+        const movieManagementService = new MovieMagementService();
+        const body: any = await movieManagementService.filterMovie(year, rating, genre);
+        if(body == null){
+          alert("Something went wrong while Filtering  movies. Please try again.")
+        }
+        else{
+          for (let i = 0; i < body.length; i++) {
+            const released_date = new Date(body[i].released_date);
+            const yyyy = released_date.getFullYear();
+            let mm: any = released_date.getMonth() + 1;
+            let dd: any = released_date.getDate();
+            if (dd < 10) dd = "0" + dd;
+            if (mm < 10) mm = "0" + mm;
+            const formattedReleasedDate = mm + "/" + dd + "/" + yyyy;
+            body[i].released_date = formattedReleasedDate;
+          }
+          setAfterFilteration(body);
+        }
+      }
+    };
   
     if(afterFilteration.length == 0){
         return(
@@ -89,6 +127,15 @@ export const FilterResults = () => {
                         onClick = {handleSearch}
                         >
                         Search
+                        </Button>
+                        <Button
+                        size="lg"
+                        colorScheme={"yellow"}
+                        variant={"solid"}
+                        // onClick = {searchMovies}
+                        onClick = {handleReset}
+                        >
+                        Reset
                         </Button>
                     </HStack>
                 </Box>
@@ -212,6 +259,15 @@ export const FilterResults = () => {
                         >
                         Search
                         </Button>
+                        <Button
+                        size="lg"
+                        colorScheme={"yellow"}
+                        variant={"solid"}
+                        // onClick = {searchMovies}
+                        onClick = {handleReset}
+                        >
+                        Reset
+                        </Button>
                     </HStack>
                 </Box>
 
@@ -304,7 +360,7 @@ export const FilterResults = () => {
                 {/* Reference: https://chakra-ui.com/docs/components/simple-grid */}
                 <SimpleGrid p={4} w="100%" columns={{ base: 1, md: 3, lg: 7 }} gap={6}>
                     {afterFilteration.map((movie) => (
-                        <MovieGridItem key={movie._id} movie={movie} />
+                        <MovieGridItemAdmin key={movie._id} movie={movie} />
                     ))}
                 </SimpleGrid>
             </VStack>
