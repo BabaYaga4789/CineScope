@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createMovie, fetchLastestMovies, searchMovie, filterMovie } from "../models/Movie";
+import { createMovie, fetchLastestMovies, searchMovie, filterMovie, fetchAllMovies } from "../models/Movie";
 
 const MovieController = {
 
@@ -86,27 +86,16 @@ const MovieController = {
       }
     }
   },
-  //   async updateUser(req: Request, res: Response) {
-  //     const { email, password, name, displayName, genres } = req.body;
-  //     try {
-  //       const user = await createUser(email, password, name, displayName, genres);
-  //       res.json(user);
-  //     } catch (err: any) {
-  //       console.log(err);
-  //       res.status(500).json({ message: err.message ?? err });
-  //     }
-  //   },
 
-  //   async deleteUser(req: Request, res: Response) {
-  //     const id = req.params.userId;
-  //     try {
-  //       const user = await deleteUser(id);
-  //       res.json(user);
-  //     } catch (err: any) {
-  //       console.log(err);
-  //       res.status(500).json({ message: err.message ?? err });
-  //     }
-  //   },
+  async fetchAllMovies(req: Request, res: Response){
+    try{
+      const movies = await fetchAllMovies();
+      res.json(movies);
+    } catch (err: any){
+      console.log(err);
+      res.status(500).json({ message: err.message ?? err });
+    }
+  },
 };
 
 export default MovieController;

@@ -1,4 +1,5 @@
 import { SimpleGrid, VStack } from "@chakra-ui/react";
+import { useEffect } from "react";
 import { HStack, Box, Button, Input, Select } from "@chakra-ui/react";
 import { MovieDetails } from "../MovieData";
 import { AlertForNoMovieFound } from "@/components/AlertForNoMovieFound";
@@ -12,48 +13,110 @@ export const FilterResults = () => {
     const [genre, setGenre] = useState("");
     const [year, setYear] = useState("");
 
-    const searchMovies = () => {
-        const filteredMovies =  MovieDetails.filter((movie) => {
-            return movie.title.toLowerCase().includes(newKeyword.toLowerCase());
-          });
-          setAfterFilteration(filteredMovies);
-    }
-
-    const filterMovies = () => {
-        const filterGenre = (array: any[]) => {
-            if (genre!="") {
-              return  array.filter((movie) => {
-                return movie.genre == genre;
-              });
-            } else {
-              return array;
-            }
-          };
-          const filterRatings = (array: any[]) => {
-            if (rating!="") {
-              return array.filter((movie) => {
-                return movie.rating == rating;
-              });
-            } else {
-              return array;
-            }
-          };
-          const filterYear = (array: any[]) => {
-            if (year!="") {
-              return array.filter((movie) => {
-                return movie.year == year;
-              });
-            } else {
-              return array;
-            }
+    const fetchAllMovies = async ()  =>  {
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      let requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+      };
+      let url = "http://localhost:3001/movie/fetch-all-movies";
+      fetch(url, requestOptions)
+      .then(async (res) => {
+      
+          if(res.status == 200){
+            const data = await res.json();
+            console.log(data);
+            setAfterFilteration(data);
           }
-        let result = MovieDetails;
-        result = filterGenre(result);
-        result = filterRatings(result);
-        result = filterYear(result);
-        setAfterFilteration(result);
-    }
+          else{
+            alert("Something went wrong while searching...")
+          }
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("Interal server error.");
+      });
+    } 
     
+    useEffect(() => {
+      fetchAllMovies();
+    },[])
+
+    const handleSearch = async (event: any) => {
+        var myHeaders = new Headers();
+        if(newKeyword == "" || newKeyword == null){
+          fetchAllMovies();
+        }
+        else{
+          var raw = JSON.stringify({
+            keyword: newKeyword,
+          });
+          myHeaders.append("Content-Type", "application/json");
+          let requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw
+          };
+          let url = "http://localhost:3001/movie/search";
+          fetch(url, requestOptions)
+            .then(async (res) => {
+            
+                if(res.status == 200){
+                  const data = await res.json();
+                  setAfterFilteration(data);
+                }
+                else{
+                  alert("Something went wrong while searching...")
+                }
+            })
+            .catch((error) => {
+              console.log(error);
+              alert("Interal server error.");
+            });
+        }
+    };
+
+    const handleFilter = async (event: any) => {
+      if(rating == "" && genre == "" && year == "")
+      {
+        fetchAllMovies();
+      }
+      else{
+        var myHeaders = new Headers();
+        var raw = JSON.stringify({
+          year: year,
+          ratings: rating,
+          genre: genre,
+        });
+        myHeaders.append("Content-Type", "application/json");
+        let requestOptions = {
+          method: "POST",
+          headers: myHeaders,
+          body: raw
+        };
+        let url = "http://localhost:3001/movie/search";
+        fetch(url, requestOptions)
+          .then(async (res) => {
+          
+              if(res.status == 200){
+                const data = await res.json();
+                console.log(data);
+                setAfterFilteration(data);
+                // setAfterFilteration(response);
+                // navigate("/");
+              }
+              else{
+                alert("Something went wrong while searching...")
+              }
+          })
+          .catch((error) => {
+            console.log(error);
+            alert("Interal server error.");
+          });
+      }
+    };
+  
     if(afterFilteration.length == 0){
         return(
             <VStack w="100%">
@@ -79,7 +142,8 @@ export const FilterResults = () => {
                         size="lg"
                         colorScheme={"yellow"}
                         variant={"solid"}
-                        onClick = {searchMovies}
+                        // onClick = {searchMovies}
+                        onClick = {handleSearch}
                         >
                         Search
                         </Button>
@@ -164,7 +228,8 @@ export const FilterResults = () => {
                         <Button
                         size="lg"
                         colorScheme={"yellow"}
-                        onClick = {filterMovies}
+                        // onClick = {filterMovies}
+                        onClick = { handleFilter }
                         >
                         Filter
                         </Button>
@@ -199,7 +264,8 @@ export const FilterResults = () => {
                         size="lg"
                         colorScheme={"yellow"}
                         variant={"solid"}
-                        onClick = {searchMovies}
+                        // onClick = {searchMovies}
+                        onClick = {handleSearch}
                         >
                         Search
                         </Button>
@@ -284,7 +350,8 @@ export const FilterResults = () => {
                         <Button
                         size="lg"
                         colorScheme={"yellow"}
-                        onClick = {filterMovies}
+                        // onClick = {filterMovies}
+                        onClick = { handleFilter }
                         >
                         Filter
                         </Button>

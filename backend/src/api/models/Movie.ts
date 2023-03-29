@@ -54,12 +54,6 @@ export async function createMovie(
     throw "Missing parameters";
   }
 
-//   const user = await getUser(email);
-//   console.log(typeof user);
-//   if (user.length > 0) {
-//     throw "User already exists";
-//   }
-
   const newMovie = new Movie({
     title: title,
     released_date: released_date,
@@ -82,9 +76,15 @@ export async function createMovie(
 
 export function searchMovie(keyword: any){
   try {
-    const regex = new RegExp(keyword, "i");
-    const movies = Movie.find({title:{ $regex: regex } });
-    return movies;
+    if(keyword == "" || keyword == null){
+      const movies = Movie.find();
+      return movies;
+    }
+    else{
+      const regex = new RegExp(keyword, "i");
+      const movies = Movie.find({title:{ $regex: regex } });
+      return movies;
+    }
   } catch (err) {
     throw err;         
   }
@@ -93,41 +93,34 @@ export function searchMovie(keyword: any){
 export function filterMovie(ratings: any, genre: any, year: any){
   try {
     let filteredMovies = {};
+    const query = {} as any;
+
     if (year){
       const isoYear = new Date(`${year}-01-01T00:00:00.000Z`).toISOString();
-      filteredMovies = Movie.find({ released_date: { $gte: isoYear, $lt: `${parseInt(year)+1}-01-01T00:00:00.000Z` } })
+      query.released_date = { $gte: isoYear, $lt: `${parseInt(year)+1}-01-01T00:00:00.000Z` };
+      // filteredMovies = Movie.find({ released_date: { $gte: isoYear, $lt: `${parseInt(year)+1}-01-01T00:00:00.000Z` } });
     }
     if (genre){
-      filteredMovies = Movie.find({ genres: { $all: genre } });
+      query.genres = { $all: genre };
+      // filteredMovies = Movie.find({ genres: { $all: genre } });
     }
     if (ratings){
         
     }
+    filteredMovies = Movie.find(query);
     return filteredMovies;
   } catch (err) {
     throw err;         
   }
 }
-// export function updateUser(user: any) {
-//   if (user.email === undefined) {
-//     throw "Oi! You forgot to pass an email!";
-//   }
 
-//   const usr = User.find({ email: user.email }).updateOne(user);
-//   return usr;
-// }
-
-// export async function deleteUser(userID: String) {
-//   if (userID === undefined) {
-//     throw "Oi! You forgot to pass the userID!";
-//   }
-
-//   const response = await User.deleteOne({ email: userID });
-
-//   console.log(response);
-//   if (response.deletedCount === 0) {
-//     throw "User not found";
-//   }
-// }
+export function fetchAllMovies(){
+  try {
+      const movies = Movie.find();
+      return movies;
+  } catch (err) {
+    throw err;         
+  }
+}
 
 export default mongoose.model("Movie", movie);

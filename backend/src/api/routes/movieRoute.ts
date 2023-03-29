@@ -7,6 +7,7 @@ const movieRoute = (): Router => {
   router.route("/add-movie/").post(movieController.createMovie);
   router.route("/fetch-latest-movies/").get(movieController.fetchLastestMovies);
   router.route("/search/").post(movieController.filterMovie);
+  router.route("/fetch-all-movies/").get(movieController.fetchAllMovies);
 
 //   router
 //     .route("/:movieId")
