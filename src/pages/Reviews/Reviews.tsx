@@ -14,40 +14,33 @@ import {
   Textarea,
   useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 
 import CommentBox from "@/components/CommentBox";
 import React from "react";
-import { MovieDetails } from "../MovieData";
-import CustomContainer from "@/components/CustomContainer";
+import Movie from "../Watchlist/Data";
+import MovieMagementService from "@/services/MovieManagementService";
 
 interface Review {
   rating: number;
   comment: string;
 }
 
+interface MovieGridItemProps {
+  movie: Movie;
+};
+
 const Reviews = () => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [display, setDisplay] = useState<string[]>([]);
+  const [movieDetails, setMovieDetails] = useState({});
   const toast = useToast();
   const location = useLocation();
-  const movieDetail = location.state;
-  console.log(movieDetail, "these are movie details from state i.e id");
-  console.log(typeof movieDetail);
-
-  type movieDet = {
-    id: number;
-    poster: string;
-    title: string;
-    genre: string;
-  };
-
-  const item = MovieDetails.find(
-    (item: movieDet) => item.id === parseInt(movieDetail)
-  );
+  const movieId = location.state;
+  const movieManagementService = new MovieMagementService();
 
   const handleRatingClick = (value: number) => {
     setRating(value);
@@ -78,6 +71,20 @@ const Reviews = () => {
     }
   };
 
+  const fetchMovieDetails = async () => {
+    const body: any = await movieManagementService.fetchMovieByID(movieId);
+      if(body == null){
+        alert("Something went wrong while loading movie details. Please try again.")
+      }
+      else{
+        setMovieDetails(body);
+      }
+  };
+
+  useEffect(() => {
+    fetchMovieDetails();
+  },[])
+
   return (
     <>
       <Flex direction="column">
@@ -97,26 +104,29 @@ const Reviews = () => {
             <Image
               objectFit="cover"
               maxW={{ base: "100%", sm: "300px" }}
-              src={item?.poster}
+              src={movieDetails.poster}
               alt="Movie poster"
             />
 
             <Stack padding={{ base: "4", sm: "6" }}>
               <CardBody padding={{ base: "2", sm: "4" }}>
                 <Heading size="md" color="gray.600">
-                  {item?.title}
+                  {movieDetails.title}
                 </Heading>
 
                 <Text py="2" lineHeight="tall" textAlign="justify">
-                  {item?.description}
+                  {movieDetails.plot}
                 </Text>
 
                 <Text fontSize="sm" color="gray.500" py="1">
-                  Genre: {item?.genre}
+                  Genre: {movieDetails.genres} 
+                    {/* {movieDetails.genres.map((genre : any) => (
+                      genre
+                  ))} */}
                 </Text>
 
                 <Text fontSize="sm" color="gray.500" textAlign="justify">
-                  Year: {item?.year}
+                  Date: {movieDetails.released_date}
                 </Text>
                 <Flex justify="flex-end" >
                 <Box mb="6" mr="2"><Button size="sm" colorScheme="yellow">Trivia Quiz</Button></Box>
