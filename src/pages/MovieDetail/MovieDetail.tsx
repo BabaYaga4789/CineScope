@@ -7,11 +7,6 @@ import {
   Badge,
   VStack,
   HStack,
-  Link,
-  Slider,
-  SliderTrack,
-  SliderFilledTrack,
-  SliderThumb,
   GridItem,
   AspectRatio,
   SimpleGrid,
@@ -151,9 +146,9 @@ const MovieDetails = () => {
                     width="500" 
                     height="315" 
                     src={movieDetails.trailor}
-                    title="YouTube video player" frameborder="0" 
+                    title="YouTube video player"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                    allowfullscreen>
+                >
                 </iframe>
             </AspectRatio>
           </VStack>
