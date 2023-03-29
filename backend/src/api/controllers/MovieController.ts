@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createMovie, fetchLastestMovies, searchMovie, filterMovie, fetchAllMovies } from "../models/Movie";
+import { createMovie, fetchLastestMovies, searchMovie, filterMovie, fetchAllMovies, fetchMovieById } from "../models/Movie";
 
 const MovieController = {
 
@@ -52,7 +52,7 @@ const MovieController = {
     const keyword = req.params.keyword;
     try{
       const movies = await searchMovie(keyword);
-      res.json(movies);
+      res.status(200).json(movies);
     } catch (err: any){
       console.log(err);
       res.status(500).json({ message: err.message ?? err });
@@ -70,7 +70,7 @@ const MovieController = {
     if (keyword){
       try{
         const movies = await searchMovie(keyword);
-        res.json(movies);
+        res.status(200).json(movies);
       } catch (err: any){
         console.log(err);
         res.status(500).json({ message: err.message ?? err });
@@ -79,7 +79,7 @@ const MovieController = {
     else{
       try{
         const movies = await filterMovie(ratings, genre, year);
-        res.json(movies);
+        res.status(200).json(movies);
       } catch (err: any){
         console.log(err);
         res.status(500).json({ message: err.message ?? err });
@@ -90,12 +90,23 @@ const MovieController = {
   async fetchAllMovies(req: Request, res: Response){
     try{
       const movies = await fetchAllMovies();
-      res.json(movies);
+      res.status(200).json(movies);
     } catch (err: any){
       console.log(err);
       res.status(500).json({ message: err.message ?? err });
     }
   },
+
+  async fetchMovieById(req: Request, res: Response){
+    const movieId = req.body.movieId;
+    try{
+      const movies = await fetchMovieById(movieId);
+      res.status(200).json(movies);
+    } catch (err: any){
+      console.log(err);
+      res.status(500).json({ message: err.message ?? err });
+    }
+  }
 };
 
 export default MovieController;

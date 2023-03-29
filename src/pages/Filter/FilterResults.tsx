@@ -7,12 +7,12 @@ import { useState } from "react";
 import MovieGridItem from "@/components/MovieGridItem";
 
 export const FilterResults = () => {
-    const [afterFilteration, setAfterFilteration] = useState(MovieDetails);
+    const [afterFilteration, setAfterFilteration] = useState([]);
     const [newKeyword, setNewKeyword] = useState("");
     const [rating, setRating] = useState("");
     const [genre, setGenre] = useState("");
     const [year, setYear] = useState("");
-
+    
     const fetchAllMovies = async ()  =>  {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
@@ -361,7 +361,7 @@ export const FilterResults = () => {
                 {/* Reference: https://chakra-ui.com/docs/components/simple-grid */}
                 <SimpleGrid p={4} w="100%" columns={{ base: 1, md: 3, lg: 7 }} gap={6}>
                     {afterFilteration.map((movie) => (
-                        <MovieGridItem key={movie.id} movie={movie} />
+                        <MovieGridItem key={movie._id} movie={movie} />
                     ))}
                 </SimpleGrid>
             </VStack>

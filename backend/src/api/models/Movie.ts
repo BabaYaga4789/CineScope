@@ -123,4 +123,13 @@ export function fetchAllMovies(){
   }
 }
 
+export function fetchMovieById(id: any){
+  try {
+    const movie = Movie.findById(id);
+      return movie;
+  } catch (err) {
+    throw err;         
+  }
+}
+
 export default mongoose.model("Movie", movie);

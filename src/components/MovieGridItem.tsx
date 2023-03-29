@@ -27,7 +27,7 @@ export default function MovieGridItem(props: MovieGridItemProps): JSX.Element {
 
   const getReviewPage = (e: any) => {
     e.preventDefault();
-    navigateTo("/reviews", { state: e.target.id });
+    navigateTo("/reviews", { state: props.movie._id });
   };
 
   return (
