@@ -48,9 +48,9 @@ const MovieController = {
   },
 
   //   async updateUser(req: Request, res: Response) {
-  //     const { email, password, name, displayName, genres } = req.body;
+  //     const { email, password, name, userName, genres } = req.body;
   //     try {
-  //       const user = await createUser(email, password, name, displayName, genres);
+  //       const user = await createUser(email, password, name, userName, genres);
   //       res.json(user);
   //     } catch (err: any) {
   //       console.log(err);

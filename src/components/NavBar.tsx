@@ -1,3 +1,4 @@
+import { SessionManager } from "@/common/SessionManager";
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 import {
   Avatar,
@@ -30,6 +31,12 @@ const NavBar = () => {
   const switchToAdmin = () => {
     localStorage.setItem("isAdmin", "true");
     window.location.replace("/");
+  };
+
+  const logout = () => {
+    const sessionManager = new SessionManager();
+    sessionManager.logout();
+    navigate("/");
   };
 
   return (
@@ -134,9 +141,7 @@ const NavBar = () => {
                 Account Settings
               </MenuItem>
               <MenuItem
-                onClick={() => {
-                  navigate("/");
-                }}
+                onClick={logout}
               >
                 Logout
               </MenuItem>

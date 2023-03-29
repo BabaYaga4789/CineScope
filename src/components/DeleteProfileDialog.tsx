@@ -1,3 +1,5 @@
+import { SessionManager } from "@/common/SessionManager";
+import UserManagementService from "@/services/UserManagementService";
 import { Button } from "@chakra-ui/button";
 import {
   AlertDialog,
@@ -21,7 +23,16 @@ const DeleteProfileDialog = (props: DeleteProfileDialogProps) => {
   const toast = useToast();
   const navigate = useNavigate();
 
+  const deleteProfile = async () => {
+    const userManagementService = new UserManagementService();
+    const sessionManager = new SessionManager();
+    const userID = sessionManager.getUserID();
+    await userManagementService.deleteUser(userID!!);
+  };
+
   const onDelete = () => {
+    deleteProfile();
+
     toast({
       title: "Profile Deleted",
       description: "Your profile has been deleted.",

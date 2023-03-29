@@ -1,4 +1,5 @@
 import CustomContainer from "@/components/CustomContainer";
+import UserManagementService from "@/services/UserManagementService";
 import {
   Alert,
   Box,
@@ -17,6 +18,7 @@ import {
 import { useState } from "react";
 import { AiFillLock, AiOutlineUser } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
+import { UserData } from "./Registration/UserData";
 
 export default function SignIn() {
   const [username, setUsername] = useState("");
@@ -39,7 +41,7 @@ export default function SignIn() {
     return true;
   };
 
-  const login = (event: any) => {
+  const login = async (event: any) => {
     event.preventDefault();
 
     if (username.length === 0 || password.length === 0) {
@@ -53,8 +55,26 @@ export default function SignIn() {
       setMessage("The password should be more than 6 characters long");
     } else {
       setError(false);
-      setMessage("Sign In successful");
-      navigate("/");
+
+      const userManagementService = new UserManagementService();
+      const message = await userManagementService.login(username, password);
+      if (message === "User not found") {
+        setError(true);
+        setMessage("User not found");
+        return;
+      } else if (message === "Incorrect password") {
+        setError(true);
+        setMessage("Incorrect password");
+        return;
+      } else if (message === "Login successful") {
+        setError(false);
+        setMessage("Login successful");
+        navigate("/");
+      } else {
+        setError(true);
+        setMessage("Something went wrong");
+        return;
+      }
     }
   };
 

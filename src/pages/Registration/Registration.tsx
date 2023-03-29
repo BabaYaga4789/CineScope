@@ -24,7 +24,8 @@ import {
   AiOutlineUser,
 } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
-import { Data } from "./Data";
+import { UserData } from "./UserData";
+import UserManagementService from "@/services/UserManagementService";
 
 export default function Registration() {
   const [data, setData] = useState({
@@ -32,16 +33,16 @@ export default function Registration() {
     email: "",
     password: "",
     confirmPassword: "",
-    dateOfBirth: "",
+    dob: "",
     genres: [],
-  } as Data);
+  } as UserData);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [result, setResult] = React.useState<Option[]>([]);
 
   const navigate = useNavigate();
 
-  const validateAndRegister = (event: any) => {
+  const validateAndRegister = async (event: any) => {
     event.preventDefault();
 
     setError(false);
@@ -49,8 +50,14 @@ export default function Registration() {
 
     console.log(data);
 
-    const { userName, email, password, confirmPassword, dateOfBirth, genres } =
-      data;
+    const {
+      userName,
+      email,
+      password,
+      confirmPassword,
+      dob: dateOfBirth,
+      genres,
+    } = data;
 
     // regex
     // generated using https://regex-generator.olafneumann.org/
@@ -72,7 +79,7 @@ export default function Registration() {
       !nameRegex.test(userName)
     ) {
       setErrorMessage(
-        "Invalid username. It can't be empty and should contain only letters."
+        "Invalid userName. It can't be empty and should contain only letters."
       );
       setError(true);
       return;
@@ -101,7 +108,15 @@ export default function Registration() {
     setError(false);
     setErrorMessage("");
 
-    navigate("/profile", { state: data });
+    const userManagementService = new UserManagementService();
+    const message = await userManagementService.register(data);
+
+    if (message === "Registration successful") {
+      navigate("/profile", { state: data });
+    } else {
+      setError(true);
+      setErrorMessage(message);
+    }
   };
 
   const accent = "yellow.500";
@@ -114,9 +129,7 @@ export default function Registration() {
       justifyContent="center"
       alignItems="center"
     >
-      <CustomContainer
-        width="30%"
-      >
+      <CustomContainer width="30%">
         <Center mb={6}>
           <VStack>
             <Heading>Register</Heading>
@@ -190,7 +203,7 @@ export default function Registration() {
             children={<AiOutlineCalendar color="gray.300" />}
           />
           <Input
-            id="dateOfBirth"
+            id="dob"
             type="text"
             variant="outline"
             placeholder="Date of Birth"
