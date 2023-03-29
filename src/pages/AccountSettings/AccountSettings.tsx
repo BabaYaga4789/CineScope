@@ -4,7 +4,7 @@ import ChangePasswordDialog from "@/components/ChangePasswordDialog";
 import CustomContainer from "@/components/CustomContainer";
 import CustomInputField from "@/components/CustomInputField";
 import DeleteProfileDialog from "@/components/DeleteProfileDialog";
-import UserManagementService from "@/services/UserManagementService";
+import UserManagementService from "@/services/UserManagementService/UserManagementService";
 import {
   Alert,
   Button,
@@ -18,19 +18,18 @@ import {
   SlideFade,
   Text,
   useDisclosure,
-  VStack,
+  VStack
 } from "@chakra-ui/react";
 import { Autocomplete, Option } from "chakra-ui-simple-autocomplete";
 import React, { useEffect, useState } from "react";
 import {
   AiOutlineCalendar,
   AiOutlineMail,
-  AiOutlineUser,
+  AiOutlineUser
 } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 
 export default function AccountSettings() {
-  const sessionManager = new SessionManager();
 
   const [data, setData] = useState({
     userName: "avocado",
@@ -43,33 +42,6 @@ export default function AccountSettings() {
   const [errors, setErrors] = useState([] as string[]);
   const [result, setResult] = React.useState<Option[]>([]);
 
-  useEffect(() => {
-    if (!sessionManager.isLoggedIn()) {
-      navigate("/login");
-    }
-
-    const getUser = async () => {
-      const userID = sessionManager.getUserID();
-      const userManagementService = new UserManagementService();
-      const userData = await userManagementService.getUser(userID!!);
-      setData({
-        userName: userData.displayName,
-        email: userData.email,
-        dateOfBirth: userData.date,
-        genres: userData.genres,
-        password: userData.password ,
-      });
-    };
-
-    getUser();
-
-    // setResult(
-    //   Genres.filter(
-    //     (genre) => genre.label === "Action" || genre.label === "Comedy"
-    //   )
-    // );
-  }, []);
-
   const navigate = useNavigate();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -78,6 +50,57 @@ export default function AccountSettings() {
     onOpen: onOpenDelete,
     onClose: onCloseDelete,
   } = useDisclosure();
+
+  useEffect(() => {
+    if (!SessionManager.isLoggedIn()) {
+      navigate("/login");
+    }
+
+    const getUser = async () => {
+      const userID = SessionManager.getUserID();
+      const userManagementService = new UserManagementService();
+      const userData = await userManagementService.getUser(userID!!);
+
+      const date = new Date(userData.dob);
+
+      console.log(userData);
+
+      setData({
+        userName: userData.userName,
+        email: userData.email,
+        dateOfBirth:
+          date.getFullYear() +
+          "-" +
+          (date.getMonth() + 1) +
+          "-" +
+          (date.getUTCDate().toString().length === 1
+            ? "0" + date.getUTCDate()
+            : date.getUTCDate()),
+        genres: [],
+        password: userData.password,
+      });
+      setResult(
+        userData.genres.map((genre: any) => {
+          return { label: genre, value: genre };
+        })
+      );
+    };
+
+    getUser();
+  }, []);
+
+  const updateUser = async () => {
+    const userID = SessionManager.getUserID();
+    const userManagementService = new UserManagementService();
+    await userManagementService.updateUser(userID!!, {
+      userName: data.userName,
+      email: data.email,
+      dob: data.dateOfBirth,
+      genres: result.map((genre) => genre.value),
+      password: data.password,
+      confirmPassword: data.password,
+    });
+  };
 
   const validateAndRegister = (event: any) => {
     event.preventDefault();
@@ -95,10 +118,6 @@ export default function AccountSettings() {
     // reference: https://regexr.com/3e48o
     const emailRegex: RegExp = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
     const nameRegex: RegExp = /^[A-Za-z]+/g;
-
-    // reference: https://regexr.com/
-    const passwordRegex: RegExp =
-      /^([A-Za-z0-9!@#$%^&*(),.?":{}|<>\[\]]){8,}$/g;
 
     const errors: string[] = [];
 
@@ -127,7 +146,9 @@ export default function AccountSettings() {
       setError(false);
       setErrors([]);
 
-      navigate("/profile", { state: data });
+      updateUser();
+
+      // navigate("/profile", { state: data });
     }
   };
 
@@ -193,7 +214,7 @@ export default function AccountSettings() {
           <Input
             value={data.dateOfBirth}
             id="dateOfBirth"
-            type="text"
+            type="date"
             variant="outline"
             placeholder="Date of Birth"
             focusBorderColor={accent}
@@ -257,7 +278,11 @@ export default function AccountSettings() {
           </Button>
         </VStack>
       </CustomContainer>
-      <ChangePasswordDialog isOpen={isOpen} onClose={onClose} />
+      <ChangePasswordDialog
+        data={data}
+        isOpen={isOpen}
+        onClose={onClose}
+      />
       <DeleteProfileDialog isOpen={isOpenDelete} onClose={onCloseDelete} />
     </Flex>
   );

@@ -1,3 +1,5 @@
+import { SessionManager } from "@/common/SessionManager";
+import UserManagementService from "@/services/UserManagementService/UserManagementService";
 import { Button } from "@chakra-ui/button";
 import {
   AlertDialog,
@@ -5,10 +7,10 @@ import {
   AlertDialogContent,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogOverlay,
+  AlertDialogOverlay
 } from "@chakra-ui/modal";
 import { useToast } from "@chakra-ui/react";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface DeleteProfileDialogProps {
@@ -21,7 +23,15 @@ const DeleteProfileDialog = (props: DeleteProfileDialogProps) => {
   const toast = useToast();
   const navigate = useNavigate();
 
+  const deleteProfile = async () => {
+    const userManagementService = new UserManagementService();
+    const userID = SessionManager.getUserID();
+    await userManagementService.deleteUser(userID!!);
+  };
+
   const onDelete = () => {
+    deleteProfile();
+
     toast({
       title: "Profile Deleted",
       description: "Your profile has been deleted.",

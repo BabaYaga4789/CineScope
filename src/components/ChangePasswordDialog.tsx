@@ -1,3 +1,5 @@
+import { SessionManager } from "@/common/SessionManager";
+import UserManagementService from "@/services/UserManagementService/UserManagementService";
 import { Button } from "@chakra-ui/button";
 import { VStack } from "@chakra-ui/layout";
 import {
@@ -15,12 +17,13 @@ import CustomInputField from "./CustomInputField";
 
 interface ChangePasswordDialogProps {
   isOpen: boolean;
+  data: any;
   onClose: () => void;
 }
 
 const ChangePasswordDialog = (props: ChangePasswordDialogProps) => {
-  const [data, setData] = useState({
-    oldPass: "",
+  const [passData, setPassData] = useState({
+    oldPass: props.data.oldPass,
     newPass: "",
     confirmPass: "",
   } as any);
@@ -31,31 +34,40 @@ const ChangePasswordDialog = (props: ChangePasswordDialogProps) => {
 
   const accent = "yellow.500";
 
+  const updatePassword = async () => {
+    const userID = SessionManager.getUserID();
+    const d = { ...props.data, password: passData.newPass };
+    console.log(d);
+    const userManagementService = new UserManagementService();
+    await userManagementService.updateUser(userID!!, d);
+  };
+
   const validateAndChange = (event: any) => {
     event.preventDefault();
 
     setError(false);
     setMessage("");
 
-    if (data.oldPass === "") {
+    if (passData.oldPass === "") {
       setError(true);
       setMessage("Please enter your current password.");
       return;
     } else if (
-      data.newPass === "" ||
-      data.confirmPass === "" ||
-      data.newPass != data.confirmPass
+      passData.newPass === "" ||
+      passData.confirmPass === "" ||
+      passData.newPass != passData.confirmPass
     ) {
       setError(true);
       setMessage("Passwords do not match.");
       return;
-    } else if (data.oldPass === data.newPass) {
+    } else if (passData.oldPass === passData.newPass) {
       setError(true);
       setMessage("New password cannot be the same as the old password.");
       return;
     }
 
     if (!error) {
+      updatePassword();
       props.onClose();
     }
   };
@@ -82,7 +94,10 @@ const ChangePasswordDialog = (props: ChangePasswordDialogProps) => {
               focusBorderColor={accent}
               mb={3}
               onChange={(event: any) =>
-                setData({ ...data, [event.target.id]: event.target.value })
+                setPassData({
+                  ...passData,
+                  [event.target.id]: event.target.value,
+                })
               }
             />
             <CustomInputField
@@ -93,7 +108,10 @@ const ChangePasswordDialog = (props: ChangePasswordDialogProps) => {
               focusBorderColor={accent}
               mb={3}
               onChange={(event: any) =>
-                setData({ ...data, [event.target.id]: event.target.value })
+                setPassData({
+                  ...passData,
+                  [event.target.id]: event.target.value,
+                })
               }
             />
             <CustomInputField
@@ -104,7 +122,10 @@ const ChangePasswordDialog = (props: ChangePasswordDialogProps) => {
               focusBorderColor={accent}
               mb={3}
               onChange={(event: any) =>
-                setData({ ...data, [event.target.id]: event.target.value })
+                setPassData({
+                  ...passData,
+                  [event.target.id]: event.target.value,
+                })
               }
             />
             <SlideFade in={error} unmountOnExit={true}>

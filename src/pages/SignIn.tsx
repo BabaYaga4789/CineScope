@@ -1,5 +1,6 @@
 import CustomContainer from "@/components/CustomContainer";
-import UserManagementService from "@/services/UserManagementService";
+import { UserManagementState } from "@/services/UserManagementService/UserManagementEnum";
+import UserManagementService from "@/services/UserManagementService/UserManagementService";
 import {
   Alert,
   Box,
@@ -18,7 +19,6 @@ import {
 import { useState } from "react";
 import { AiFillLock, AiOutlineUser } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
-import { Data } from "./Registration/Data";
 
 export default function SignIn() {
   const [username, setUsername] = useState("");
@@ -58,15 +58,17 @@ export default function SignIn() {
 
       const userManagementService = new UserManagementService();
       const message = await userManagementService.login(username, password);
-      if (message === "User not found") {
+      if (message === UserManagementState.UserLoginFailedUserDoesNotExist) {
         setError(true);
         setMessage("User not found");
         return;
-      } else if (message === "Incorrect password") {
+      } else if (
+        message === UserManagementState.UserLoginFailedIncorrectPassword
+      ) {
         setError(true);
         setMessage("Incorrect password");
         return;
-      } else if (message === "Login successful") {
+      } else if (message === UserManagementState.UserLoginSuccess) {
         setError(false);
         setMessage("Login successful");
         navigate("/");
