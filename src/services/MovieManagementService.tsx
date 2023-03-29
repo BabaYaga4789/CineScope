@@ -3,6 +3,7 @@ import Movie from "@/common/Movie";
 export default class MovieMagementService {
 
   async addMovie(movie: Movie) {
+    debugger
     const response = await fetch("http://127.0.0.1:3000/movie/add-movie/", {
       method: "POST",
       headers: {

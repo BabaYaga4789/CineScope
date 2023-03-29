@@ -53,6 +53,7 @@ export async function createMovie(
   ) {
     throw "Missing parameters";
   }
+  console.log(trailor);
 
   const newMovie = new Movie({
     title: title,

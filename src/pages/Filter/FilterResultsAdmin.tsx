@@ -35,146 +35,67 @@ export const FilterResultsAdmin = () => {
         setAfterFilteration(body);
       }
     };
-    // const fetchAllMovies = async ()  =>  {
-    //   var myHeaders = new Headers();
-    //   myHeaders.append("Content-Type", "application/json");
-    //   let requestOptions = {
-    //     method: "GET",
-    //     headers: myHeaders,
-    //   };
-    //   let url = "http://localhost:3000/movie/fetch-all-movies";
-    //   fetch(url, requestOptions)
-    //   .then(async (res) => {
-      
-    //       if(res.status == 200){
-    //         const data = await res.json();
-    //         console.log(data);
-    //         setAfterFilteration(data);
-    //       }
-    //       else{
-    //         alert("Something went wrong while searching...")
-    //       }
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     alert("Interal server error.");
-    //   });
-    // } 
     
     useEffect(() => {
       fetchAllMovies();
     },[])
 
     const handleSearch = async (event: any) => {
-
-      const movieManagementService = new MovieMagementService();
-      const body: any = await movieManagementService.fetchAllMovies();
-
-      if (body == null) {
-        alert("Something went wrong loading latest movies. Please try again.");
-      } else {
-        for (let i = 0; i < body.length; i++) {
-          const released_date = new Date(body[i].released_date);
-          const yyyy = released_date.getFullYear();
-          let mm: any = released_date.getMonth() + 1;
-          let dd: any = released_date.getDate();
-          if (dd < 10) dd = "0" + dd;
-          if (mm < 10) mm = "0" + mm;
-          const formattedReleasedDate = mm + "/" + dd + "/" + yyyy;
-          body[i].released_date = formattedReleasedDate;
-        }
-        setAfterFilteration(body);
+      if(newKeyword == "" || newKeyword == null){
+        fetchAllMovies();
+        setYear("");
       }
-        // var myHeaders = new Headers();
-        // if(newKeyword == "" || newKeyword == null){
-        //   fetchAllMovies();
-        // }
-        // else{
-        //   var raw = JSON.stringify({
-        //     keyword: newKeyword,
-        //   });
-        //   myHeaders.append("Content-Type", "application/json");
-        //   let requestOptions = {
-        //     method: "POST",
-        //     headers: myHeaders,
-        //     body: raw
-        //   };
-        //   let url = "http://localhost:3000/movie/search";
-        //   fetch(url, requestOptions)
-        //     .then(async (res) => {
-            
-        //         if(res.status == 200){
-        //           const data = await res.json();
-        //           setAfterFilteration(data);
-        //         }
-        //         else{
-        //           alert("Something went wrong while searching...")
-        //         }
-        //     })
-        //     .catch((error) => {
-        //       console.log(error);
-        //       alert("Interal server error.");
-        //     });
-        // }
+      else{
+        const movieManagementService = new MovieMagementService();
+        const body: any = await movieManagementService.searchMovie(newKeyword);
+        if(body == null){
+          alert("Something went wrong while searching movies. Please try again.")
+        }
+        else{
+          for (let i = 0; i < body.length; i++) {
+            const released_date = new Date(body[i].released_date);
+            const yyyy = released_date.getFullYear();
+            let mm: any = released_date.getMonth() + 1;
+            let dd: any = released_date.getDate();
+            if (dd < 10) dd = "0" + dd;
+            if (mm < 10) mm = "0" + mm;
+            const formattedReleasedDate = mm + "/" + dd + "/" + yyyy;
+            body[i].released_date = formattedReleasedDate;
+          }
+          setAfterFilteration(body);
+        }
+      }
     };
 
+    const handleReset = async () => {
+      window.location.reload();
+    }
+
     const handleFilter = async (event: any) => {
-
-      const movieManagementService = new MovieMagementService();
-      const body: any = await movieManagementService.fetchAllMovies();
-
-      if (body == null) {
-        alert("Something went wrong loading latest movies. Please try again.");
-      } else {
-        for (let i = 0; i < body.length; i++) {
-          const released_date = new Date(body[i].released_date);
-          const yyyy = released_date.getFullYear();
-          let mm: any = released_date.getMonth() + 1;
-          let dd: any = released_date.getDate();
-          if (dd < 10) dd = "0" + dd;
-          if (mm < 10) mm = "0" + mm;
-          const formattedReleasedDate = mm + "/" + dd + "/" + yyyy;
-          body[i].released_date = formattedReleasedDate;
-        }
-        setAfterFilteration(body);
+      if(rating == "" && genre == "" && year == "")
+      {
+        fetchAllMovies();
       }
-      // if(rating == "" && genre == "" && year == "")
-      // {
-      //   fetchAllMovies();
-      // }
-      // else{
-      //   var myHeaders = new Headers();
-      //   var raw = JSON.stringify({
-      //     year: year,
-      //     ratings: rating,
-      //     genre: genre,
-      //   });
-      //   myHeaders.append("Content-Type", "application/json");
-      //   let requestOptions = {
-      //     method: "POST",
-      //     headers: myHeaders,
-      //     body: raw
-      //   };
-      //   let url = "http://localhost:3000/movie/search";
-      //   fetch(url, requestOptions)
-      //     .then(async (res) => {
-          
-      //         if(res.status == 200){
-      //           const data = await res.json();
-      //           console.log(data);
-      //           setAfterFilteration(data);
-      //           // setAfterFilteration(response);
-      //           // navigate("/");
-      //         }
-      //         else{
-      //           alert("Something went wrong while searching...")
-      //         }
-      //     })
-      //     .catch((error) => {
-      //       console.log(error);
-      //       alert("Interal server error.");
-      //     });
-      // }
+      else{
+        const movieManagementService = new MovieMagementService();
+        const body: any = await movieManagementService.filterMovie(year, rating, genre);
+        if(body == null){
+          alert("Something went wrong while Filtering  movies. Please try again.")
+        }
+        else{
+          for (let i = 0; i < body.length; i++) {
+            const released_date = new Date(body[i].released_date);
+            const yyyy = released_date.getFullYear();
+            let mm: any = released_date.getMonth() + 1;
+            let dd: any = released_date.getDate();
+            if (dd < 10) dd = "0" + dd;
+            if (mm < 10) mm = "0" + mm;
+            const formattedReleasedDate = mm + "/" + dd + "/" + yyyy;
+            body[i].released_date = formattedReleasedDate;
+          }
+          setAfterFilteration(body);
+        }
+      }
     };
   
     if(afterFilteration.length == 0){
@@ -206,6 +127,15 @@ export const FilterResultsAdmin = () => {
                         onClick = {handleSearch}
                         >
                         Search
+                        </Button>
+                        <Button
+                        size="lg"
+                        colorScheme={"yellow"}
+                        variant={"solid"}
+                        // onClick = {searchMovies}
+                        onClick = {handleReset}
+                        >
+                        Reset
                         </Button>
                     </HStack>
                 </Box>
@@ -328,6 +258,15 @@ export const FilterResultsAdmin = () => {
                         onClick = {handleSearch}
                         >
                         Search
+                        </Button>
+                        <Button
+                        size="lg"
+                        colorScheme={"yellow"}
+                        variant={"solid"}
+                        // onClick = {searchMovies}
+                        onClick = {handleReset}
+                        >
+                        Reset
                         </Button>
                     </HStack>
                 </Box>

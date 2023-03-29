@@ -222,7 +222,6 @@ export default function AddMovie() {
 
   return (
     <div>
-      <AdminNavBar></AdminNavBar>
       <Center m={[2, 5, 10]}>
         <Box
           p="6"
