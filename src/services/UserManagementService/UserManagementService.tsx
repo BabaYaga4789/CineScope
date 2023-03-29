@@ -1,8 +1,9 @@
 import { SessionManager } from "@/common/SessionManager";
 import { UserData } from "@/pages/Registration/UserData";
+import { UserManagementState } from "./UserManagementEnum";
 
 export default class UserManagementService {
-  async register(data: UserData) {
+  async register(data: UserData): Promise<UserManagementState> {
     console.log(data);
     const response = await fetch("http://localhost:3000/users", {
       method: "POST",
@@ -16,16 +17,19 @@ export default class UserManagementService {
     let m = body.message;
 
     if (response.status === 200) {
-      return "Registration successful";
+      return UserManagementState.UserRegistrationSuccess;
     } else {
       if (response.status === 500 && m === "User already exists") {
-        return "User already exists";
+        return UserManagementState.UserAlreadyExists;
       }
-      return "Registration failed";
+      return UserManagementState.UserRegistrationFailed;
     }
   }
 
-  async login(username: string, password: string) {
+  async login(
+    username: string,
+    password: string
+  ): Promise<UserManagementState> {
     const response = await fetch("http://localhost:3000/users/login", {
       method: "POST",
       headers: {
@@ -40,15 +44,14 @@ export default class UserManagementService {
     const body = await response.json();
 
     if (response.status === 404) {
-      return "User not found";
+      return UserManagementState.UserLoginFailedUserDoesNotExist;
     } else if (response.status === 200) {
-      console.log('j=herer');
       SessionManager.login(body._id);
-      return "Login successful";
+      return UserManagementState.UserLoginSuccess;
     } else if (response.status === 401) {
-      return "Incorrect password";
+      return UserManagementState.UserLoginFailedIncorrectPassword;
     }
-    return "Login Successful";
+    return UserManagementState.UserLoginFailed;
   }
 
   async getUser(userID: string) {
@@ -64,7 +67,10 @@ export default class UserManagementService {
     }
   }
 
-  async updateUser(userID: string, data: UserData) {
+  async updateUser(
+    userID: string,
+    data: UserData
+  ): Promise<UserManagementState> {
     const response = await fetch(`http://localhost:3000/users/${userID}`, {
       method: "PUT",
       headers: {
@@ -74,25 +80,25 @@ export default class UserManagementService {
     });
 
     if (response.status === 200) {
-      return "Update successful";
+      return UserManagementState.UserUpdatedSuccess;
     } else {
-      return "Update failed";
+      return UserManagementState.UserUpdatedFailed;
     }
   }
 
-  async deleteUser(userID: string) {
+  async deleteUser(userID: string): Promise<UserManagementState> {
     const response = await fetch(`http://localhost:3000/users/${userID}`, {
       method: "DELETE",
     });
 
     if (response.status === 200) {
-      return "Delete successful";
+      return UserManagementState.UserDeletedSuccess;
     } else {
-      return "Delete failed";
+      return UserManagementState.UserDeletedFailed;
     }
   }
 
-  async resetPassword(email: String) {
+  async resetPassword(email: String): Promise<UserManagementState> {
     const response = await fetch(
       "http://localhost:3000/users/reset?email=" + email,
       {
@@ -104,9 +110,11 @@ export default class UserManagementService {
     );
 
     if (response.status === 200) {
-      return "Reset password link sent";
+      return UserManagementState.PasswordResetSuccess;
     } else if (response.status === 500) {
-      return "User not found";
+      return UserManagementState.PasswordResetFailedUserDoesNotExist;
     }
+
+    return UserManagementState.PasswordResetFailed;
   }
 }

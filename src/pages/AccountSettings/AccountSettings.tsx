@@ -4,7 +4,7 @@ import ChangePasswordDialog from "@/components/ChangePasswordDialog";
 import CustomContainer from "@/components/CustomContainer";
 import CustomInputField from "@/components/CustomInputField";
 import DeleteProfileDialog from "@/components/DeleteProfileDialog";
-import UserManagementService from "@/services/UserManagementService";
+import UserManagementService from "@/services/UserManagementService/UserManagementService";
 import {
   Alert,
   Button,

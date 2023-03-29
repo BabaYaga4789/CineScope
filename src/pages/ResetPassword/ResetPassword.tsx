@@ -1,5 +1,5 @@
 import CustomContainer from "@/components/CustomContainer";
-import UserManagementService from "@/services/UserManagementService";
+import UserManagementService from "@/services/UserManagementService/UserManagementService";
 import {
   Button,
   Center,

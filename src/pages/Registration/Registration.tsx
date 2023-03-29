@@ -25,7 +25,8 @@ import {
 } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { UserData } from "./UserData";
-import UserManagementService from "@/services/UserManagementService";
+import UserManagementService from "@/services/UserManagementService/UserManagementService";
+import { UserManagementState } from "@/services/UserManagementService/UserManagementEnum";
 
 export default function Registration() {
   const [data, setData] = useState({
@@ -112,7 +113,7 @@ export default function Registration() {
     const userData = { ...data, genres: result.map((genre) => genre.label) };
     const message = await userManagementService.register(userData);
 
-    if (message === "Registration successful") {
+    if (message === UserManagementState.UserRegistrationSuccess) {
       navigate("/profile", { state: data });
     } else {
       setError(true);

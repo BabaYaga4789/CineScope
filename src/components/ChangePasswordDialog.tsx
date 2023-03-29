@@ -1,5 +1,5 @@
 import { SessionManager } from "@/common/SessionManager";
-import UserManagementService from "@/services/UserManagementService";
+import UserManagementService from "@/services/UserManagementService/UserManagementService";
 import { Button } from "@chakra-ui/button";
 import { VStack } from "@chakra-ui/layout";
 import {
@@ -35,8 +35,7 @@ const ChangePasswordDialog = (props: ChangePasswordDialogProps) => {
   const accent = "yellow.500";
 
   const updatePassword = async () => {
-    const sessionManager = new SessionManager();
-    const userID = sessionManager.getUserID();
+    const userID = SessionManager.getUserID();
     const d = { ...props.data, password: passData.newPass };
     console.log(d);
     const userManagementService = new UserManagementService();
