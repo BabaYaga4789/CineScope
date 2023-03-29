@@ -5,7 +5,7 @@ import { MovieDetails } from "../MovieData";
 import { LabelNewReleased } from "@/components/LabelNewReleased";
 import { LabelMostRated } from "@/components/LabelMostRated";
 import { LabelAllMovies } from "@/components/LabelAllMovies";
-import MovieMagementService from "@/services/MovieManagementService";
+import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
 
 export default function Home() {
 

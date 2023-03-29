@@ -1,7 +1,8 @@
 import Movie from "@/common/Movie";
 import AddMovieDialog from "@/components/AddMovieDialog";
 import AdminHome from "@/pages/Home/AdminHome";
-import MovieMagementService from "@/services/MovieManagementService";
+import { MovieManagementState } from "@/services/MovieManagementService/MovieManagementEnum";
+import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
 import {
   AddIcon,
   CheckIcon,
@@ -33,7 +34,6 @@ import {
 } from "@chakra-ui/react";
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import ListOfAllMovies from "./ListOfAllMovies";
 
 interface MovieGridItemProps {
   movie: Movie;
@@ -42,17 +42,13 @@ interface MovieGridItemProps {
 export default function MovieGridItemAdmin(
   props: MovieGridItemProps
 ): JSX.Element {
-  const cancelRef = useRef<HTMLButtonElement>(null);
 
-  const navigateTo = useNavigate();
+  const cancelRef = useRef<HTMLButtonElement>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [deleteId, setDeleteID] = useState<any>();
   const toast = useToast();
   const [deleteMovieTitle, setDeleteMovieTitle] = useState<string>("");
-  const getReviewPage = (e: any) => {
-    e.preventDefault();
-    navigateTo("/reviews", { state: e.target.id });
-  };
+
 
   const navigate = useNavigate();
 
@@ -62,16 +58,16 @@ export default function MovieGridItemAdmin(
     setDeleteMovieTitle(title);
   };
 
-  const onEditIcon = async (id: number) => {
+  const onEditIcon = async (id: any) => {
     navigate(`/update-movie-details/${id}`);
   };
 
   const onClickDelete = async (id: any) => {
     setIsOpen(false);
     const movieMangementService = new MovieMagementService();
-    const message = await movieMangementService.deleteMovieByID(id.deleteId);
+    const state = await movieMangementService.deleteMovieByID(id.deleteId);
     
-    if (message == "Movie deleted successfully.") {
+    if (state == MovieManagementState.MovieDeleteSuccess) {
       toast({
         title: `Movie deleted sucessfully.`,
         status: "success",
@@ -79,7 +75,7 @@ export default function MovieGridItemAdmin(
       });
       window.location.reload();  
     } else {
-      alert(message);
+      alert(state);
     }
 
   };
@@ -118,7 +114,7 @@ export default function MovieGridItemAdmin(
       </Box>
 
       <Box display="flex" mt="2" alignItems="center" color="gray.500">
-        {props.movie.released_date}
+        {props.movie.released_date.toString()}
       </Box>
       <HStack w="100%" p={4} gap={10} justifyContent="center">
         <EditIcon

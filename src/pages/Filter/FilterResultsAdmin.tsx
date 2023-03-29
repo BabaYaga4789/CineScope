@@ -6,7 +6,7 @@ import { AlertForNoMovieFound } from "@/components/AlertForNoMovieFound";
 import { useState } from "react";
 import MovieGridItem from "@/components/MovieGridItem";
 import MovieGridItemAdmin from "@/components/MovieGridItemAdmin";
-import MovieMagementService from "@/services/MovieManagementService";
+import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
 
 export const FilterResultsAdmin = () => {
     const [afterFilteration, setAfterFilteration] = useState([]);

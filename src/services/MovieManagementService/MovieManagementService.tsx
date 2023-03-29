@@ -1,4 +1,5 @@
 import Movie from "@/common/Movie";
+import { MovieManagementState } from "./MovieManagementEnum";
 
 export default class MovieMagementService {
 
@@ -12,9 +13,9 @@ export default class MovieMagementService {
       body: JSON.stringify(movie)
     });
     if (response.status === 200) {
-      return "Movie added successfully.";
+      return MovieManagementState.MovieAddSuccess;
     } else {
-      return "Something went wrong. Please try again";
+      return MovieManagementState.MovieAddFailure;
     }
   }
 
@@ -54,10 +55,10 @@ export default class MovieMagementService {
       })
     });
     if (response.status === 200) {
-      return "Movie deleted successfully.";
+      return MovieManagementState.MovieDeleteSuccess;
 
     } else {
-      return "Something went wrong. Please try again";
+      return MovieManagementState.MovieDeleteFailure;
     }
   }
 

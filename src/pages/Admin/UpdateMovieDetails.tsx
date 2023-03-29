@@ -19,7 +19,7 @@ import {
 import topMoviesList from "../../common/top-movies";
 import newMoviesList from "../../common/new-movies";
 import Movie from "@/common/Movie";
-import MovieMagementService from "@/services/MovieManagementService";
+import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
 
 export default function UpdateMovieDetails() {
   const {id} = useParams();
@@ -42,18 +42,20 @@ export default function UpdateMovieDetails() {
     trailor: "",
   } as unknown as Movie);
 
-  useEffect( async () => {
-    const movieManagementService = new MovieMagementService();
-    const body: any = await movieManagementService.fetchMovieByID(id);
+  useEffect( () => {
 
-    if(body == null){
-      alert("Something went wrong loading movie details. Please try again.")
-    } 
-    else{
-      debugger
-      setMovie(body);
+    const fetchMovieByID = async () => {
+      const movieManagementService = new MovieMagementService();
+      const body: any = await movieManagementService.fetchMovieByID(id);
+  
+      if(body == null){
+        alert("Something went wrong loading movie details. Please try again.")
+      } 
+      else{
+        setMovie(body);
+      }
     }
-
+    fetchMovieByID();
   }, []);
 
   const handleAddCast = () => {

@@ -21,7 +21,7 @@ import { useLocation } from "react-router-dom";
 import CommentBox from "@/components/CommentBox";
 import React from "react";
 import Movie from "../Watchlist/Data";
-import MovieMagementService from "@/services/MovieManagementService";
+import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
 
 interface Review {
   rating: number;

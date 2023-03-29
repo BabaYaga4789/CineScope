@@ -4,7 +4,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import MovieMagementService from "@/services/MovieManagementService";
+import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
 import { LabelMostRated } from "./LabelMostRated";
 import MovieGridItemAdmin from "./MovieGridItemAdmin";
 import { LabelNewReleased } from "./LabelNewReleased";

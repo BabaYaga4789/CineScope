@@ -16,7 +16,8 @@ import {
 } from "@chakra-ui/react";
 import { AdminNavBar } from "../../components/AdminNavBar";
 import Movie from "@/common/Movie";
-import MovieMagementService from "@/services/MovieManagementService";
+import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
+import { MovieManagementState } from "@/services/MovieManagementService/MovieManagementEnum";
 
 export default function AddMovie() {
   const navigate = useNavigate();
@@ -200,8 +201,8 @@ export default function AddMovie() {
       movie.genres = genre
       movie.images = image
       const movieManagementService = new MovieMagementService();
-      const message = await movieManagementService.addMovie(movie);
-      if(message == "Movie added successfully."){
+      const state = await movieManagementService.addMovie(movie);
+      if(state == MovieManagementState.MovieAddSuccess){
         toast({
           title: `Movie added sucessfully.`,
           status: "success",
@@ -210,7 +211,7 @@ export default function AddMovie() {
         navigate("/");
       }
       else{
-        alert(message);
+        alert(state);
       }
       
     }
