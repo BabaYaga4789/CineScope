@@ -1,4 +1,6 @@
 import Movie from '@/common/Movie';
+import { SessionManager } from '@/common/SessionManager';
+import WatchlistService from '@/services/WatchlistService';
 import { AddIcon } from '@chakra-ui/icons';
 import {
   Button,
@@ -27,8 +29,9 @@ const AddMovieDialog: React.FC<AddMovieDialogProps> = ({
   const [status, setStatus] = useState<string>('');
   const toast = useToast();
 
-  const handleAddMovie = () => {
+  const handleAddMovie = async () => {
     console.log(status)
+    
     if (status.length === 0) {
       toast({
         title: 'Status Required',
@@ -41,16 +44,26 @@ const AddMovieDialog: React.FC<AddMovieDialogProps> = ({
     }
     else {
       isAdded(true);
-      onClose();
-      toast({
-        title: 'Movie Added',
-        description: 'Successfully added to watchlist',
-        duration: 1000,
-        isClosable: true,
-        status: 'success',
-        position: 'top',
-        icon: <AddIcon />
-      })
+      // const userId = 
+      const watchlistService = new WatchlistService();
+      const message = await watchlistService.addToWatchlist(2, movie._id, status);
+      debugger
+      if(message == "Movie Successfully Added"){
+        toast({
+          title: 'Movie Added',
+          description: 'Successfully added to watchlist',
+          duration: 1000,
+          isClosable: true,
+          status: 'success',
+          position: 'top',
+          icon: <AddIcon />
+        })
+        onClose();
+      }
+      else{
+        onClose();
+        alert("Something went wrong.")
+      }
     }
   };
 

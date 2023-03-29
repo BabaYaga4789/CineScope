@@ -7,8 +7,7 @@ export default class WatchlistService {
       },
       body: JSON.stringify({ userId, movieId, status }),
     });
-    const body = await response.json();
-    let m = body.message;
+    // const body = await response.json();
 
     if (response.status === 200) {
       return "Movie Successfully Added";

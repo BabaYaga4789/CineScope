@@ -12,8 +12,6 @@ const MovieController = {
     }
   },
 
-  
-
   async fetchAllMovies(req: Request, res: Response) {
     try {
       const movies = await fetchAllMovies();
