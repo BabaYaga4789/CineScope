@@ -16,45 +16,6 @@ import { useLocation } from "react-router-dom";
 import MovieMagementService from "@/services/MovieManagementService";
 
 const MovieDetails = () => {
-  const movie = {
-    title: "Inception",
-    releaseDate: "2010",
-    runtime: "2h 28min",
-    genres: ["Action", "Adventure", "Sci-Fi"],
-    posterUrl: "https://picsum.photos/id/870/500/700",
-    rating: 8.8,
-    description:
-      "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
-    cast: [
-      {
-        name: "Leonardo DiCaprio",
-        character: "Cobb",
-      },
-      {
-        name: "Joseph Gordon-Levitt",
-        character: "Arthur",
-      },
-      {
-        name: "Ellen Page",
-        character: "Ariadne",
-      },
-      {
-        name: "Tom Hardy",
-        character: "Eames",
-      },
-      {
-        name: "Ken Watanabe",
-        character: "Saito",
-      },
-    ],
-
-    images: [
-      "https://media.istockphoto.com/id/486845192/photo/halifax-waterfront-aerial-view.jpg?s=612x612&w=0&k=20&c=FbWA2tUTYDkwLzVMY6WhG6Gf9U5P1SRShV2wtvvAcWg=",
-      "https://media.istockphoto.com/id/486845192/photo/halifax-waterfront-aerial-view.jpg?s=612x612&w=0&k=20&c=FbWA2tUTYDkwLzVMY6WhG6Gf9U5P1SRShV2wtvvAcWg=",
-      "https://media.istockphoto.com/id/486845192/photo/halifax-waterfront-aerial-view.jpg?s=612x612&w=0&k=20&c=FbWA2tUTYDkwLzVMY6WhG6Gf9U5P1SRShV2wtvvAcWg=",
-        "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8&w=1000&q=80"
-    ],
-  };
 
   const location = useLocation();
   const movieId = location.state;
