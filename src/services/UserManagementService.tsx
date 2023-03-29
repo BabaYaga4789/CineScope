@@ -42,8 +42,8 @@ export default class UserManagementService {
     if (response.status === 404) {
       return "User not found";
     } else if (response.status === 200) {
-      const sessionManager = new SessionManager();
-      sessionManager.login(body[0]._id);
+      console.log('j=herer');
+      SessionManager.login(body._id);
       return "Login successful";
     } else if (response.status === 401) {
       return "Incorrect password";
@@ -89,6 +89,24 @@ export default class UserManagementService {
       return "Delete successful";
     } else {
       return "Delete failed";
+    }
+  }
+
+  async resetPassword(email: String) {
+    const response = await fetch(
+      "http://localhost:3000/users/reset?email=" + email,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (response.status === 200) {
+      return "Reset password link sent";
+    } else if (response.status === 500) {
+      return "User not found";
     }
   }
 }
