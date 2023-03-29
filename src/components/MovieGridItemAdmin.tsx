@@ -1,5 +1,7 @@
 import Movie from "@/common/Movie";
 import AddMovieDialog from "@/components/AddMovieDialog";
+import AdminHome from "@/pages/Home/AdminHome";
+import MovieMagementService from "@/services/MovieManagementService";
 import {
   AddIcon,
   CheckIcon,
@@ -31,6 +33,7 @@ import {
 } from "@chakra-ui/react";
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import ListOfAllMovies from "./ListOfAllMovies";
 
 interface MovieGridItemProps {
   movie: Movie;
@@ -39,7 +42,6 @@ interface MovieGridItemProps {
 export default function MovieGridItemAdmin(
   props: MovieGridItemProps
 ): JSX.Element {
-
   const cancelRef = useRef<HTMLButtonElement>(null);
 
   const navigateTo = useNavigate();
@@ -54,7 +56,6 @@ export default function MovieGridItemAdmin(
 
   const navigate = useNavigate();
 
-
   const onDeleteIcon = async (id: any, title: string) => {
     setIsOpen(true);
     setDeleteID(id);
@@ -67,21 +68,21 @@ export default function MovieGridItemAdmin(
 
   const onClickDelete = async (id: any) => {
     setIsOpen(false);
+    const movieMangementService = new MovieMagementService();
+    const message = await movieMangementService.deleteMovieByID(id.deleteId);
+    
+    if (message == "Movie deleted successfully.") {
+      toast({
+        title: `Movie deleted sucessfully.`,
+        status: "success",
+        isClosable: true,
+      });
+      window.location.reload();  
+    } else {
+      alert(message);
+    }
 
-    // for (let i = 0; i < newMovies.length; i++) {
-    //   let movie_id = newMovies[i].id;
-    //   if (movie_id == id.deleteId) {
-    //     newMovies.splice(i, 1);
-    //     setNewMovies(newMovies);
-    //     toast({
-    //       title: `Movie deleted sucessfully.`,
-    //       status: "success",
-    //       isClosable: true,
-    //     });
-    //   }
-    // }
   };
-
 
   return (
     <Card
@@ -117,7 +118,7 @@ export default function MovieGridItemAdmin(
       </Box>
 
       <Box display="flex" mt="2" alignItems="center" color="gray.500">
-            {props.movie.released_date}
+        {props.movie.released_date}
       </Box>
       <HStack w="100%" p={4} gap={10} justifyContent="center">
         <EditIcon
@@ -133,8 +134,7 @@ export default function MovieGridItemAdmin(
             onDeleteIcon(props.movie._id, props.movie.title);
           }}
           color="red.500"
-        >
-        </DeleteIcon>
+        ></DeleteIcon>
       </HStack>
 
       <AlertDialog
@@ -167,7 +167,5 @@ export default function MovieGridItemAdmin(
         </AlertDialogOverlay>
       </AlertDialog>
     </Card>
-
-    
   );
 }

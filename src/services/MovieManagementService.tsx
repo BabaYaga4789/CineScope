@@ -42,6 +42,24 @@ export default class MovieMagementService {
     }
   }
 
+  async deleteMovieByID(id: any) {
+    const response = await fetch('http://127.0.0.1:3000/movie/delete-movie-by-id/', {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        "movieId": id,
+      })
+    });
+    if (response.status === 200) {
+      return "Movie deleted successfully.";
+
+    } else {
+      return "Something went wrong. Please try again";
+    }
+  }
+
   async fetchMovieByID(id: any) {
     const response = await fetch('http://127.0.0.1:3000/movie/fetch-movie-by-id/', {
       method: "POST",

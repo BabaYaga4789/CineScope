@@ -6,7 +6,6 @@ import {
   Button,
   Card,
   CardBody,
-  CardFooter,
   Image,
   Text,
   useDisclosure,

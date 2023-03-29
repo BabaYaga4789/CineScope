@@ -5,116 +5,176 @@ import { MovieDetails } from "../MovieData";
 import { AlertForNoMovieFound } from "@/components/AlertForNoMovieFound";
 import { useState } from "react";
 import MovieGridItem from "@/components/MovieGridItem";
+import MovieGridItemAdmin from "@/components/MovieGridItemAdmin";
+import MovieMagementService from "@/services/MovieManagementService";
 
-export const FilterResults = () => {
+export const FilterResultsAdmin = () => {
     const [afterFilteration, setAfterFilteration] = useState([]);
     const [newKeyword, setNewKeyword] = useState("");
     const [rating, setRating] = useState("");
     const [genre, setGenre] = useState("");
     const [year, setYear] = useState("");
     
-    const fetchAllMovies = async ()  =>  {
-      var myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      let requestOptions = {
-        method: "GET",
-        headers: myHeaders,
-      };
-      let url = "http://localhost:3000/movie/fetch-all-movies";
-      fetch(url, requestOptions)
-      .then(async (res) => {
+    const fetchAllMovies = async () => {
+      const movieManagementService = new MovieMagementService();
+      const body: any = await movieManagementService.fetchAllMovies();
+
+      if (body == null) {
+        alert("Something went wrong loading latest movies. Please try again.");
+      } else {
+        for (let i = 0; i < body.length; i++) {
+          const released_date = new Date(body[i].released_date);
+          const yyyy = released_date.getFullYear();
+          let mm: any = released_date.getMonth() + 1;
+          let dd: any = released_date.getDate();
+          if (dd < 10) dd = "0" + dd;
+          if (mm < 10) mm = "0" + mm;
+          const formattedReleasedDate = mm + "/" + dd + "/" + yyyy;
+          body[i].released_date = formattedReleasedDate;
+        }
+        setAfterFilteration(body);
+      }
+    };
+    // const fetchAllMovies = async ()  =>  {
+    //   var myHeaders = new Headers();
+    //   myHeaders.append("Content-Type", "application/json");
+    //   let requestOptions = {
+    //     method: "GET",
+    //     headers: myHeaders,
+    //   };
+    //   let url = "http://localhost:3000/movie/fetch-all-movies";
+    //   fetch(url, requestOptions)
+    //   .then(async (res) => {
       
-          if(res.status == 200){
-            const data = await res.json();
-            console.log(data);
-            setAfterFilteration(data);
-          }
-          else{
-            alert("Something went wrong while searching...")
-          }
-      })
-      .catch((error) => {
-        console.log(error);
-        alert("Interal server error.");
-      });
-    } 
+    //       if(res.status == 200){
+    //         const data = await res.json();
+    //         console.log(data);
+    //         setAfterFilteration(data);
+    //       }
+    //       else{
+    //         alert("Something went wrong while searching...")
+    //       }
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //     alert("Interal server error.");
+    //   });
+    // } 
     
     useEffect(() => {
       fetchAllMovies();
     },[])
 
     const handleSearch = async (event: any) => {
-        var myHeaders = new Headers();
-        if(newKeyword == "" || newKeyword == null){
-          fetchAllMovies();
+
+      const movieManagementService = new MovieMagementService();
+      const body: any = await movieManagementService.fetchAllMovies();
+
+      if (body == null) {
+        alert("Something went wrong loading latest movies. Please try again.");
+      } else {
+        for (let i = 0; i < body.length; i++) {
+          const released_date = new Date(body[i].released_date);
+          const yyyy = released_date.getFullYear();
+          let mm: any = released_date.getMonth() + 1;
+          let dd: any = released_date.getDate();
+          if (dd < 10) dd = "0" + dd;
+          if (mm < 10) mm = "0" + mm;
+          const formattedReleasedDate = mm + "/" + dd + "/" + yyyy;
+          body[i].released_date = formattedReleasedDate;
         }
-        else{
-          var raw = JSON.stringify({
-            keyword: newKeyword,
-          });
-          myHeaders.append("Content-Type", "application/json");
-          let requestOptions = {
-            method: "POST",
-            headers: myHeaders,
-            body: raw
-          };
-          let url = "http://localhost:3000/movie/search";
-          fetch(url, requestOptions)
-            .then(async (res) => {
+        setAfterFilteration(body);
+      }
+        // var myHeaders = new Headers();
+        // if(newKeyword == "" || newKeyword == null){
+        //   fetchAllMovies();
+        // }
+        // else{
+        //   var raw = JSON.stringify({
+        //     keyword: newKeyword,
+        //   });
+        //   myHeaders.append("Content-Type", "application/json");
+        //   let requestOptions = {
+        //     method: "POST",
+        //     headers: myHeaders,
+        //     body: raw
+        //   };
+        //   let url = "http://localhost:3000/movie/search";
+        //   fetch(url, requestOptions)
+        //     .then(async (res) => {
             
-                if(res.status == 200){
-                  const data = await res.json();
-                  setAfterFilteration(data);
-                }
-                else{
-                  alert("Something went wrong while searching...")
-                }
-            })
-            .catch((error) => {
-              console.log(error);
-              alert("Interal server error.");
-            });
-        }
+        //         if(res.status == 200){
+        //           const data = await res.json();
+        //           setAfterFilteration(data);
+        //         }
+        //         else{
+        //           alert("Something went wrong while searching...")
+        //         }
+        //     })
+        //     .catch((error) => {
+        //       console.log(error);
+        //       alert("Interal server error.");
+        //     });
+        // }
     };
 
     const handleFilter = async (event: any) => {
-      if(rating == "" && genre == "" && year == "")
-      {
-        fetchAllMovies();
+
+      const movieManagementService = new MovieMagementService();
+      const body: any = await movieManagementService.fetchAllMovies();
+
+      if (body == null) {
+        alert("Something went wrong loading latest movies. Please try again.");
+      } else {
+        for (let i = 0; i < body.length; i++) {
+          const released_date = new Date(body[i].released_date);
+          const yyyy = released_date.getFullYear();
+          let mm: any = released_date.getMonth() + 1;
+          let dd: any = released_date.getDate();
+          if (dd < 10) dd = "0" + dd;
+          if (mm < 10) mm = "0" + mm;
+          const formattedReleasedDate = mm + "/" + dd + "/" + yyyy;
+          body[i].released_date = formattedReleasedDate;
+        }
+        setAfterFilteration(body);
       }
-      else{
-        var myHeaders = new Headers();
-        var raw = JSON.stringify({
-          year: year,
-          ratings: rating,
-          genre: genre,
-        });
-        myHeaders.append("Content-Type", "application/json");
-        let requestOptions = {
-          method: "POST",
-          headers: myHeaders,
-          body: raw
-        };
-        let url = "http://localhost:3000/movie/search";
-        fetch(url, requestOptions)
-          .then(async (res) => {
+      // if(rating == "" && genre == "" && year == "")
+      // {
+      //   fetchAllMovies();
+      // }
+      // else{
+      //   var myHeaders = new Headers();
+      //   var raw = JSON.stringify({
+      //     year: year,
+      //     ratings: rating,
+      //     genre: genre,
+      //   });
+      //   myHeaders.append("Content-Type", "application/json");
+      //   let requestOptions = {
+      //     method: "POST",
+      //     headers: myHeaders,
+      //     body: raw
+      //   };
+      //   let url = "http://localhost:3000/movie/search";
+      //   fetch(url, requestOptions)
+      //     .then(async (res) => {
           
-              if(res.status == 200){
-                const data = await res.json();
-                console.log(data);
-                setAfterFilteration(data);
-                // setAfterFilteration(response);
-                // navigate("/");
-              }
-              else{
-                alert("Something went wrong while searching...")
-              }
-          })
-          .catch((error) => {
-            console.log(error);
-            alert("Interal server error.");
-          });
-      }
+      //         if(res.status == 200){
+      //           const data = await res.json();
+      //           console.log(data);
+      //           setAfterFilteration(data);
+      //           // setAfterFilteration(response);
+      //           // navigate("/");
+      //         }
+      //         else{
+      //           alert("Something went wrong while searching...")
+      //         }
+      //     })
+      //     .catch((error) => {
+      //       console.log(error);
+      //       alert("Interal server error.");
+      //     });
+      // }
     };
   
     if(afterFilteration.length == 0){
@@ -361,7 +421,7 @@ export const FilterResults = () => {
                 {/* Reference: https://chakra-ui.com/docs/components/simple-grid */}
                 <SimpleGrid p={4} w="100%" columns={{ base: 1, md: 3, lg: 7 }} gap={6}>
                     {afterFilteration.map((movie) => (
-                        <MovieGridItem key={movie._id} movie={movie} />
+                        <MovieGridItemAdmin key={movie._id} movie={movie} />
                     ))}
                 </SimpleGrid>
             </VStack>

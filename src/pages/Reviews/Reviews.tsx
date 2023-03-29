@@ -95,7 +95,7 @@ const Reviews = () => {
         headers: myHeaders,
         body: raw
       };
-      let url = "http://localhost:3001/movie/fetch-movie-by-id";
+      let url = "http://localhost:3000/movie/fetch-movie-by-id";
       fetch(url, requestOptions)
         .then(async (res) => {
             if(res.status == 200){

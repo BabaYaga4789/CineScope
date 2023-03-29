@@ -33,7 +33,7 @@ export default function Home() {
       method: "GET",
       headers: myHeaders,
     };
-    let url = "http://localhost:3001/movie/fetch-all-movies";
+    let url = "http://localhost:3000/movie/fetch-all-movies";
     await fetch(url, requestOptions)
     .then(async (res) => {
     
@@ -59,7 +59,7 @@ export default function Home() {
       method: "GET",
       headers: myHeaders
     };
-    let url = " http://localhost:3001/movie/fetch-latest-movies/";
+    let url = " http://localhost:3000/movie/fetch-latest-movies/";
     await fetch(url, requestOptions)
       .then((response) => response.json()).then((res) => {
         for(let i =0 ;i < res.length; i++){
