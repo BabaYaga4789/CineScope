@@ -96,15 +96,15 @@ const MovieController = {
     }
   },
 
-  async fetchAllMovies(req: Request, res: Response){
-    try{
-      const movies = await fetchAllMovies();
-      res.status(200).json(movies);
-    } catch (err: any){
-      console.log(err);
-      res.status(500).json({ message: err.message ?? err });
-    }
-  },
+  // async fetchAllMovies(req: Request, res: Response){
+  //   try{
+  //     const movies = await fetchAllMovies();
+  //     res.status(200).json(movies);
+  //   } catch (err: any){
+  //     console.log(err);
+  //     res.status(500).json({ message: err.message ?? err });
+  //   }
+  // },
 
   async fetchMovieById(req: Request, res: Response){
     const movieId = req.body.movieId;
