@@ -98,9 +98,9 @@ export async function deleteUser(userID: String) {
     throw "Oi! You forgot to pass the userID!";
   }
 
-  const response = await User.deleteOne({ userID: userID });
+  const response = await User.findByIdAndDelete(userID);
 
-  if (response.deletedCount === 0) {
+  if (response === null) {
     throw "User not found";
   }
 }
