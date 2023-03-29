@@ -5,6 +5,7 @@ import { MovieDetails } from "../MovieData";
 import { AlertForNoMovieFound } from "@/components/AlertForNoMovieFound";
 import { useState } from "react";
 import MovieGridItem from "@/components/MovieGridItem";
+import MovieMagementService from "@/services/MovieManagementService";
 
 export const FilterResults = () => {
     const [afterFilteration, setAfterFilteration] = useState([]);
@@ -12,110 +13,52 @@ export const FilterResults = () => {
     const [rating, setRating] = useState("");
     const [genre, setGenre] = useState("");
     const [year, setYear] = useState("");
+    const movieManagementService = new MovieMagementService();
     
     const fetchAllMovies = async ()  =>  {
-      var myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      let requestOptions = {
-        method: "GET",
-        headers: myHeaders,
-      };
-      let url = "http://localhost:3000/movie/fetch-all-movies";
-      fetch(url, requestOptions)
-      .then(async (res) => {
-      
-          if(res.status == 200){
-            const data = await res.json();
-            console.log(data);
-            setAfterFilteration(data);
-          }
-          else{
-            alert("Something went wrong while searching...")
-          }
-      })
-      .catch((error) => {
-        console.log(error);
-        alert("Interal server error.");
-      });
+      const body: any = await movieManagementService.fetchAllMovies();
+      if(body == null){
+        alert("Something went wrong while loading movies. Please try again.")
+      }
+      else{
+        setAfterFilteration(body);
+      }
     } 
-    
-    useEffect(() => {
-      fetchAllMovies();
-    },[])
 
-    const handleSearch = async (event: any) => {
-        var myHeaders = new Headers();
+    const handleSearch = async () => {
         if(newKeyword == "" || newKeyword == null){
           fetchAllMovies();
         }
         else{
-          var raw = JSON.stringify({
-            keyword: newKeyword,
-          });
-          myHeaders.append("Content-Type", "application/json");
-          let requestOptions = {
-            method: "POST",
-            headers: myHeaders,
-            body: raw
-          };
-          let url = "http://localhost:3000/movie/search";
-          fetch(url, requestOptions)
-            .then(async (res) => {
-            
-                if(res.status == 200){
-                  const data = await res.json();
-                  setAfterFilteration(data);
-                }
-                else{
-                  alert("Something went wrong while searching...")
-                }
-            })
-            .catch((error) => {
-              console.log(error);
-              alert("Interal server error.");
-            });
+          const body: any = await movieManagementService.searchMovie(newKeyword);
+          if(body == null){
+            alert("Something went wrong while searching movies. Please try again.")
+          }
+          else{
+            setAfterFilteration(body);
+          }
         }
     };
 
-    const handleFilter = async (event: any) => {
+    const handleFilter = async () => {
       if(rating == "" && genre == "" && year == "")
       {
         fetchAllMovies();
       }
       else{
-        var myHeaders = new Headers();
-        var raw = JSON.stringify({
-          year: year,
-          ratings: rating,
-          genre: genre,
-        });
-        myHeaders.append("Content-Type", "application/json");
-        let requestOptions = {
-          method: "POST",
-          headers: myHeaders,
-          body: raw
-        };
-        let url = "http://localhost:3000/movie/search";
-        fetch(url, requestOptions)
-          .then(async (res) => {
-          
-              if(res.status == 200){
-                const data = await res.json();
-                console.log(data);
-                setAfterFilteration(data);
-                // setAfterFilteration(response);
-                // navigate("/");
-              }
-              else{
-                alert("Something went wrong while searching...")
-              }
-          })
-          .catch((error) => {
-            console.log(error);
-            alert("Interal server error.");
-          });
+        const body: any = await movieManagementService.filterMovie(year, rating, genre);
+        if(body == null){
+          alert("Something went wrong while Filtering  movies. Please try again.")
+        }
+        else{
+          setAfterFilteration(body);
+        }
       }
     };
+
+    useEffect(() => {
+      fetchAllMovies();
+    },[])
   
     if(afterFilteration.length == 0){
         return(
