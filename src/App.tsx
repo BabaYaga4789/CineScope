@@ -5,6 +5,7 @@ import UpdateMovieDetails from "./pages/Admin/UpdateMovieDetails";
 import { FilterResults } from "./pages/Filter/FilterResults";
 import AdminHome from "./pages/Home/AdminHome";
 import Home from "./pages/Home/Home";
+import MovieDetail from "./pages/MovieDetail/MovieDetail";
 import News from "./pages/News/News";
 import NewsDetails from "./pages/News/NewsDetails";
 import Profile from "./pages/Profile/Profile";
@@ -82,6 +83,10 @@ const router = createBrowserRouter([
       {
         path: "/reviews",
         element: <Reviews />,
+      },
+      {
+        path: "/movie-details",
+        element: <MovieDetail />
       },
     ],
   },
