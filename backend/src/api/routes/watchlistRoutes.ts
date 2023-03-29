@@ -14,13 +14,7 @@ const watchlistRoute = (): Router => {
     .route("/:userId/")
     .get(watchlistController.readWatchlist)
     .delete(watchlistController.clearWatchlist);
-
-  //   router
-  //     .route("/:movieId")
-  //     .get(movieController.getmovie)
-  //     .put(movieController.updatemovie)
-  //     .delete(movieController.deletemovie);
-
+    
   return router;
 };
 
