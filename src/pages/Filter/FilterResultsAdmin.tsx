@@ -1,7 +1,6 @@
 import { SimpleGrid, VStack } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { HStack, Box, Button, Input, Select } from "@chakra-ui/react";
-import { MovieDetails } from "../MovieData";
 import { AlertForNoMovieFound } from "@/components/AlertForNoMovieFound";
 import { useState } from "react";
 import MovieGridItem from "@/components/MovieGridItem";
@@ -359,7 +358,7 @@ export const FilterResultsAdmin = () => {
                 
                 {/* Reference: https://chakra-ui.com/docs/components/simple-grid */}
                 <SimpleGrid p={4} w="100%" columns={{ base: 1, md: 3, lg: 7 }} gap={6}>
-                    {afterFilteration.map((movie) => (
+                    {afterFilteration.map((movie: any) => (
                         <MovieGridItemAdmin key={movie._id} movie={movie} />
                     ))}
                 </SimpleGrid>
