@@ -35,6 +35,10 @@ export async function addMovieToWatchlist(
   if (userId === undefined || movieId === undefined) {
     throw "Oi! You forgot to pass userId!";
   } else {
+    const existingMovie = await Watchlist.find({userId: userId, movieId: movieId});
+    if (existingMovie.length > 0) {
+      throw "Movie already exists in watchlist";
+    }
     const date = new Date();
     const watchlist = new Watchlist({
       userId: userId,
