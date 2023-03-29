@@ -27,7 +27,7 @@ export default function MovieGridItem(props: MovieGridItemProps): JSX.Element {
 
   const getReviewPage = (e: any) => {
     e.preventDefault();
-    navigateTo("/reviews", { state: e.target.id });
+    navigateTo("/reviews", { state: props.movie._id });
   };
 
   return (
@@ -40,7 +40,7 @@ export default function MovieGridItem(props: MovieGridItemProps): JSX.Element {
     >
       <Image
         src={props.movie.poster}
-        alt="movie-poster"
+        alt= "Movie Image"
         objectFit="cover"
         height="300px"
         width="100%"
@@ -54,13 +54,14 @@ export default function MovieGridItem(props: MovieGridItemProps): JSX.Element {
           .map((_, i) => (
             <StarIcon
               key={i}
+              color={i < 9 / 2 ? "teal.500" : "gray.300"}
               // color={i < props.movie.rating / 2 ? "teal.500" : "gray.300"}
-              color={i < 8 / 2 ? "teal.500" : "gray.300"}
             />
 
           ))}
         <Box as="span" ml="2" color="gray.600" fontSize="sm">
-          {/* ({props.movie.reviewCount}) */} 20
+          {/* ({props.movie.reviewCount}) */}
+          (20)
         </Box>
       </Box>
       <VStack w="100%" p={4}>
