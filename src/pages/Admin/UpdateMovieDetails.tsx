@@ -19,10 +19,10 @@ import {
 import topMoviesList from "../../common/top-movies";
 import newMoviesList from "../../common/new-movies";
 import Movie from "@/common/Movie";
-import MovieMagementService from "@/services/MovieManagementService";
+import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
 
 export default function UpdateMovieDetails() {
-  const id = useParams();
+  const {id} = useParams();
   const [cast, setCast] = useState<string[]>([]);
   const [genre, setGenre] = useState<string[]>([]);
   const toast = useToast();
@@ -42,18 +42,20 @@ export default function UpdateMovieDetails() {
     trailor: "",
   } as unknown as Movie);
 
-  useEffect(() => {
+  useEffect( () => {
+
+    const fetchMovieByID = async () => {
+      const movieManagementService = new MovieMagementService();
+      const body: any = await movieManagementService.fetchMovieByID(id);
   
-    const movieManagementService = new MovieMagementService();
-    const body: any = movieManagementService.fetchMovieByID(id);
-
-    if(body == null){
-      alert("Something went wrong loading movie details. Please try again.")
-    } 
-    else{
-      setMovie(body);
+      if(body == null){
+        alert("Something went wrong loading movie details. Please try again.")
+      } 
+      else{
+        setMovie(body);
+      }
     }
-
+    fetchMovieByID();
   }, []);
 
   const handleAddCast = () => {
@@ -158,12 +160,6 @@ export default function UpdateMovieDetails() {
     navigate("/");
   };
 
-  // const handleInputChange = (event: any) => {
-  //   setFormValues({
-  //     ...formValues,
-  //     [event.target.name]: event.target.value,
-  //   });
-  // };
 
   return (
     <div>
@@ -193,7 +189,7 @@ export default function UpdateMovieDetails() {
                 <FormErrorMessage>{formErrors?.get("title")}</FormErrorMessage>
               </FormControl>
               <FormControl isInvalid={!!formErrors?.get("poster")}>
-                <FormLabel htmlFor="firstname">Poster Link</FormLabel>
+                <FormLabel htmlFor="posterLink">Poster Link</FormLabel>
                 <Input
                   type="text"
                   id="poster"
@@ -207,7 +203,7 @@ export default function UpdateMovieDetails() {
               </FormControl>
 
               <FormControl isInvalid={!!formErrors?.get("plot")}>
-                <FormLabel htmlFor="firstname">Plot (Description)</FormLabel>
+                <FormLabel htmlFor="description">Plot (Description)</FormLabel>
                 <Input
                   type="text"
                   id="plot"

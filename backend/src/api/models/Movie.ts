@@ -25,11 +25,6 @@ export function fetchLastestMovies() {
   return movies;
 }
 
-// export function fetchAllMovies() {
-//   const movies = Movie.find({})
-//   return movies;
-// }
-
 export async function createMovie(
     title: String,
     released_date: Date,
@@ -58,6 +53,7 @@ export async function createMovie(
   ) {
     throw "Missing parameters";
   }
+  console.log(trailor);
 
   const newMovie = new Movie({
     title: title,
@@ -132,6 +128,15 @@ export function fetchMovieById(id: any){
   try {
     const movie = Movie.findById(id);
       return movie;
+  } catch (err) {
+    throw err;         
+  }
+}
+
+export function deleterMovieById(id: any){
+  try {
+    const message = Movie.findByIdAndDelete(id);
+    return message;
   } catch (err) {
     throw err;         
   }

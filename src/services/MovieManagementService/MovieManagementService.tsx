@@ -1,8 +1,10 @@
 import Movie from "@/common/Movie";
+import { MovieManagementState } from "./MovieManagementEnum";
 
 export default class MovieMagementService {
 
   async addMovie(movie: Movie) {
+    debugger
     const response = await fetch("http://127.0.0.1:3000/movie/add-movie/", {
       method: "POST",
       headers: {
@@ -11,9 +13,9 @@ export default class MovieMagementService {
       body: JSON.stringify(movie)
     });
     if (response.status === 200) {
-      return "Movie added successfully.";
+      return MovieManagementState.MovieAddSuccess;
     } else {
-      return "Something went wrong. Please try again";
+      return MovieManagementState.MovieAddFailure;
     }
   }
 
@@ -39,6 +41,24 @@ export default class MovieMagementService {
       return body;
     } else {
       return null;
+    }
+  }
+
+  async deleteMovieByID(id: any) {
+    const response = await fetch('http://127.0.0.1:3000/movie/delete-movie-by-id/', {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        "movieId": id,
+      })
+    });
+    if (response.status === 200) {
+      return MovieManagementState.MovieDeleteSuccess;
+
+    } else {
+      return MovieManagementState.MovieDeleteFailure;
     }
   }
 

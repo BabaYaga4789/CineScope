@@ -1,5 +1,8 @@
 import Movie from "@/common/Movie";
 import AddMovieDialog from "@/components/AddMovieDialog";
+import AdminHome from "@/pages/Home/AdminHome";
+import { MovieManagementState } from "@/services/MovieManagementService/MovieManagementEnum";
+import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
 import {
   AddIcon,
   CheckIcon,
@@ -41,19 +44,13 @@ export default function MovieGridItemAdmin(
 ): JSX.Element {
 
   const cancelRef = useRef<HTMLButtonElement>(null);
-
-  const navigateTo = useNavigate();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [deleteId, setDeleteID] = useState<any>();
   const toast = useToast();
   const [deleteMovieTitle, setDeleteMovieTitle] = useState<string>("");
-  const getReviewPage = (e: any) => {
-    e.preventDefault();
-    navigateTo("/reviews", { state: e.target.id });
-  };
+
 
   const navigate = useNavigate();
-
 
   const onDeleteIcon = async (id: any, title: string) => {
     setIsOpen(true);
@@ -61,27 +58,27 @@ export default function MovieGridItemAdmin(
     setDeleteMovieTitle(title);
   };
 
-  const onEditIcon = async (id: number) => {
+  const onEditIcon = async (id: any) => {
     navigate(`/update-movie-details/${id}`);
   };
 
   const onClickDelete = async (id: any) => {
     setIsOpen(false);
+    const movieMangementService = new MovieMagementService();
+    const state = await movieMangementService.deleteMovieByID(id.deleteId);
+    
+    if (state == MovieManagementState.MovieDeleteSuccess) {
+      toast({
+        title: `Movie deleted sucessfully.`,
+        status: "success",
+        isClosable: true,
+      });
+      window.location.reload();  
+    } else {
+      alert(state);
+    }
 
-    // for (let i = 0; i < newMovies.length; i++) {
-    //   let movie_id = newMovies[i].id;
-    //   if (movie_id == id.deleteId) {
-    //     newMovies.splice(i, 1);
-    //     setNewMovies(newMovies);
-    //     toast({
-    //       title: `Movie deleted sucessfully.`,
-    //       status: "success",
-    //       isClosable: true,
-    //     });
-    //   }
-    // }
   };
-
 
   return (
     <Card
@@ -117,7 +114,7 @@ export default function MovieGridItemAdmin(
       </Box>
 
       <Box display="flex" mt="2" alignItems="center" color="gray.500">
-            {props.movie.released_date}
+        {props.movie.released_date.toString()}
       </Box>
       <HStack w="100%" p={4} gap={10} justifyContent="center">
         <EditIcon
@@ -133,8 +130,7 @@ export default function MovieGridItemAdmin(
             onDeleteIcon(props.movie._id, props.movie.title);
           }}
           color="red.500"
-        >
-        </DeleteIcon>
+        ></DeleteIcon>
       </HStack>
 
       <AlertDialog
@@ -167,7 +163,5 @@ export default function MovieGridItemAdmin(
         </AlertDialogOverlay>
       </AlertDialog>
     </Card>
-
-    
   );
 }

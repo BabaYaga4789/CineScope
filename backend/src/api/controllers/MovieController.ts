@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createMovie, fetchLastestMovies, searchMovie, filterMovie, fetchAllMovies, fetchMovieById } from "../models/Movie";
+import { createMovie, fetchLastestMovies, searchMovie, filterMovie, fetchAllMovies, fetchMovieById, deleterMovieById } from "../models/Movie";
 
 const MovieController = {
   async fetchLastestMovies(req: Request, res: Response) {
@@ -11,6 +11,8 @@ const MovieController = {
       res.status(500).json({ message: err.message ?? err });
     }
   },
+
+  
 
   async fetchAllMovies(req: Request, res: Response) {
     try {
@@ -36,6 +38,7 @@ const MovieController = {
       poster,
       trailor,
     } = req.body;
+    console.log(req.body);
     try {
       const movie = await createMovie(
         title,
@@ -96,21 +99,23 @@ const MovieController = {
     }
   },
 
-  // async fetchAllMovies(req: Request, res: Response){
-  //   try{
-  //     const movies = await fetchAllMovies();
-  //     res.status(200).json(movies);
-  //   } catch (err: any){
-  //     console.log(err);
-  //     res.status(500).json({ message: err.message ?? err });
-  //   }
-  // },
 
   async fetchMovieById(req: Request, res: Response){
     const movieId = req.body.movieId;
     try{
       const movies = await fetchMovieById(movieId);
       res.status(200).json(movies);
+    } catch (err: any){
+      console.log(err);
+      res.status(500).json({ message: err.message ?? err });
+    }
+  },
+
+  async deleterMovieById(req: Request, res: Response){
+    const movieId = req.body.movieId;
+    try{
+      const message = await deleterMovieById(movieId);
+      res.status(200).json(message);
     } catch (err: any){
       console.log(err);
       res.status(500).json({ message: err.message ?? err });

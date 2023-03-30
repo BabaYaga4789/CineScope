@@ -4,7 +4,7 @@ import { SimpleGrid, VStack } from "@chakra-ui/react";
 import { LabelNewReleased } from "@/components/LabelNewReleased";
 import { LabelMostRated } from "@/components/LabelMostRated";
 import { LabelAllMovies } from "@/components/LabelAllMovies";
-import MovieMagementService from "@/services/MovieManagementService";
+import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
 
 export default function Home() {
 
@@ -12,11 +12,11 @@ export default function Home() {
   const [allMovies, setAllMovies] = useState([]);
   const movieManagementService = new MovieMagementService();
 
-  const newRealesedMovies = latestMovies.map((movie:any) => (
+  const newRealesedMovies = latestMovies.map((movie: any) => (
     <MovieGridItem key={movie._id} movie={movie} />
   ));
 
-  const totalMovies = allMovies.map((movie:any) => (
+  const totalMovies = allMovies.map((movie: any) => (
     <MovieGridItem key={movie._id} movie={movie} />
   ));
 

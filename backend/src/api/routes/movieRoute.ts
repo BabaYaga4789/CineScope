@@ -9,12 +9,7 @@ const movieRoute = (): Router => {
   router.route("/search/").post(movieController.filterMovie);
   router.route("/fetch-all-movies/").get(movieController.fetchAllMovies);
   router.route("/fetch-movie-by-id/").post(movieController.fetchMovieById);
-
-//   router
-//     .route("/:movieId")
-//     .get(movieController.getmovie)
-//     .put(movieController.updatemovie)
-//     .delete(movieController.deletemovie);
+  router.route("/delete-movie-by-id/").delete(movieController.deleterMovieById);
 
   return router;
 };
