@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createMovie, fetchLastestMovies, searchMovie, filterMovie, fetchAllMovies, fetchMovieById, deleterMovieById } from "../models/Movie";
+import { createMovie, fetchLastestMovies, searchMovie, filterMovie, updateMovie, fetchAllMovies, fetchMovieById, deleterMovieById } from "../models/Movie";
 
 const MovieController = {
   async fetchLastestMovies(req: Request, res: Response) {
@@ -11,8 +11,6 @@ const MovieController = {
       res.status(500).json({ message: err.message ?? err });
     }
   },
-
-  
 
   async fetchAllMovies(req: Request, res: Response) {
     try {
@@ -38,7 +36,6 @@ const MovieController = {
       poster,
       trailor,
     } = req.body;
-    console.log(req.body);
     try {
       const movie = await createMovie(
         title,
@@ -60,39 +57,22 @@ const MovieController = {
     }
   },
 
-  async searchMovie(req: Request, res: Response){
-    const keyword = req.params.keyword;
-    try{
-      const movies = await searchMovie(keyword);
-      res.status(200).json(movies);
-    } catch (err: any){
-      console.log(err);
-      res.status(500).json({ message: err.message ?? err });
-    }
-  },
+  async filterMovie(req: Request, res: Response) {
+    const { keyword, ratings, genre, year } = req.body;
 
-  async filterMovie(req: Request, res: Response){
-    const{
-      keyword,
-      ratings,
-      genre,
-      year
-    } = req.body;
-    
-    if (keyword){
-      try{
+    if (keyword) {
+      try {
         const movies = await searchMovie(keyword);
         res.status(200).json(movies);
-      } catch (err: any){
+      } catch (err: any) {
         console.log(err);
         res.status(500).json({ message: err.message ?? err });
       }
-    }
-    else{
-      try{
+    } else {
+      try {
         const movies = await filterMovie(ratings, genre, year);
         res.status(200).json(movies);
-      } catch (err: any){
+      } catch (err: any) {
         console.log(err);
         res.status(500).json({ message: err.message ?? err });
       }
@@ -101,10 +81,48 @@ const MovieController = {
 
 
   async fetchMovieById(req: Request, res: Response){
-    const movieId = req.body.movieId;
+    const movieId = req.params.movieId;
     try{
       const movies = await fetchMovieById(movieId);
       res.status(200).json(movies);
+    } catch (err: any) {
+      console.log(err);
+      res.status(500).json({ message: err.message ?? err });
+    }
+  },
+
+  async updateMovieById(req: Request, res: Response){
+    const movieId = req.params.movieId;
+    const {
+      _id,
+      title,
+      released_date,
+      director,
+      genres,
+      time_in_minutes,
+      plot,
+      cast,
+      images,
+      thumbnail,
+      poster,
+      trailor,
+    } = req.body;
+    try{
+      const movie = await updateMovie({
+        _id,
+        title,
+        released_date,
+        director,
+        genres,
+        time_in_minutes,
+        plot,
+        cast,
+        images,
+        thumbnail,
+        poster,
+        trailor,
+      });
+      res.status(200).json(movie);
     } catch (err: any){
       console.log(err);
       res.status(500).json({ message: err.message ?? err });
@@ -112,15 +130,15 @@ const MovieController = {
   },
 
   async deleterMovieById(req: Request, res: Response){
-    const movieId = req.body.movieId;
+    const movieId = req.params.movieId;
     try{
       const message = await deleterMovieById(movieId);
       res.status(200).json(message);
-    } catch (err: any){
+    } catch (err: any) {
       console.log(err);
       res.status(500).json({ message: err.message ?? err });
     }
-  }
+  },
 };
 
 export default MovieController;
