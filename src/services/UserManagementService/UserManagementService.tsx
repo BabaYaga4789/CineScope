@@ -12,11 +12,10 @@ export default class UserManagementService {
       },
       body: JSON.stringify(data),
     });
-
     const body = await response.json();
     let m = body.message;
-
     if (response.status === 200) {
+      SessionManager.login(body._id);
       return UserManagementState.UserRegistrationSuccess;
     } else {
       if (response.status === 500 && m === "User already exists") {

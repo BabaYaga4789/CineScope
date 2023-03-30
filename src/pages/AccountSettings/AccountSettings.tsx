@@ -4,6 +4,7 @@ import ChangePasswordDialog from "@/components/ChangePasswordDialog";
 import CustomContainer from "@/components/CustomContainer";
 import CustomInputField from "@/components/CustomInputField";
 import DeleteProfileDialog from "@/components/DeleteProfileDialog";
+import { UserManagementState } from "@/services/UserManagementService/UserManagementEnum";
 import UserManagementService from "@/services/UserManagementService/UserManagementService";
 import {
   Alert,
@@ -18,31 +19,34 @@ import {
   SlideFade,
   Text,
   useDisclosure,
-  VStack
+  useToast,
+  VStack,
 } from "@chakra-ui/react";
 import { Autocomplete, Option } from "chakra-ui-simple-autocomplete";
 import React, { useEffect, useState } from "react";
 import {
   AiOutlineCalendar,
   AiOutlineMail,
-  AiOutlineUser
+  AiOutlineUnorderedList,
+  AiOutlineUser,
 } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 
 export default function AccountSettings() {
-
   const [data, setData] = useState({
     userName: "avocado",
     email: "hrishi.patel@dal.ca",
     dateOfBirth: "10-10-1999",
     genres: [],
     password: "",
+    about: "",
   });
   const [error, setError] = useState(false);
   const [errors, setErrors] = useState([] as string[]);
   const [result, setResult] = React.useState<Option[]>([]);
 
   const navigate = useNavigate();
+  const toast = useToast();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
@@ -78,6 +82,7 @@ export default function AccountSettings() {
             : date.getUTCDate()),
         genres: [],
         password: userData.password,
+        about: userData.about,
       });
       setResult(
         userData.genres.map((genre: any) => {
@@ -92,17 +97,34 @@ export default function AccountSettings() {
   const updateUser = async () => {
     const userID = SessionManager.getUserID();
     const userManagementService = new UserManagementService();
-    await userManagementService.updateUser(userID!!, {
+    const state = await userManagementService.updateUser(userID!!, {
       userName: data.userName,
       email: data.email,
       dob: data.dateOfBirth,
       genres: result.map((genre) => genre.value),
       password: data.password,
       confirmPassword: data.password,
+      about: data.about,
     });
+
+    if (state === UserManagementState.UserUpdatedSuccess) {
+      toast({
+        title: "Profile updated successfully.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+    } else {
+      toast({
+        title: "Oops! Something went wrong.",
+        status: "error",
+        duration: 3500,
+        isClosable: true,
+      });
+    }
   };
 
-  const validateAndRegister = (event: any) => {
+  const updateProfile = async (event: any) => {
     event.preventDefault();
 
     setError(false);
@@ -146,7 +168,7 @@ export default function AccountSettings() {
       setError(false);
       setErrors([]);
 
-      updateUser();
+      await updateUser();
 
       // navigate("/profile", { state: data });
     }
@@ -186,6 +208,19 @@ export default function AccountSettings() {
           placeholder="User Name"
           focusBorderColor={accent}
           mb={3}
+          onChange={(event: any) =>
+            setData({ ...data, [event.target.id]: event.target.value })
+          }
+        />
+
+        <CustomInputField
+          icon={<AiOutlineUnorderedList color="gray.300" />}
+          id="about"
+          type="text"
+          placeholder="About you"
+          focusBorderColor={accent}
+          mb={3}
+          value={data.about}
           onChange={(event: any) =>
             setData({ ...data, [event.target.id]: event.target.value })
           }
@@ -256,7 +291,7 @@ export default function AccountSettings() {
             w={"100%"}
             colorScheme={"yellow"}
             mb={0}
-            onClick={validateAndRegister}
+            onClick={updateProfile}
           >
             Update Profile
           </Button>
@@ -278,11 +313,7 @@ export default function AccountSettings() {
           </Button>
         </VStack>
       </CustomContainer>
-      <ChangePasswordDialog
-        data={data}
-        isOpen={isOpen}
-        onClose={onClose}
-      />
+      <ChangePasswordDialog data={data} isOpen={isOpen} onClose={onClose} />
       <DeleteProfileDialog isOpen={isOpenDelete} onClose={onCloseDelete} />
     </Flex>
   );

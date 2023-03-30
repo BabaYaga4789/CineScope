@@ -40,10 +40,17 @@ const UserController = {
   },
 
   async createUser(req: Request, res: Response) {
-    const { email, password, userName, genres, dob } = req.body;
+    const { email, password, userName, genres, about, dob } = req.body;
 
     try {
-      const user = await createUser(email, password, userName, genres, dob);
+      const user = await createUser(
+        email,
+        password,
+        userName,
+        genres,
+        about,
+        dob
+      );
       res.json(user);
     } catch (err: any) {
       console.log(err);

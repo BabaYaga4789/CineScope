@@ -1,4 +1,5 @@
 import { SessionManager } from "@/common/SessionManager";
+import { UserManagementState } from "@/services/UserManagementService/UserManagementEnum";
 import UserManagementService from "@/services/UserManagementService/UserManagementService";
 import { Button } from "@chakra-ui/button";
 import {
@@ -7,7 +8,7 @@ import {
   AlertDialogContent,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogOverlay
+  AlertDialogOverlay,
 } from "@chakra-ui/modal";
 import { useToast } from "@chakra-ui/react";
 import { useRef } from "react";
@@ -23,23 +24,28 @@ const DeleteProfileDialog = (props: DeleteProfileDialogProps) => {
   const toast = useToast();
   const navigate = useNavigate();
 
-  const deleteProfile = async () => {
+  const onDelete = async () => {
     const userManagementService = new UserManagementService();
     const userID = SessionManager.getUserID();
-    await userManagementService.deleteUser(userID!!);
-  };
+    const state = await userManagementService.deleteUser(userID!!);
 
-  const onDelete = () => {
-    deleteProfile();
-
-    toast({
-      title: "Profile Deleted",
-      description: "Your profile has been deleted.",
-      status: "success",
-      duration: 5000,
-    });
-
-    navigate("/");
+    if (state === UserManagementState.UserDeletedSuccess) {
+      toast({
+        title: "Profile Deleted",
+        description: "Your profile has been deleted.",
+        status: "success",
+        duration: 5000,
+      });
+      SessionManager.logout();
+      navigate("/");
+    } else {
+      toast({
+        title: "Oops! Something went wrong.",
+        description: "Your profile could not be deleted.",
+        status: "error",
+        duration: 3500,
+      });
+    }
 
     props.onClose();
   };
