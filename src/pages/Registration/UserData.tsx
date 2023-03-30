@@ -4,5 +4,6 @@ export interface UserData {
   password: string;
   confirmPassword: string;
   dob: string;
+  about: string;
   genres: string[];
 }

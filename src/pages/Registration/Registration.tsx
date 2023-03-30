@@ -1,6 +1,8 @@
 import Genres from "@/common/Genres";
 import CustomContainer from "@/components/CustomContainer";
 import CustomInputField from "@/components/CustomInputField";
+import { UserManagementState } from "@/services/UserManagementService/UserManagementEnum";
+import UserManagementService from "@/services/UserManagementService/UserManagementService";
 import {
   Alert,
   Button,
@@ -12,7 +14,7 @@ import {
   InputLeftElement,
   SlideFade,
   Text,
-  VStack,
+  VStack
 } from "@chakra-ui/react";
 import { Autocomplete, Option } from "chakra-ui-simple-autocomplete";
 import React, { useState } from "react";
@@ -21,12 +23,11 @@ import {
   AiOutlineCalendar,
   AiOutlineLock,
   AiOutlineMail,
-  AiOutlineUser,
+  AiOutlineUnorderedList,
+  AiOutlineUser
 } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { UserData } from "./UserData";
-import UserManagementService from "@/services/UserManagementService/UserManagementService";
-import { UserManagementState } from "@/services/UserManagementService/UserManagementEnum";
 
 export default function Registration() {
   const [data, setData] = useState({
@@ -35,6 +36,7 @@ export default function Registration() {
     password: "",
     confirmPassword: "",
     dob: "",
+    about: "",
     genres: [],
   } as UserData);
   const [error, setError] = useState(false);
@@ -49,7 +51,6 @@ export default function Registration() {
     setError(false);
     setErrorMessage("");
 
-    console.log(data);
 
     const {
       userName,
@@ -57,6 +58,7 @@ export default function Registration() {
       password,
       confirmPassword,
       dob: dateOfBirth,
+      about,
       genres,
     } = data;
 
@@ -231,6 +233,18 @@ export default function Registration() {
           placeholder="Enter your preferred..."
           mb={12}
         ></Autocomplete>
+
+        <CustomInputField
+          icon={<AiOutlineUnorderedList color="gray.300" />}
+          id="about"
+          type="text"
+          placeholder="About you"
+          focusBorderColor={accent}
+          mb={3}
+          onChange={(event: any) =>
+            setData({ ...data, [event.target.id]: event.target.value })
+          }
+        />
 
         {error && (
           <SlideFade in={error} unmountOnExit={true}>
