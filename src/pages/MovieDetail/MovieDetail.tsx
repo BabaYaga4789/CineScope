@@ -14,6 +14,7 @@ import {
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
+import ReviewsMagementService from "@/services/ReviewsManagementService/ReviewsManagementService";
 
 const MovieDetails = () => {
 
@@ -21,6 +22,7 @@ const MovieDetails = () => {
   const movieId = location.state;
   const movieManagementService = new MovieMagementService();
   const [movieDetails, setMovieDetails] = useState({}) as any;
+  const [movieRating, setMovieRating] = useState() as any;
 
   const fetchMovieDetails = async () => {
     const body: any = await movieManagementService.fetchMovieByID(movieId);
@@ -37,8 +39,14 @@ const MovieDetails = () => {
         const formattedReleasedDate = mm + '/' + dd + '/' + yyyy;
         body.released_date = formattedReleasedDate;
         setMovieDetails(body);
-      }
+        console.log("movieDetailsssss",movieDetails);
+        console.log("body",body)
+        const body1: any = await ReviewsMagementService.getRating(body.title);
+        setMovieRating(body1)
+        console.log("movieRating",movieRating)
+      }      
   };
+
 
   useEffect(() => {
     fetchMovieDetails();
@@ -66,7 +74,7 @@ const MovieDetails = () => {
             h={["auto", "auto", "auto", "auto"]}
         >
           <Text fontWeight="bold" fontSize="4xl" mt="4">
-            {movieDetails.title}
+            {movieDetails.title} "Rating: {movieRating}" 
           </Text>
           <Text fontSize="xl" fontWeight="semibold" color="gray.500">
             {movieDetails.released_date} | {movieDetails.time_in_minutes} Minutes |{" "}

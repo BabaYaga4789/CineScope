@@ -36,7 +36,7 @@ const Reviews = () => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [display, setDisplay] = useState<string[]>([]);
-  const [movieDetails, setMovieDetails] = useState<any>({});
+  const [movieDetails, setMovieDetails] = useState({});
   const toast = useToast();
   const location = useLocation();
   const movieId = location.state;
