@@ -181,10 +181,12 @@ export default function AddMovie() {
 
     if (!movie.trailor) {
       errors.set("trailor", "Trailor link is required");
-    } else if (movie.trailor.match(/^(https?\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/) == null) {
+    } else if (
+      movie.trailor.match(/^https:\/\/www\.youtube\.com\/embed\/.*/) == null
+    ) {
       errors.set(
         "trailor",
-        "Trailor link must be in valid youtube link."
+        "Trailor link must be in valid embedded youtube link."
       );
     }
 
@@ -196,24 +198,21 @@ export default function AddMovie() {
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     if (validateForm()) {
-      debugger
-      movie.cast = cast
-      movie.genres = genre
-      movie.images = image
+      movie.cast = cast;
+      movie.genres = genre;
+      movie.images = image;
       const movieManagementService = new MovieMagementService();
       const state = await movieManagementService.addMovie(movie);
-      if(state == MovieManagementState.MovieAddSuccess){
+      if (state == MovieManagementState.MovieAddSuccess) {
         toast({
           title: `Movie added sucessfully.`,
           status: "success",
           isClosable: true,
         });
         navigate("/");
-      }
-      else{
+      } else {
         alert(state);
       }
-      
     }
   };
 
@@ -327,7 +326,7 @@ export default function AddMovie() {
               id="released_date"
               name="released_date"
               type="date"
-              max = {todayDate}
+              max={todayDate}
             ></Input>
             <FormErrorMessage>
               {formErrors?.get("released_date")}

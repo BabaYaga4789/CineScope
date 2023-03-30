@@ -1,4 +1,5 @@
 import CustomContainer from "@/components/CustomContainer";
+import { UserManagementState } from "@/services/UserManagementService/UserManagementEnum";
 import UserManagementService from "@/services/UserManagementService/UserManagementService";
 import {
   Button,
@@ -10,7 +11,7 @@ import {
   InputLeftElement,
   Text,
   useToast,
-  VStack,
+  VStack
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { AiOutlineUser } from "react-icons/ai";
@@ -41,7 +42,9 @@ export default function ResetPassword() {
 
       {
         const message = await userManagementService.resetPassword(email);
-        if (message === "User not found") {
+        if (
+          message === UserManagementState.PasswordResetFailedUserDoesNotExist
+        ) {
           toast({
             title: "Error",
             description: "Sorry, can't find any such user :(",

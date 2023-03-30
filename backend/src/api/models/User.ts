@@ -9,6 +9,7 @@ const user = new Schema({
   userName: String,
   genres: [String],
   dob: Date,
+  about: String,
 });
 
 interface Data {
@@ -17,6 +18,7 @@ interface Data {
   userName: String;
   genres: string[];
   dob: Date;
+  about: String;
 }
 
 const User = mongoose.model("User", user);
@@ -38,11 +40,29 @@ export async function getUser(email: String) {
   return user;
 }
 
+export async function getUserByUserName(userName: String) {
+  if (userName === undefined) {
+    throw "Oi! You forgot to pass a username!";
+  }
+
+  const user: any = await User.findOne({ userName: userName });
+  if (user === null) {
+    throw "User not found";
+  } else {
+    return {
+      userName: user.userName,
+      genres: user.genres ?? [],
+      about: user.about,
+    };
+  }
+}
+
 export async function createUser(
   email: String,
   password: String,
   userName: String,
   genres: [String],
+  about: String,
   dob: Date
 ) {
   if (
@@ -51,9 +71,11 @@ export async function createUser(
     userName === undefined ||
     genres === undefined ||
     dob === undefined ||
+    about === undefined ||
     email === "" ||
     password === "" ||
-    userName === ""
+    userName === "" ||
+    about === ""
   ) {
     throw "Missing parameters";
   }
@@ -69,9 +91,11 @@ export async function createUser(
     userName: userName,
     genres: genres,
     dob: dob,
+    about: about,
   });
   try {
-    await newUser.save();
+    const data = await newUser.save();
+    return data;
   } catch (err) {
     throw err;
   }
@@ -133,6 +157,7 @@ export async function sendPasswordResetEmail(email: String) {
     userName: user.userName,
     genres: user.genres,
     dob: user.dob,
+    about: user.about,
   } as Data;
 
   await updateUser(userData);
