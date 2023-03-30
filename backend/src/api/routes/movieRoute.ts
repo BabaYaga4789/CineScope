@@ -13,7 +13,7 @@ const movieRoute = (): Router => {
   router
     .route("/:movieId")
     .get(movieController.fetchMovieById)
-    // .put(movieController.updateUser)
+    .put(movieController.updateMovieById)
     .delete(movieController.deleterMovieById);
 
   return router;

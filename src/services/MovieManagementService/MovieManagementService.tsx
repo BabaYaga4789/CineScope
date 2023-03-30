@@ -56,6 +56,21 @@ export default class MovieMagementService {
     }
   }
 
+  async updateMovieByID(movieId: any, movie: Movie) {
+    const response = await fetch(`http://127.0.0.1:3000/movie/${movieId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(movie),
+    });
+    if (response.status === 200) {
+      return MovieManagementState.MovieUpdateSuccess;
+    } else {
+      return MovieManagementState.MovieUpdateFailure;
+    }
+  }
+
   async fetchMovieByID(movieId: any) {
     const response = await fetch(`http://127.0.0.1:3000/movie/${movieId}`, {
       method: "GET",

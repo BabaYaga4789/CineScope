@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createMovie, fetchLastestMovies, searchMovie, filterMovie, fetchAllMovies, fetchMovieById, deleterMovieById } from "../models/Movie";
+import { createMovie, fetchLastestMovies, searchMovie, filterMovie, updateMovie, fetchAllMovies, fetchMovieById, deleterMovieById } from "../models/Movie";
 
 const MovieController = {
   async fetchLastestMovies(req: Request, res: Response) {
@@ -38,7 +38,6 @@ const MovieController = {
       poster,
       trailor,
     } = req.body;
-    console.log(req.body);
     try {
       const movie = await createMovie(
         title,
@@ -105,6 +104,44 @@ const MovieController = {
     try{
       const movies = await fetchMovieById(movieId);
       res.status(200).json(movies);
+    } catch (err: any){
+      console.log(err);
+      res.status(500).json({ message: err.message ?? err });
+    }
+  },
+
+  async updateMovieById(req: Request, res: Response){
+    const movieId = req.params.movieId;
+    const {
+      _id,
+      title,
+      released_date,
+      director,
+      genres,
+      time_in_minutes,
+      plot,
+      cast,
+      images,
+      thumbnail,
+      poster,
+      trailor,
+    } = req.body;
+    try{
+      const movie = await updateMovie({
+        _id,
+        title,
+        released_date,
+        director,
+        genres,
+        time_in_minutes,
+        plot,
+        cast,
+        images,
+        thumbnail,
+        poster,
+        trailor,
+      });
+      res.status(200).json(movie);
     } catch (err: any){
       console.log(err);
       res.status(500).json({ message: err.message ?? err });
