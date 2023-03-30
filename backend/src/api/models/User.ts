@@ -40,6 +40,23 @@ export async function getUser(email: String) {
   return user;
 }
 
+export async function getUserByUserName(userName: String) {
+  if (userName === undefined) {
+    throw "Oi! You forgot to pass a username!";
+  }
+
+  const user: any = await User.findOne({ userName: userName });
+  if (user === null) {
+    throw "User not found";
+  } else {
+    return {
+      userName: user.userName,
+      genres: user.genres ?? [],
+      about: user.about,
+    };
+  }
+}
+
 export async function createUser(
   email: String,
   password: String,
