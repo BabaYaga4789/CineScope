@@ -3,8 +3,10 @@ import AccountSettings from "./pages/AccountSettings/AccountSettings";
 import AddMovie from "./pages/Admin/AddMovie";
 import UpdateMovieDetails from "./pages/Admin/UpdateMovieDetails";
 import { FilterResults } from "./pages/Filter/FilterResults";
+import { FilterResultsAdmin } from "./pages/Filter/FilterResultsAdmin";
 import AdminHome from "./pages/Home/AdminHome";
 import Home from "./pages/Home/Home";
+import MovieDetail from "./pages/MovieDetail/MovieDetail";
 import News from "./pages/News/News";
 import NewsDetails from "./pages/News/NewsDetails";
 import Profile from "./pages/Profile/Profile";
@@ -18,16 +20,27 @@ import RootLayout from "./RootLayout";
 const adminRouter = createBrowserRouter([
   {
     path: "/",
-    element: <AdminHome />,
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: <AdminHome />,
+      },
+      {
+        path: "/update-movie-details/:id",
+        element: <UpdateMovieDetails />,
+      },
+      {
+        path: "/add-movie",
+        element: <AddMovie />,
+      },
+      {
+        path: "/search",
+        element: <FilterResultsAdmin />,
+      },
+    ],
   },
-  {
-    path: "/update-movie-details/:id",
-    element: <UpdateMovieDetails />,
-  },
-  {
-    path: "/add-movie",
-    element: <AddMovie />,
-  },
+  
 ]);
 
 const router = createBrowserRouter([
@@ -82,6 +95,10 @@ const router = createBrowserRouter([
       {
         path: "/reviews",
         element: <Reviews />,
+      },
+      {
+        path: "/movie-details",
+        element: <MovieDetail />
       },
     ],
   },

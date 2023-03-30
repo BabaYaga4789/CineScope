@@ -14,7 +14,7 @@ import {
   InputLeftElement,
   SlideFade,
   Text,
-  VStack,
+  VStack
 } from "@chakra-ui/react";
 import { Autocomplete, Option } from "chakra-ui-simple-autocomplete";
 import React, { useState } from "react";
@@ -24,7 +24,7 @@ import {
   AiOutlineLock,
   AiOutlineMail,
   AiOutlineUnorderedList,
-  AiOutlineUser,
+  AiOutlineUser
 } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { UserData } from "./UserData";
@@ -115,7 +115,7 @@ export default function Registration() {
     const userData = { ...data, genres: result.map((genre) => genre.label) };
     const message = await userManagementService.register(userData);
 
-    if (message === "Registration successful") {
+    if (message === UserManagementState.UserRegistrationSuccess) {
       navigate("/profile", { state: data });
     } else {
       setError(true);

@@ -11,7 +11,7 @@ import {
   InputLeftElement,
   Text,
   useToast,
-  VStack,
+  VStack
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { AiOutlineUser } from "react-icons/ai";

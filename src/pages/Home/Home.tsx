@@ -1,44 +1,64 @@
 import MovieGridItem from "@/components/MovieGridItem";
+import { useEffect, useState } from "react";
 import { SimpleGrid, VStack } from "@chakra-ui/react";
-import { MovieDetails } from "../MovieData";
 import { LabelNewReleased } from "@/components/LabelNewReleased";
 import { LabelMostRated } from "@/components/LabelMostRated";
 import { LabelAllMovies } from "@/components/LabelAllMovies";
+import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
 
 export default function Home() {
-  
-  const ratedMovies =  MovieDetails.filter((movie) => {
-    return movie.rating > 8});
 
-  const newRealesed =  MovieDetails.filter((movie) => {
-      return movie.year > 2019});
+  const [latestMovies, setLatestMovies] = useState([]);
+  const [allMovies, setAllMovies] = useState([]);
+  const movieManagementService = new MovieMagementService();
 
-  const mostRatedMovies = ratedMovies.map((movie) => (
-    <MovieGridItem key={movie.id} movie={movie} />
+  const newRealesedMovies = latestMovies.map((movie: any) => (
+    <MovieGridItem key={movie._id} movie={movie} />
   ));
 
-  const newRealesedMovies = newRealesed.map((movie) => (
-    <MovieGridItem key={movie.id} movie={movie} />
+  const totalMovies = allMovies.map((movie: any) => (
+    <MovieGridItem key={movie._id} movie={movie} />
   ));
 
-  const allMovies = MovieDetails.map((movie) => (
-    <MovieGridItem key={movie.id} movie={movie} />
-  ));
+  const fetchAllMovies = async ()  =>  {
+    const body: any = await movieManagementService.fetchAllMovies();
+    if(body == null){
+      alert("Something went wrong loading latest movies. Please try again.")
+    }
+    else{
+      setAllMovies(body);
+    }
+  } 
+
+  const fetchLatestMovies =async () => {
+    const body: any = await movieManagementService.fetchLatestMovies();
+    if(body == null){
+      alert("Something went wrong loading latest movies. Please try again.")
+    }
+    else{
+      setLatestMovies(body);
+    }
+  }
+
+  useEffect(() => {
+    fetchLatestMovies();
+    fetchAllMovies();
+  },[])
 
   return (
     <VStack w="100%">
       <LabelMostRated/>
       {/* Reference: https://chakra-ui.com/docs/components/simple-grid */}
-      <SimpleGrid p={4} w="100%" columns={{ base: 1, md: 3, lg: 7 }} gap={6}>
+      {/* <SimpleGrid p={4} w="100%" columns={{ base: 1, md: 3, lg: 7 }} gap={6}>
         {mostRatedMovies}
-      </SimpleGrid>
+      </SimpleGrid> */}
       <LabelNewReleased/>
       <SimpleGrid p={4} w="100%" columns={{ base: 1, md: 3, lg: 7 }} gap={6}>
         {newRealesedMovies}
       </SimpleGrid>
       <LabelAllMovies/>
       <SimpleGrid p={4} w="100%" columns={{ base: 1, md: 3, lg: 7 }} gap={6}>
-        {allMovies}
+        {totalMovies}
       </SimpleGrid>
 
     </VStack>
