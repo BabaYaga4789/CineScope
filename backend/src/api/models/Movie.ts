@@ -20,10 +20,8 @@ const Movie = mongoose.model("Movie", movie);
 
 export function fetchLastestMovies() {
   const oneMonthAgo = new Date();
-  oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-  const movies = Movie.find({ released_date: { $gte: oneMonthAgo } }).sort(
-    "-released_date"
-  );
+  oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 2);
+  const movies = Movie.find({ released_date: { $gte: oneMonthAgo } }) .sort('-released_date').limit(7)
   return movies;
 }
 
@@ -125,22 +123,38 @@ export function fetchAllMovies() {
   }
 }
 
-export function fetchMovieById(id: any) {
+export function fetchMovieById(movieId: any){
   try {
-    const movie = Movie.findById(id);
-    return movie;
+    const movie = Movie.findById(movieId);
+      return movie;
   } catch (err) {
     throw err;
   }
 }
 
-export function deleterMovieById(id: any) {
+export function deleterMovieById(movieId: any){
   try {
-    const message = Movie.findByIdAndDelete(id);
+    const message = Movie.findByIdAndDelete(movieId);
     return message;
   } catch (err) {
     throw err;
   }
+}
+
+export async function updateMovie(movie: any) {
+  if (movie._id === undefined) {
+    throw "You forgot to pass movieId.";
+  }
+
+  const updatedMovie = await Movie.find({ _id: movie._id }).updateOne(movie);
+
+  if (updatedMovie.matchedCount === 0) {
+    throw "No movie not found";
+  } else if (updatedMovie.modifiedCount > 0) {
+    return { message: "Movie updated" };
+  }
+
+  return { message: "No changes to movie." };
 }
 
 export default mongoose.model("Movie", movie);
