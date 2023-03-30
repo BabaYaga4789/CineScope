@@ -60,8 +60,15 @@ const UserController = {
 
   async updateUser(req: Request, res: Response) {
     try {
-      const { email, password, userName, genres, dob } = req.body;
-      const user = await updateUser({ email, password, userName, genres, dob });
+      const { email, password, userName, genres, dob, about } = req.body;
+      const user = await updateUser({
+        email,
+        password,
+        userName,
+        genres,
+        dob,
+        about,
+      });
       res.json(user);
     } catch (err: any) {
       console.log(err);
