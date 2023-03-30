@@ -181,10 +181,10 @@ export default function AddMovie() {
 
     if (!movie.trailor) {
       errors.set("trailor", "Trailor link is required");
-    } else if (movie.trailor.match(/^(https?\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/) == null) {
+    } else if (movie.trailor.match(/^https:\/\/www\.youtube\.com\/embed\/.*/) == null) {
       errors.set(
         "trailor",
-        "Trailor link must be in valid youtube link."
+        "Trailor link must be in valid embedded youtube link."
       );
     }
 
@@ -196,7 +196,6 @@ export default function AddMovie() {
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     if (validateForm()) {
-      debugger
       movie.cast = cast
       movie.genres = genre
       movie.images = image

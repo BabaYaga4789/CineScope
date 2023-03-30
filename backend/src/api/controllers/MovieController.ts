@@ -101,7 +101,7 @@ const MovieController = {
 
 
   async fetchMovieById(req: Request, res: Response){
-    const movieId = req.body.movieId;
+    const movieId = req.params.movieId;
     try{
       const movies = await fetchMovieById(movieId);
       res.status(200).json(movies);
@@ -112,7 +112,7 @@ const MovieController = {
   },
 
   async deleterMovieById(req: Request, res: Response){
-    const movieId = req.body.movieId;
+    const movieId = req.params.movieId;
     try{
       const message = await deleterMovieById(movieId);
       res.status(200).json(message);

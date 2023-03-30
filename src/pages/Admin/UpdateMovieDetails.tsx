@@ -43,11 +43,11 @@ export default function UpdateMovieDetails() {
   } as unknown as Movie);
 
   useEffect( () => {
-
+    
     const fetchMovieByID = async () => {
       const movieManagementService = new MovieMagementService();
       const body: any = await movieManagementService.fetchMovieByID(id);
-  
+      debugger
       if(body == null){
         alert("Something went wrong loading movie details. Please try again.")
       } 

@@ -124,18 +124,18 @@ export function fetchAllMovies(){
   }
 }
 
-export function fetchMovieById(id: any){
+export function fetchMovieById(movieId: any){
   try {
-    const movie = Movie.findById(id);
+    const movie = Movie.findById(movieId);
       return movie;
   } catch (err) {
     throw err;         
   }
 }
 
-export function deleterMovieById(id: any){
+export function deleterMovieById(movieId: any){
   try {
-    const message = Movie.findByIdAndDelete(id);
+    const message = Movie.findByIdAndDelete(movieId);
     return message;
   } catch (err) {
     throw err;         
