@@ -73,7 +73,7 @@ const router = createBrowserRouter([
         element: <ResetPassword />,
       },
       {
-        path: "/profile",
+        path: "/profile/:id",
         element: <Profile />,
       },
       {

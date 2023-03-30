@@ -12,6 +12,8 @@ const userRoute = (): Router => {
     .put(userController.updateUser)
     .delete(userController.deleteUser);
 
+  router.route("/username/:userName").get(userController.getUserByUserName);
+
   router.route("/login").post(userController.login);
   router.route("/reset").post(userController.sendPasswordResetEmail);
 
