@@ -12,12 +12,12 @@ export default class UserManagementService {
       body: JSON.stringify(data),
     });
 
-    const body = await response.json();
-    let m = body.message;
-
     if (response.status === 200) {
       return "Registration successful";
     } else {
+      const body = await response.json();
+      let m = body.message;
+
       if (response.status === 500 && m === "User already exists") {
         return "User already exists";
       }

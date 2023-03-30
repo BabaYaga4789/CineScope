@@ -43,6 +43,7 @@ export async function createUser(
   password: String,
   userName: String,
   genres: [String],
+  about: String,
   dob: Date
 ) {
   if (
@@ -51,9 +52,11 @@ export async function createUser(
     userName === undefined ||
     genres === undefined ||
     dob === undefined ||
+    about === undefined ||
     email === "" ||
     password === "" ||
-    userName === ""
+    userName === "" ||
+    about === ""
   ) {
     throw "Missing parameters";
   }
@@ -69,6 +72,7 @@ export async function createUser(
     userName: userName,
     genres: genres,
     dob: dob,
+    about: about,
   });
   try {
     await newUser.save();
