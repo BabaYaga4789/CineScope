@@ -13,7 +13,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { FaSearch } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export const AdminNavBar = () => {
   const navigate = useNavigate();
@@ -30,9 +30,10 @@ export const AdminNavBar = () => {
     window.location.replace("/");
   };
 
+
   return (
     <div>
-      <Box as="nav" boxShadow="md">
+      <Box as="nav" boxShadow="md"  mb="20px">
         <Flex
           as="div"
           mx="auto"
@@ -70,25 +71,29 @@ export const AdminNavBar = () => {
             </Menu>
           </HStack>
 
-          <HStack ml={[40, 50, 60]}>
-            <Input
-              placeholder="Search a movie..."
-              size="md"
-              borderRadius="md"
-              border="1px solid black"
-              width={[150, 175, 300]}
-            />
+          {/* <HStack ml={[40, 50, 60]}>
+          
             <IconButton
               aria-label="Search"
               icon={<FaSearch />}
               colorScheme={"yellow"}
               color="white"
               borderRadius="md"
+              placeholder="Search"
             />
-          </HStack>
+          </HStack> */}
 
           <Spacer></Spacer>
           <HStack spacing={[10, 20, 30]}>
+          <NavLink
+            to="/search"
+            style={({ isActive }) => {
+              return { fontWeight: isActive ? 700 : 400 };
+            }}
+          >
+            Search
+          </NavLink>
+  
             <Text fontSize={["sm", "md", "lg", "lg"]}>Welcome, Admin!</Text>
             {/* <Avatar
               size="sm"

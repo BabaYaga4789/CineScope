@@ -1,11 +1,14 @@
 export default interface Movie {
-  id: number;
+  _id?: string;
   title: string;
+  released_date: Date;
+  director: string;
+  genres: string[];
+  time_in_minutes: string;
+  plot: string;
+  cast: string[];
+  images: string[];
+  thumbnail: string;
   poster: string;
-  imageAlt: string;
-  rating: number;
-  reviewCount: number;
-  genre: string;
-  year: number;
-  description: string;
+  trailor: string;
 }

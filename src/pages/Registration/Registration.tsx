@@ -1,6 +1,8 @@
 import Genres from "@/common/Genres";
 import CustomContainer from "@/components/CustomContainer";
 import CustomInputField from "@/components/CustomInputField";
+import { UserManagementState } from "@/services/UserManagementService/UserManagementEnum";
+import UserManagementService from "@/services/UserManagementService/UserManagementService";
 import {
   Alert,
   Button,
@@ -12,7 +14,7 @@ import {
   InputLeftElement,
   SlideFade,
   Text,
-  VStack,
+  VStack
 } from "@chakra-ui/react";
 import { Autocomplete, Option } from "chakra-ui-simple-autocomplete";
 import React, { useState } from "react";
@@ -21,10 +23,11 @@ import {
   AiOutlineCalendar,
   AiOutlineLock,
   AiOutlineMail,
-  AiOutlineUser,
+  AiOutlineUnorderedList,
+  AiOutlineUser
 } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
-import { Data } from "./Data";
+import { UserData } from "./UserData";
 
 export default function Registration() {
   const [data, setData] = useState({
@@ -32,25 +35,32 @@ export default function Registration() {
     email: "",
     password: "",
     confirmPassword: "",
-    dateOfBirth: "",
+    dob: "",
+    about: "",
     genres: [],
-  } as Data);
+  } as UserData);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [result, setResult] = React.useState<Option[]>([]);
 
   const navigate = useNavigate();
 
-  const validateAndRegister = (event: any) => {
+  const validateAndRegister = async (event: any) => {
     event.preventDefault();
 
     setError(false);
     setErrorMessage("");
 
-    console.log(data);
 
-    const { userName, email, password, confirmPassword, dateOfBirth, genres } =
-      data;
+    const {
+      userName,
+      email,
+      password,
+      confirmPassword,
+      dob: dateOfBirth,
+      about,
+      genres,
+    } = data;
 
     // regex
     // generated using https://regex-generator.olafneumann.org/
@@ -72,7 +82,7 @@ export default function Registration() {
       !nameRegex.test(userName)
     ) {
       setErrorMessage(
-        "Invalid username. It can't be empty and should contain only letters."
+        "Invalid user name. It can't be empty and should contain only letters."
       );
       setError(true);
       return;
@@ -101,7 +111,16 @@ export default function Registration() {
     setError(false);
     setErrorMessage("");
 
-    navigate("/profile", { state: data });
+    const userManagementService = new UserManagementService();
+    const userData = { ...data, genres: result.map((genre) => genre.label) };
+    const message = await userManagementService.register(userData);
+
+    if (message === UserManagementState.UserRegistrationSuccess) {
+      navigate("/profile", { state: data });
+    } else {
+      setError(true);
+      setErrorMessage(message);
+    }
   };
 
   const accent = "yellow.500";
@@ -114,9 +133,7 @@ export default function Registration() {
       justifyContent="center"
       alignItems="center"
     >
-      <CustomContainer
-        width="30%"
-      >
+      <CustomContainer width="30%">
         <Center mb={6}>
           <VStack>
             <Heading>Register</Heading>
@@ -126,7 +143,7 @@ export default function Registration() {
               width={"300px"}
               textAlign="center"
             >
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Get started with your CineScope account
             </Text>
           </VStack>
         </Center>
@@ -190,7 +207,7 @@ export default function Registration() {
             children={<AiOutlineCalendar color="gray.300" />}
           />
           <Input
-            id="dateOfBirth"
+            id="dob"
             type="text"
             variant="outline"
             placeholder="Date of Birth"
@@ -216,6 +233,18 @@ export default function Registration() {
           placeholder="Enter your preferred..."
           mb={12}
         ></Autocomplete>
+
+        <CustomInputField
+          icon={<AiOutlineUnorderedList color="gray.300" />}
+          id="about"
+          type="text"
+          placeholder="About you"
+          focusBorderColor={accent}
+          mb={3}
+          onChange={(event: any) =>
+            setData({ ...data, [event.target.id]: event.target.value })
+          }
+        />
 
         {error && (
           <SlideFade in={error} unmountOnExit={true}>

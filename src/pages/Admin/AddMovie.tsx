@@ -1,4 +1,3 @@
-import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -16,31 +15,37 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { AdminNavBar } from "../../components/AdminNavBar";
+import Movie from "@/common/Movie";
+import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
+import { MovieManagementState } from "@/services/MovieManagementService/MovieManagementEnum";
+
 export default function AddMovie() {
   const navigate = useNavigate();
   const [formErrors, setFormErrors] = useState<Map<string, string>>();
   const [cast, setCast] = useState<string[]>([]);
   const [genre, setGenre] = useState<string[]>([]);
   const [image, setImage] = useState<string[]>([]);
-
+  const [todayDate, setTodayDate] = useState<any>();
   const toast = useToast();
 
   useEffect(() => {
     var today = new Date().toISOString().split("T")[0];
-    const newLocal = "released_date";
-    document.getElementById(newLocal).setAttribute("max", today);
+    setTodayDate(today);
   }, []);
 
-  const [formValues, setFormValues] = useState({
+  const [movie, setMovie] = useState({
     title: "",
-    poster: "",
-    released_date: undefined,
+    released_date: Date,
     director: "",
-    plot: "",
+    genres: [],
     time_in_minutes: "",
+    plot: "",
+    cast: [],
+    images: [],
     thumbnail: "",
-    trailor: ""
-  });
+    poster: "",
+    trailor: "",
+  } as unknown as Movie);
 
   const checkCastNames = () => {
     for (let i = 0; i < cast.length; i++) {
@@ -117,28 +122,28 @@ export default function AddMovie() {
   const validateForm = () => {
     // Using Map
     const errors = new Map();
-    if (!formValues.title) {
+    if (!movie.title) {
       errors.set("title", "Title is required");
     }
 
-    if (!formValues.poster) {
+    if (!movie.poster) {
       errors.set("poster", "Poster link is required");
-    } else if (formValues.poster.match(/\.(jpeg|jpg|gif|png)$/) == null) {
+    } else if (movie.poster.match(/\.(jpeg|jpg|gif|png)$/) == null) {
       errors.set(
         "poster",
         "Poster link must be in valid format(jpeg|jpg|gif|png)."
       );
     }
 
-    if (!formValues.plot) {
+    if (!movie.plot) {
       errors.set("plot", "Plot for the movie is required");
-    } else if (formValues.plot.split(" ").length >= 250) {
+    } else if (movie.plot.split(" ").length >= 250) {
       errors.set("plot", "Plot details must be less than 250 letters.");
     }
 
-    if (!formValues.director) {
+    if (!movie.director) {
       errors.set("director", "Director name is required");
-    } else if (!/^[A-Za-z ]+$/.test(formValues.director)) {
+    } else if (!/^[A-Za-z ]+$/.test(movie.director)) {
       errors.set("director", "Director name must be in letters.");
     }
     if (cast.length == 0) {
@@ -151,12 +156,12 @@ export default function AddMovie() {
     } else if (checkGenreNames()) {
       errors.set("genre", "Genre names must be in letters.");
     }
-    if (formValues.released_date == undefined || formValues.released_date == "") {
+    if (movie.released_date == undefined || movie.released_date == null) {
       errors.set("released_date", "Released date is required");
     }
-    if (formValues.time_in_minutes == "") {
+    if (movie.time_in_minutes == "") {
       errors.set("time_in_minutes", "Time in minutes is required");
-    } else if (!/^\d+$/.test(formValues.time_in_minutes)) {
+    } else if (!/^\d+$/.test(movie.time_in_minutes)) {
       errors.set("time_in_minutes", "Time in minutes must be in digits.");
     }
     if (image.length == 0) {
@@ -165,21 +170,23 @@ export default function AddMovie() {
       errors.set("images", "Images must be in valid format(jpeg|jpg|gif|png).");
     }
 
-    if (!formValues.thumbnail) {
+    if (!movie.thumbnail) {
       errors.set("thumbnail", "Thumbnail link is required");
-    } else if (formValues.thumbnail.match(/\.(jpeg|jpg|gif|png)$/) == null) {
+    } else if (movie.thumbnail.match(/\.(jpeg|jpg|gif|png)$/) == null) {
       errors.set(
         "thumbnail",
         "Thumbnail link must be in valid format(jpeg|jpg|gif|png)."
       );
     }
 
-    if (!formValues.trailor) {
+    if (!movie.trailor) {
       errors.set("trailor", "Trailor link is required");
-    } else if (formValues.trailor.match(/^(https?\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/) == null) {
+    } else if (
+      movie.trailor.match(/^https:\/\/www\.youtube\.com\/embed\/.*/) == null
+    ) {
       errors.set(
         "trailor",
-        "Trailor link must be in valid youtube link."
+        "Trailor link must be in valid embedded youtube link."
       );
     }
 
@@ -188,57 +195,24 @@ export default function AddMovie() {
     return errors.size === 0;
   };
 
-  const handleInputChange = (event: any) => {
-    setFormValues({
-      ...formValues,
-      [event.target.name]: event.target.value,
-    });
-  };
-
   const handleSubmit = async (event: any) => {
-    // event.preventDefault();
+    event.preventDefault();
     if (validateForm()) {
-      var myHeaders = new Headers();
-      var raw = JSON.stringify({
-        title: formValues.title,
-        released_date: formValues.released_date,
-        director: formValues.director,
-        genres: genre,
-        time_in_minutes: formValues.time_in_minutes,
-        plot: formValues.plot,
-        cast: cast,
-        images: image,
-        thumbnail: formValues.thumbnail,
-        poster: formValues.poster,
-      });
-      myHeaders.append("Content-Type", "application/json");
-      let requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-        body: raw
-      };
-      let url = " http://127.0.0.1:3000/movie/add-movie/";
-      await fetch(url, requestOptions)
-        .then((response) => {
-        
-            if(response.status == 200){
-              toast({
-                title: `Movie added sucessfully.`,
-                status: "success",
-                isClosable: true,
-              });
-              navigate("/");
-            }
-            else{
-              alert("Something went wrong while adding movie.")
-            }
-        })
-        .catch((error) => {
-          console.log(error);
-          alert("Interal server error.");
+      movie.cast = cast;
+      movie.genres = genre;
+      movie.images = image;
+      const movieManagementService = new MovieMagementService();
+      const state = await movieManagementService.addMovie(movie);
+      if (state == MovieManagementState.MovieAddSuccess) {
+        toast({
+          title: `Movie added sucessfully.`,
+          status: "success",
+          isClosable: true,
         });
-
-      
+        navigate("/");
+      } else {
+        alert(state);
+      }
     }
   };
 
@@ -248,7 +222,6 @@ export default function AddMovie() {
 
   return (
     <div>
-      <AdminNavBar></AdminNavBar>
       <Center m={[2, 5, 10]}>
         <Box
           p="6"
@@ -265,8 +238,10 @@ export default function AddMovie() {
               type="text"
               id="title"
               name="title"
-              value={formValues.title}
-              onChange={handleInputChange}
+              value={movie.title}
+              onChange={(event: any) =>
+                setMovie({ ...movie, [event.target.id]: event.target.value })
+              }
             />
             <FormErrorMessage>{formErrors?.get("title")}</FormErrorMessage>
           </FormControl>
@@ -277,8 +252,10 @@ export default function AddMovie() {
               type="text"
               id="poster"
               name="poster"
-              value={formValues.poster}
-              onChange={handleInputChange}
+              value={movie.poster}
+              onChange={(event: any) =>
+                setMovie({ ...movie, [event.target.id]: event.target.value })
+              }
             />
             <FormErrorMessage>{formErrors?.get("poster")}</FormErrorMessage>
           </FormControl>
@@ -289,8 +266,10 @@ export default function AddMovie() {
               type="text"
               id="thumbnail"
               name="thumbnail"
-              value={formValues.thumbnail}
-              onChange={handleInputChange}
+              value={movie.thumbnail}
+              onChange={(event: any) =>
+                setMovie({ ...movie, [event.target.id]: event.target.value })
+              }
             />
             <FormErrorMessage>{formErrors?.get("thumbnail")}</FormErrorMessage>
           </FormControl>
@@ -301,8 +280,10 @@ export default function AddMovie() {
               type="text"
               id="trailor"
               name="trailor"
-              value={formValues.trailor}
-              onChange={handleInputChange}
+              value={movie.trailor}
+              onChange={(event: any) =>
+                setMovie({ ...movie, [event.target.id]: event.target.value })
+              }
             />
             <FormErrorMessage>{formErrors?.get("trailor")}</FormErrorMessage>
           </FormControl>
@@ -313,8 +294,10 @@ export default function AddMovie() {
               type="text"
               id="plot"
               name="plot"
-              value={formValues.plot}
-              onChange={handleInputChange}
+              value={movie.plot}
+              onChange={(event: any) =>
+                setMovie({ ...movie, [event.target.id]: event.target.value })
+              }
             />
             <FormErrorMessage>{formErrors?.get("plot")}</FormErrorMessage>
             <small>Must be less than 250 words.</small>
@@ -326,20 +309,24 @@ export default function AddMovie() {
               type="text"
               id="director"
               name="director"
-              value={formValues.director}
-              onChange={handleInputChange}
+              value={movie.director}
+              onChange={(event: any) =>
+                setMovie({ ...movie, [event.target.id]: event.target.value })
+              }
             />
             <FormErrorMessage>{formErrors?.get("director")}</FormErrorMessage>
           </FormControl>
 
           <FormControl isInvalid={!!formErrors?.get("released_date")}>
-            <FormLabel htmlFor="firstname">Released Date</FormLabel>
+            <FormLabel htmlFor="released_date">Released Date</FormLabel>
             <Input
-              value={formValues.released_date}
-              onChange={handleInputChange}
+              onChange={(event: any) =>
+                setMovie({ ...movie, [event.target.id]: event.target.value })
+              }
               id="released_date"
               name="released_date"
               type="date"
+              max={todayDate}
             ></Input>
             <FormErrorMessage>
               {formErrors?.get("released_date")}
@@ -352,8 +339,10 @@ export default function AddMovie() {
               type="text"
               id="time_in_minutes"
               name="time_in_minutes"
-              value={formValues.time_in_minutes}
-              onChange={handleInputChange}
+              value={movie.time_in_minutes}
+              onChange={(event: any) =>
+                setMovie({ ...movie, [event.target.id]: event.target.value })
+              }
             />
             <FormErrorMessage>
               {formErrors?.get("time_in_minutes")}

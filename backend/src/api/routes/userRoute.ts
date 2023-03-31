@@ -8,9 +8,14 @@ const userRoute = (): Router => {
 
   router
     .route("/:userId")
-    .get(userController.getUser)
+    .get(userController.getUserByID)
     .put(userController.updateUser)
     .delete(userController.deleteUser);
+
+  router.route("/username/:userName").get(userController.getUserByUserName);
+
+  router.route("/login").post(userController.login);
+  router.route("/reset").post(userController.sendPasswordResetEmail);
 
   return router;
 };

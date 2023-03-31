@@ -4,14 +4,17 @@ import movieController from "../controllers/MovieController";
 const movieRoute = (): Router => {
   const router = Router();
 
-  router.route("/add-movie/").post(movieController.createMovie);
-  router.route("/fetch-latest-movies/").get(movieController.fetchLastestMovies);
+  router.route("/").post(movieController.createMovie);
 
-//   router
-//     .route("/:movieId")
-//     .get(movieController.getmovie)
-//     .put(movieController.updatemovie)
-//     .delete(movieController.deletemovie);
+  router.route("/latest/").get(movieController.fetchLastestMovies);
+  router.route("/search/").post(movieController.filterMovie);
+  router.route("/all/").get(movieController.fetchAllMovies);
+
+  router
+    .route("/:movieId")
+    .get(movieController.fetchMovieById)
+    .put(movieController.updateMovieById)
+    .delete(movieController.deleterMovieById);
 
   return router;
 };

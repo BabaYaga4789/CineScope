@@ -1,4 +1,6 @@
 import CustomContainer from "@/components/CustomContainer";
+import { UserManagementState } from "@/services/UserManagementService/UserManagementEnum";
+import UserManagementService from "@/services/UserManagementService/UserManagementService";
 import {
   Alert,
   Box,
@@ -39,7 +41,7 @@ export default function SignIn() {
     return true;
   };
 
-  const login = (event: any) => {
+  const login = async (event: any) => {
     event.preventDefault();
 
     if (username.length === 0 || password.length === 0) {
@@ -53,8 +55,28 @@ export default function SignIn() {
       setMessage("The password should be more than 6 characters long");
     } else {
       setError(false);
-      setMessage("Sign In successful");
-      navigate("/");
+
+      const userManagementService = new UserManagementService();
+      const message = await userManagementService.login(username, password);
+      if (message === UserManagementState.UserLoginFailedUserDoesNotExist) {
+        setError(true);
+        setMessage("User not found");
+        return;
+      } else if (
+        message === UserManagementState.UserLoginFailedIncorrectPassword
+      ) {
+        setError(true);
+        setMessage("Incorrect password");
+        return;
+      } else if (message === UserManagementState.UserLoginSuccess) {
+        setError(false);
+        setMessage("Login successful");
+        navigate("/");
+      } else {
+        setError(true);
+        setMessage("Something went wrong");
+        return;
+      }
     }
   };
 
@@ -72,7 +94,8 @@ export default function SignIn() {
               width={"300px"}
               textAlign="center"
             >
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Login to your CineScope account to access your watchlist, reviews,
+              and more.
             </Text>
           </VStack>
         </Center>

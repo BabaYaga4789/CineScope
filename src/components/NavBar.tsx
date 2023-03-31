@@ -1,3 +1,5 @@
+import { SessionManager } from "@/common/SessionManager";
+import UserManagementService from "@/services/UserManagementService/UserManagementService";
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 import {
   Avatar,
@@ -19,6 +21,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 
 const NavBar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const isLoggedIn = SessionManager.isLoggedIn();
   const navigate = useNavigate();
 
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -30,6 +33,11 @@ const NavBar = () => {
   const switchToAdmin = () => {
     localStorage.setItem("isAdmin", "true");
     window.location.replace("/");
+  };
+
+  const logout = () => {
+    SessionManager.logout();
+    navigate("/");
   };
 
   return (
@@ -114,33 +122,45 @@ const NavBar = () => {
               fontWeight="normal"
               onMouseEnter={onOpen}
               onMouseLeave={onClose}
-              onClick={() => navigate("/profile")}
+              onClick={async () => {
+                const userID = localStorage.getItem("userID");
+                if (userID == null) {
+                  navigate("/login");
+                } else {
+                  const userManagementService = new UserManagementService();
+                  const data: any = await userManagementService.getUser(
+                    userID!!
+                  );
+                  console.log(data);
+                  navigate("/profile/" + data.userName);
+                }
+              }}
             >
               <Avatar name="Harsh" />
             </MenuButton>
             <MenuList onMouseEnter={onOpen} onMouseLeave={onClose}>
-              <MenuItem
-                onClick={() => {
-                  navigate("login");
-                }}
-              >
-                Login
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  navigate("account-settings");
-                }}
-              >
-                Account Settings
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  navigate("/");
-                }}
-              >
-                Logout
-              </MenuItem>
-              <MenuItem onClick={switchToAdmin}>Switch to Admin</MenuItem>
+              {!isLoggedIn && (
+                <MenuItem
+                  onClick={() => {
+                    navigate("login");
+                  }}
+                >
+                  Login
+                </MenuItem>
+              )}
+              {isLoggedIn && (
+                <MenuItem
+                  onClick={() => {
+                    navigate("account-settings");
+                  }}
+                >
+                  Account Settings
+                </MenuItem>
+              )}
+              {isLoggedIn && <MenuItem onClick={logout}>Logout</MenuItem>}
+              {isLoggedIn && (
+                <MenuItem onClick={switchToAdmin}>Switch to Admin</MenuItem>
+              )}
             </MenuList>
           </Menu>
           <Box display={{ base: "flex", md: "none" }} onClick={toggle}>

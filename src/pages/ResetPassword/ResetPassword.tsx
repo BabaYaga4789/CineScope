@@ -1,4 +1,6 @@
 import CustomContainer from "@/components/CustomContainer";
+import { UserManagementState } from "@/services/UserManagementService/UserManagementEnum";
+import UserManagementService from "@/services/UserManagementService/UserManagementService";
 import {
   Button,
   Center,
@@ -7,8 +9,9 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  Text, useToast,
-  VStack
+  Text,
+  useToast,
+  VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { AiOutlineUser } from "react-icons/ai";
@@ -24,7 +27,7 @@ export default function ResetPassword() {
     return regex.test(email);
   };
 
-  const sendEmail = (event: any) => {
+  const sendEmail = async (event: any) => {
     event.preventDefault();
 
     if (!validateEmail(email)) {
@@ -35,12 +38,28 @@ export default function ResetPassword() {
         duration: 5000,
       });
     } else {
-      toast({
-        title: "Email sent",
-        description: "Please check your email for the reset link",
-        status: "success",
-        duration: 5000,
-      });
+      const userManagementService = new UserManagementService();
+
+      {
+        const message = await userManagementService.resetPassword(email);
+        if (
+          message === UserManagementState.PasswordResetFailedUserDoesNotExist
+        ) {
+          toast({
+            title: "Error",
+            description: "Sorry, can't find any such user :(",
+            status: "error",
+            duration: 5000,
+          });
+        } else {
+          toast({
+            title: "Email sent",
+            description: "Please check your email for the reset link",
+            status: "success",
+            duration: 5000,
+          });
+        }
+      }
     }
   };
 
@@ -58,7 +77,7 @@ export default function ResetPassword() {
               width={"300px"}
               textAlign="center"
             >
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Enter your email address and we'll send you a temporary password
             </Text>
           </VStack>
         </Center>

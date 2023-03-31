@@ -4,8 +4,10 @@ import AddMovie from "./pages/Admin/AddMovie";
 import AddNews from "./pages/Admin/AddNews";
 import UpdateMovieDetails from "./pages/Admin/UpdateMovieDetails";
 import { FilterResults } from "./pages/Filter/FilterResults";
+import { FilterResultsAdmin } from "./pages/Filter/FilterResultsAdmin";
 import AdminHome from "./pages/Home/AdminHome";
 import Home from "./pages/Home/Home";
+import MovieDetail from "./pages/MovieDetail/MovieDetail";
 import News from "./pages/News/News";
 import NewsDetails from "./pages/News/NewsDetails";
 import Profile from "./pages/Profile/Profile";
@@ -19,20 +21,34 @@ import RootLayout from "./RootLayout";
 const adminRouter = createBrowserRouter([
   {
     path: "/",
-    element: <AdminHome />,
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: <AdminHome />,
+      },
+      {
+        path: "/update-movie-details/:id",
+        element: <UpdateMovieDetails />,
+      },
+      {
+        path: "/add-movie",
+        element: <AddMovie />,
+      },
+      {
+        path: "/search",
+        element: <FilterResultsAdmin />,
+      },
+    ],
   },
-  {
-    path: "/update-movie-details/:id",
-    element: <UpdateMovieDetails />,
-  },
-  {
-    path: "/add-movie",
-    element: <AddMovie />,
-  },
+<<<<<<< HEAD
   {
     path: "/add-news",
     element: <AddNews />,
   },
+=======
+  
+>>>>>>> 64525271c3a66eee4b7f311e4ed319729d8e0541
 ]);
 
 const router = createBrowserRouter([
@@ -65,7 +81,7 @@ const router = createBrowserRouter([
         element: <ResetPassword />,
       },
       {
-        path: "/profile",
+        path: "/profile/:id",
         element: <Profile />,
       },
       {
@@ -87,6 +103,10 @@ const router = createBrowserRouter([
       {
         path: "/reviews",
         element: <Reviews />,
+      },
+      {
+        path: "/movie-details",
+        element: <MovieDetail />
       },
     ],
   },

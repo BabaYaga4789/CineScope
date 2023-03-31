@@ -1,3 +1,6 @@
+import { SessionManager } from "@/common/SessionManager";
+import { UserManagementState } from "@/services/UserManagementService/UserManagementEnum";
+import UserManagementService from "@/services/UserManagementService/UserManagementService";
 import { Button } from "@chakra-ui/button";
 import { VStack } from "@chakra-ui/layout";
 import {
@@ -8,28 +11,54 @@ import {
   AlertDialogHeader,
   AlertDialogOverlay,
 } from "@chakra-ui/modal";
-import { Alert, SlideFade } from "@chakra-ui/react";
+import { Alert, SlideFade, useToast } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import { AiOutlineLock } from "react-icons/ai";
 import CustomInputField from "./CustomInputField";
 
 interface ChangePasswordDialogProps {
   isOpen: boolean;
+  data: any;
   onClose: () => void;
 }
 
 const ChangePasswordDialog = (props: ChangePasswordDialogProps) => {
-  const [data, setData] = useState({
-    oldPass: "",
+  const [passData, setPassData] = useState({
+    oldPass: props.data.oldPass,
     newPass: "",
     confirmPass: "",
   } as any);
   const [message, setMessage] = useState("");
   const [error, setError] = useState(false);
 
+  const toast = useToast();
+
   const cancelRef = useRef<HTMLButtonElement>(null);
 
   const accent = "yellow.500";
+
+  const updatePassword = async () => {
+    const userID = SessionManager.getUserID();
+    const d = { ...props.data, password: passData.newPass };
+    const userManagementService = new UserManagementService();
+    const state = await userManagementService.updateUser(userID!!, d);
+
+    if (state === UserManagementState.UserUpdatedSuccess) {
+      toast({
+        title: "Password updated successfully.",
+        status: "success",
+        duration: 3500,
+        isClosable: true,
+      });
+    } else {
+      toast({
+        title: "Oops! Something went wrong.",
+        status: "error",
+        duration: 3500,
+        isClosable: true,
+      });
+    }
+  };
 
   const validateAndChange = (event: any) => {
     event.preventDefault();
@@ -37,25 +66,26 @@ const ChangePasswordDialog = (props: ChangePasswordDialogProps) => {
     setError(false);
     setMessage("");
 
-    if (data.oldPass === "") {
+    if (passData.oldPass === "") {
       setError(true);
       setMessage("Please enter your current password.");
       return;
     } else if (
-      data.newPass === "" ||
-      data.confirmPass === "" ||
-      data.newPass != data.confirmPass
+      passData.newPass === "" ||
+      passData.confirmPass === "" ||
+      passData.newPass != passData.confirmPass
     ) {
       setError(true);
       setMessage("Passwords do not match.");
       return;
-    } else if (data.oldPass === data.newPass) {
+    } else if (passData.oldPass === passData.newPass) {
       setError(true);
       setMessage("New password cannot be the same as the old password.");
       return;
     }
 
     if (!error) {
+      updatePassword();
       props.onClose();
     }
   };
@@ -82,7 +112,10 @@ const ChangePasswordDialog = (props: ChangePasswordDialogProps) => {
               focusBorderColor={accent}
               mb={3}
               onChange={(event: any) =>
-                setData({ ...data, [event.target.id]: event.target.value })
+                setPassData({
+                  ...passData,
+                  [event.target.id]: event.target.value,
+                })
               }
             />
             <CustomInputField
@@ -93,7 +126,10 @@ const ChangePasswordDialog = (props: ChangePasswordDialogProps) => {
               focusBorderColor={accent}
               mb={3}
               onChange={(event: any) =>
-                setData({ ...data, [event.target.id]: event.target.value })
+                setPassData({
+                  ...passData,
+                  [event.target.id]: event.target.value,
+                })
               }
             />
             <CustomInputField
@@ -104,7 +140,10 @@ const ChangePasswordDialog = (props: ChangePasswordDialogProps) => {
               focusBorderColor={accent}
               mb={3}
               onChange={(event: any) =>
-                setData({ ...data, [event.target.id]: event.target.value })
+                setPassData({
+                  ...passData,
+                  [event.target.id]: event.target.value,
+                })
               }
             />
             <SlideFade in={error} unmountOnExit={true}>
