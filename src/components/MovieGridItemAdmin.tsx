@@ -1,6 +1,8 @@
+/**
+ * @author Ketul Patel - B00900957
+ */
+
 import Movie from "@/common/Movie";
-import AddMovieDialog from "@/components/AddMovieDialog";
-import AdminHome from "@/pages/Home/AdminHome";
 import { MovieManagementState } from "@/services/MovieManagementService/MovieManagementEnum";
 import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
 import {

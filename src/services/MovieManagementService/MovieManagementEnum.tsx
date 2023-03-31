@@ -1,3 +1,7 @@
+/**
+ * @author Ketul Patel - B00900957
+ */
+
 export enum MovieManagementState {
     MovieAddSuccess = "Movie added successfully.",
     MovieAddFailure = "Movie addition failed.",

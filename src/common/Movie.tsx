@@ -1,3 +1,6 @@
+/**
+ * @author Ketul Patel - B00900957
+ */
 export default interface Movie {
   _id?: string;
   title: string;

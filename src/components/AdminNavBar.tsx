@@ -1,10 +1,12 @@
+/**
+ * @author Ketul Patel - B00900957
+ */
+
 import {
   Box,
   Button,
   Flex,
   HStack,
-  IconButton,
-  Input,
   Menu,
   MenuButton,
   MenuItem,
@@ -12,7 +14,6 @@ import {
   Spacer,
   Text,
 } from "@chakra-ui/react";
-import { FaSearch } from "react-icons/fa";
 import { NavLink, useNavigate } from "react-router-dom";
 
 export const AdminNavBar = () => {
@@ -26,10 +27,9 @@ export const AdminNavBar = () => {
     window.location.replace("/");
   };
 
-
   return (
     <div>
-      <Box as="nav" boxShadow="md"  mb="20px">
+      <Box as="nav" boxShadow="md" mb="20px">
         <Flex
           as="div"
           mx="auto"
@@ -66,29 +66,18 @@ export const AdminNavBar = () => {
             </Menu>
           </HStack>
 
-          {/* <HStack ml={[40, 50, 60]}>
-          
-            <IconButton
-              aria-label="Search"
-              icon={<FaSearch />}
-              colorScheme={"yellow"}
-              color="white"
-              borderRadius="md"
-              placeholder="Search"
-            />
-          </HStack> */}
-
-          <Spacer></Spacer>
+       
+       <Spacer></Spacer>
           <HStack spacing={[10, 20, 30]}>
-          <NavLink
-            to="/search"
-            style={({ isActive }) => {
-              return { fontWeight: isActive ? 700 : 400 };
-            }}
-          >
-            Search
-          </NavLink>
-  
+            <NavLink
+              to="/search"
+              style={({ isActive }) => {
+                return { fontWeight: isActive ? 700 : 400 };
+              }}
+            >
+              Search
+            </NavLink>
+
             <Text fontSize={["sm", "md", "lg", "lg"]}>Welcome, Admin!</Text>
             {/* <Avatar
               size="sm"
