@@ -8,7 +8,7 @@ const reviewsRoute = (): Router => {
   router.route("/get-review/").post(reviewsController.getReviews);
   router.route("/add-rating/").post(reviewsController.addRatings);
   router.route("/add-reviews/").post(reviewsController.addReviews);
-  router.route("update-review").post(reviewsController.addReviews);
+  //router.route("update-review").post(reviewsController.addReviews);
 
   return router;
 };

@@ -13,46 +13,64 @@ const reviews = new Schema({
   movieId: String,
 });
 
-
 const Reviews = mongoose.model("Reviews", reviews);
 
-
+/*retrieves rating from database*/
 export async function getRating(movie: any) {
   const movies = await Reviews.find({ movie: movie });
   return movies;
 }
 
-export async function getReview (movie: any) {
+/*retrieves review from database*/
+export async function getReview(movie: any) {
   const movies = await Reviews.find({ movie: movie });
   return movies;
 }
 
-export async function addRating(movie: any, email: any, rating: any, movieId:any) {
-  const currentDate = Date.now(); 
-  const filter = { email: email, movie: movie }; // DefXine the filter to find the document
-  const update = { rating : rating, rating_date: currentDate, flag:false, movieId: movieId }; // Define the update
+/*adds rating to database*/
+export async function addRating(
+  movie: any,
+  email: any,
+  rating: any,
+  movieId: any
+) {
+  const currentDate = Date.now();
+  const filter = { email: email, movie: movie };
+  const update = {
+    rating: rating,
+    rating_date: currentDate,
+    flag: false,
+    movieId: movieId,
+  };
 
-  // Set the `upsert` option to `true` if you want to create the document if it doesn't exist
+  //https://mongoosejs.com/docs/api/model.html#model_Model.findOneAndUpdate
+  //https://www.appsloveworld.com/nodejs/100/3/mongoose-create-document-if-not-exists-otherwise-update-return-document-in-e
   const options = { upsert: true, new: true, setDefaultsOnInsert: true };
 
-  // Use the `findOneAndUpdate()` method to add or update the field
   const addedRating = await Reviews.findOneAndUpdate(filter, update, options);
-  console.log("addedRating", addedRating);
+
   return addedRating;
 }
 
+/* to add or update a review to database*/
+export async function addReview(
+  movie: any,
+  email: any,
+  review: any,
+  movieId: any
+) {
+  const currentDate = Date.now();
+  const filter = { email: email, movie: movie };
+  const update = {
+    review: review,
+    review_date: currentDate,
+    flag: false,
+    movieId: movieId,
+  };
 
-export async function addReview(movie: any, email: any, review: any, movieId:any) {
-  const currentDate = Date.now(); 
-  const filter = { email: email, movie: movie }; // Define the filter to find the document
-  const update = { review: review, review_date: currentDate, flag:false, movieId: movieId }; // Define the update
-
-  // Set the `upsert` option to `true` if you want to create the document if it doesn't exist
   const options = { upsert: true, new: true, setDefaultsOnInsert: true };
-
-  // Use the `findOneAndUpdate()` method to add or update the field
   const addedReview = await Reviews.findOneAndUpdate(filter, update, options);
-  console.log("addedReview", addedReview);
+
   return addedReview;
 }
 

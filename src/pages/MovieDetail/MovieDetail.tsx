@@ -40,41 +40,22 @@ const MovieDetails = () => {
   const [movieReview, setMovieReview] = useState() as any;
   const [wstatus, setWStatus] = useState("") as any;
   const [logUser, setLogUser] = useState("") as any;
-
-  let res = "";
-
   const isLoggedIn = SessionManager.isLoggedIn();
   const userID = SessionManager.getUserID();
+  const [rating, setRating] = useState(0);
+  const toast = useToast();
+
 
   const getLoggedInUserEmail = async () => {
     let userEmail = "";
     if (userID) {
       const body: any = await userManagementService.getUser(userID);
       userEmail = body.email;
-      //console.log(userEmail, "userEmail");
     }
     return userEmail;
   };
 
-  console.log("getLoggedInUserEmail",getLoggedInUserEmail);
 
-  // const watchListStatus = async () =>{
-  //   //let getStatus = false;
-  //   if(userID){
-  //     const body: any = await watchlistService.getWatchlist(userID);
-  //      body.forEach((item: any) => {
-  //         if (item.movieId === movieId && item.status === 'watched') {
-  //           setWStatus(true)
-  //           // res = 'watched';
-  //           // console.log(res,"statusss inside if")
-  //           console.log(`Movie ID: ${item.movieId}, Status: ${item.status}`);
-  //         }
-  //         console.log(res,"statusss")
-  //       });
-  //   }
-  //   return wstatus;
-
-  // }
 
   const fetchMovieDetails = async () => {
     const body: any = await movieManagementService.fetchMovieByID(movieId);
@@ -93,10 +74,11 @@ const MovieDetails = () => {
       body.released_date = formattedReleasedDate;
       setMovieDetails(body);
 
+      //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed
       const body1: any = await ReviewsMagementService.getRating(body.title);
       const roundedOff = body1.toFixed(2);
       setMovieRating(roundedOff);
-      console.log("myRating", body1);
+     
       const body2: any = await ReviewsMagementService.getReview(body.title);
       const reviewedMovies = body2.filter((movie: any) => {
         return movie.hasOwnProperty("review");
@@ -108,41 +90,34 @@ const MovieDetails = () => {
         };
       });
       setDisplay(ratingObjects);
-      console.log("ratingObjects", ratingObjects);
-
+     
       if (userID) {
         const body: any = await watchlistService.getWatchlist(userID);
-        console.log("WatchList body", body);
+        
         body.forEach((item: any) => {
           if (item.movieId === movieId && item.status === "watched") {
             setWStatus("watched");
-            // res = 'watched';
-            // console.log(res,"statusss inside if")
             console.log(`Movie ID: ${item.movieId}, Status: ${item.status}`);
           }
-          console.log(res, "statusss");
         });
       }
     }
 
     const fetchedEmail = await getLoggedInUserEmail();
-    setLogUser(fetchedEmail)
+    setLogUser(fetchedEmail);
   };
 
-  const [rating, setRating] = useState(0);
-  const toast = useToast();
-
+ 
   const handleRatingClick = async (value: number) => {
     setRating(value);
     const fetchedEmail = await getLoggedInUserEmail();
     const body: any = await ReviewsMagementService.addRating(
       movieDetails.title,
-      //"xyz@@gmail.com",
       fetchedEmail,
       value,
       movieId
     );
-    console.log("rating", rating);
+  
 
     toast({
       description: "Rating has been added",
@@ -166,9 +141,9 @@ const MovieDetails = () => {
       movieId
     );
     setMovieReview(body);
-    // console.log("rating", rating);
-    // console.log(comment);
+    setComment("");
   };
+
 
   const handleChildData = async (data: string) => {
     console.log(`Received data from child component: ${data}`);
@@ -205,7 +180,9 @@ const MovieDetails = () => {
             w={["350px", "500px", "700px", "700px"]}
             h={["350px", "500px", "600px", "600px"]}
           />
-          {isLoggedIn && wstatus === "watched" && (
+
+          {/* ratings and reviews enabled only for logged in users */}
+          {isLoggedIn && (
             <Box boxShadow="2xl" p="2" mb="4" ml={2} mt={12} width="85%">
               <Text mb={2} color="gray.700" fontWeight="medium">
                 Add Rating
@@ -226,7 +203,7 @@ const MovieDetails = () => {
             </Box>
           )}
 
-          {isLoggedIn && wstatus === "watched" && (
+          {isLoggedIn && ( //&& wstatus === "watched" - need to add later
             <Box
               borderWidth="1px"
               borderRadius="lg"
@@ -340,12 +317,15 @@ const MovieDetails = () => {
                 boxShadow="md"
               />
             </GridItem>
-            
           ))}
         </SimpleGrid>
       </Box>
       <Box w="100%" maxW="1200px" mx="auto" boxShadow="xl" p={10}>
-        <CommentBox value={display} loggedUser={logUser} onChildData={handleChildData} />
+        <CommentBox
+          value={display}
+          loggedUser={logUser}
+          onChildData={handleChildData}
+        />
       </Box>
     </Box>
   );

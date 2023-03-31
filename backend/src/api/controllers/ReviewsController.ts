@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { addRating, addReview, getRating, getReview } from "../models/Reviews";
 
+/* controller function to retrieve ratings by calculating average*/
 const ReviewsController = {
   async getRatings(req: Request, res: Response) {
     const movie = req.body.movie;
@@ -17,6 +18,7 @@ const ReviewsController = {
     }
   },
 
+  /* to get added reviews*/
   async getReviews(req: Request, res: Response) {
     const movie = req.body.movie;
     try {
@@ -28,6 +30,7 @@ const ReviewsController = {
     }
   },
 
+  /* to add rating for a movie*/
   async addRatings(req: Request, res: Response) {
     const movie = req.body.movie;
     const email = req.body.email;
@@ -42,8 +45,7 @@ const ReviewsController = {
     }
   },
 
-  
-  //for update as well
+  /* to add reviews*/
   async addReviews(req: Request, res: Response) {
     const movie = req.body.movie;
     const email = req.body.email;

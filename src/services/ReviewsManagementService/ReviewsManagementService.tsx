@@ -2,8 +2,8 @@ import Movie from "@/common/Movie";
 import { ReviewsManagementState } from "./ReviewsManagementEnum";
 
 export default class ReviewsMagementService {
+  
   static async getRating(movie: any) {
-    // debugger;
     console.log("movie", movie);
     const response = await fetch("http://127.0.0.1:3000/reviews/get-rating/", {
       method: "POST",
@@ -16,15 +16,14 @@ export default class ReviewsMagementService {
     });
     if (response.status === 200) {
       const body = await response.json();
-      console.log("body",body);
+      console.log("body", body);
       return body;
     } else {
-      return ReviewsManagementState.ReviewsAddFailure;
+      return ReviewsManagementState.RatingNotPresent;
     }
   }
 
   static async getReview(movie: any) {
-    // debugger;
     console.log("movie", movie);
     const response = await fetch("http://127.0.0.1:3000/reviews/get-review/", {
       method: "POST",
@@ -39,12 +38,11 @@ export default class ReviewsMagementService {
       const body = await response.json();
       return body;
     } else {
-      return ReviewsManagementState.ReviewsAddFailure;
+      return ReviewsManagementState.ReviewNotPresent;
     }
   }
 
-  static async addRating(movie: any, email: any, rating: any, movieId:any) {
-    // debugger;
+  static async addRating(movie: any, email: any, rating: any, movieId: any) {
     console.log("movie+email", movie, email, rating, movieId);
     const response = await fetch("http://127.0.0.1:3000/reviews/add-rating/", {
       method: "POST",
@@ -55,19 +53,18 @@ export default class ReviewsMagementService {
         movie: movie,
         email: email,
         rating: rating,
-        movieId: movieId
+        movieId: movieId,
       }),
     });
     if (response.status === 200) {
       const body = await response.json();
       return body;
     } else {
-      return ReviewsManagementState.ReviewsAddFailure;
+      return ReviewsManagementState.RatingAddFailure;
     }
   }
 
-  static async addReview(movie: any, email: any, review: any, movieId:any) {
-    // debugger;
+  static async addReview(movie: any, email: any, review: any, movieId: any) {
     console.log("movie+email", movie, email, review, movieId);
     const response = await fetch("http://127.0.0.1:3000/reviews/add-reviews/", {
       method: "POST",
@@ -78,7 +75,7 @@ export default class ReviewsMagementService {
         movie: movie,
         email: email,
         review: review,
-        movieId: movieId
+        movieId: movieId,
       }),
     });
     if (response.status === 200) {
@@ -88,6 +85,4 @@ export default class ReviewsMagementService {
       return ReviewsManagementState.ReviewsAddFailure;
     }
   }
-
-
 }
