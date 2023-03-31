@@ -1,3 +1,6 @@
+/**
+@Author: Hrishi Patel <hrishi.patel@dal.ca>
+*/
 import mongoose from "mongoose";
 import nodemailer from "nodemailer";
 
