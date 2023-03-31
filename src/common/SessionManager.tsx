@@ -1,3 +1,6 @@
+/**
+@Author: Hrishi Patel <hrishi.patel@dal.ca>
+*/
 export class SessionManager {
   static isLoggedIn() {
     return !!localStorage.getItem("userID");

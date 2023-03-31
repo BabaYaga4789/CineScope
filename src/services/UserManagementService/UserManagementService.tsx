@@ -1,3 +1,6 @@
+/**
+@Author: Hrishi Patel <hrishi.patel@dal.ca>
+*/
 import { SessionManager } from "@/common/SessionManager";
 import { UserData } from "@/pages/Registration/UserData";
 import { UserManagementState } from "./UserManagementEnum";

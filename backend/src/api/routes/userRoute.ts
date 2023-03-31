@@ -1,7 +1,10 @@
+/**
+@Author: Hrishi Patel <hrishi.patel@dal.ca>
+*/
 import { Router } from "express";
 import userController from "../controllers/UserController";
 
-const userRoute = (): Router => {
+const UserRoute = (): Router => {
   const router = Router();
 
   router.route("/").post(userController.createUser);
@@ -20,4 +23,4 @@ const userRoute = (): Router => {
   return router;
 };
 
-export default userRoute;
+export default UserRoute;
