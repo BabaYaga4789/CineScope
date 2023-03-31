@@ -340,6 +340,7 @@ const MovieDetails = () => {
                 boxShadow="md"
               />
             </GridItem>
+            
           ))}
         </SimpleGrid>
       </Box>
