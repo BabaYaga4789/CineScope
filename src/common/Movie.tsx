@@ -1,5 +1,5 @@
 /**
- * @author Ketul Patel - B00900957
+ * @author Ketul Patel - <ketul.patel@dal.ca>
  */
 export default interface Movie {
   _id?: string;

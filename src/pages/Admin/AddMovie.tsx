@@ -1,5 +1,5 @@
 /**
- * @author Ketul Patel - B00900957
+ * @author Ketul Patel - <ketul.patel@dal.ca>
  */
 
 import { useState, useEffect } from "react";
