@@ -1,3 +1,6 @@
+/**
+@Author: Hrishi Patel <hrishi.patel@dal.ca>
+*/
 import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
 
 interface CustomInputFieldProps extends React.PropsWithChildren<any> {
