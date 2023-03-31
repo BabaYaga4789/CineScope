@@ -27,9 +27,6 @@ export default class WatchlistService {
       },
       body: JSON.stringify({ userId, movieId }),
     });
-    const body = await response.json();
-    let m = body.message;
-
     if (response.status === 200) {
       return "Movie Successfully Removed";
     } else {
@@ -62,17 +59,16 @@ export default class WatchlistService {
   }
 
   async getWatchlist(userId: string) {
-    const response = await fetch("http://localhost:3000/watchlist/:userId/", {
+    const response = await fetch(`http://localhost:3000/watchlist/${userId}/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ userId }),
     });
 
     if (response.status === 200) {
-        const body = await response.json();
-        return body;
+      const body = await response.json();
+      return body;
     } else {
       return "System Error";
     }
@@ -87,7 +83,7 @@ export default class WatchlistService {
       body: JSON.stringify({ userId }),
     });
     if (response.status === 200) {
-        return "Watchlist Cleared";
+      return "Watchlist Cleared";
     } else {
       return "System Error";
     }

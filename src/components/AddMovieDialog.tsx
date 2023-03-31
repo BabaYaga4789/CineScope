@@ -80,7 +80,7 @@ const AddMovieDialog: React.FC<AddMovieDialogProps> = ({
           onClose();
         } else {
           onClose();
-          alert("Something went wrong.");
+          alert("Movie Already Added");
         }
       }
     }

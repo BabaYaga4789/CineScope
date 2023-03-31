@@ -61,6 +61,7 @@ export default class MovieMagementService {
   }
 
   async fetchMovieByID(id: any) {
+    console.log
     const response = await fetch('http://127.0.0.1:3000/movie/fetch-movie-by-id/', {
       method: "POST",
       headers: {
