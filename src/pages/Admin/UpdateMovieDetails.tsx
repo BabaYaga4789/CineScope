@@ -1,3 +1,7 @@
+/**
+ * @author Ketul Patel - <ketul.patel@dal.ca>
+ */
+
 import { AdminNavBar } from "../../components/AdminNavBar";
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
