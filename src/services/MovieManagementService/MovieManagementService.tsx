@@ -56,16 +56,9 @@ export default class MovieMagementService {
     }
   }
 
-<<<<<<< HEAD:src/services/MovieManagementService.tsx
-  async fetchMovieByID(id: any) {
-    console.log
-    const response = await fetch('http://127.0.0.1:3000/movie/fetch-movie-by-id/', {
-      method: "POST",
-=======
   async updateMovieByID(movieId: any, movie: Movie) {
     const response = await fetch(`http://127.0.0.1:3000/movie/${movieId}`, {
       method: "PUT",
->>>>>>> 56055c3bbc8cd75af76d2b755096ba02ce86c0f2:src/services/MovieManagementService/MovieManagementService.tsx
       headers: {
         "Content-Type": "application/json",
       },

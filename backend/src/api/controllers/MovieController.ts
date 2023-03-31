@@ -57,21 +57,8 @@ const MovieController = {
     }
   },
 
-<<<<<<< HEAD
-  async searchMovie(req: Request, res: Response){
-    const keyword = req.params.keyword;
-    try{
-      const movies = await searchMovie(keyword);
-      res.status(200).json(movies);
-    } catch (err: any){
-      console.log(err);
-      res.status(500).json({ message: err.message ?? err });
-    }
-  },
-=======
   async filterMovie(req: Request, res: Response) {
     const { keyword, ratings, genre, year } = req.body;
->>>>>>> 56055c3bbc8cd75af76d2b755096ba02ce86c0f2
 
     if (keyword) {
       try {
