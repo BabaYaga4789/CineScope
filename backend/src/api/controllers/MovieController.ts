@@ -1,3 +1,7 @@
+/**
+ * @author Ketul Patel - B00900957
+ */
+
 import { Request, Response } from "express";
 import { createMovie, fetchLastestMovies, searchMovie, filterMovie, updateMovie, fetchAllMovies, fetchMovieById, deleterMovieById } from "../models/Movie";
 

@@ -1,8 +1,13 @@
+/**
+ * @author Ketul Patel - B00900957
+ */
+
 import Movie from "@/common/Movie";
 import { MovieManagementState } from "./MovieManagementEnum";
 
 export default class MovieMagementService {
-
+  
+  // const API_URL = import.meta.VITE_API_URL; 
   async addMovie(movie: Movie) {
     debugger
     const response = await fetch("http://127.0.0.1:3000/movie/", {

@@ -1,3 +1,7 @@
+/**
+ * @author Ketul Patel - B00900957
+ */
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -10,11 +14,9 @@ import {
   Center,
   Heading,
   Flex,
-  Select,
   Stack,
   useToast,
 } from "@chakra-ui/react";
-import { AdminNavBar } from "../../components/AdminNavBar";
 import Movie from "@/common/Movie";
 import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
 import { MovieManagementState } from "@/services/MovieManagementService/MovieManagementEnum";

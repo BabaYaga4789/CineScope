@@ -1,7 +1,10 @@
+/**
+ * @author Ketul Patel - B00900957
+ */
+
 import { useEffect } from "react";
 import {
   SimpleGrid,
-  VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
