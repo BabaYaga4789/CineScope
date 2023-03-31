@@ -27,7 +27,8 @@ export default function AddMovie() {
 
   useEffect(() => {
     var today = new Date().toISOString().split("T")[0];
-    document.getElementById("released_date").setAttribute("max", today);
+    const newLocal = "released_date";
+    document.getElementById(newLocal).setAttribute("max", today);
   }, []);
 
   const [formValues, setFormValues] = useState({

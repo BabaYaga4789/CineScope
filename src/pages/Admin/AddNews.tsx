@@ -134,18 +134,49 @@ export default function AddMovie() {
     };
 
 
-    const handleSubmit = (event: any) => {
+    const handleSubmit = async (event: any) => {
         // event.preventDefault();
         if (validateForm()) {
-            toast({
-                title: `Movie added sucessfully.`,
-                status: 'success',
-                isClosable: true,
+          var myHeaders = new Headers();
+          var raw = JSON.stringify({
+            title: formValues.title,
+            poster: formValues.poster,
+            year: formValues.year,
+            genres: genre,
+            newsdescription: formValues.news,
+            date: formValues.date
+          });
+          myHeaders.append("Content-Type", "application/json");
+          let requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw
+          };
+          let url = " http://127.0.0.1:3000/news/add-news/";
+          await fetch(url, requestOptions)
+            .then((response) => {
+            
+                if(response.status == 200){
+                  toast({
+                    title: `News added sucessfully.`,
+                    status: "success",
+                    isClosable: true,
+                  });
+                  navigate("/");
+                }
+                else{
+                  alert("Something went wrong while adding movie.")
+                }
             })
-            navigate('/')
+            .catch((error) => {
+              console.log(error);
+              alert("Interal server error.");
+            });
+    
+          
         }
-
-    };
+      };
+    
 
     const handleCancel = (event: any) => {
         navigate('/')
