@@ -4,6 +4,7 @@ import {
   deleteUser,
   getUser,
   getUserById,
+  getUserByUserName,
   sendPasswordResetEmail,
   updateUser,
 } from "../models/User";
@@ -32,6 +33,17 @@ const UserController = {
     const id = req.params.userId;
     try {
       const user = await getUserById(id);
+      res.json(user);
+    } catch (err: any) {
+      console.log(err);
+      res.status(500).json({ message: err.message ?? err });
+    }
+  },
+
+  async getUserByUserName(req: Request, res: Response) {
+    const username = req.params.userName;
+    try {
+      const user = await getUserByUserName(username);
       res.json(user);
     } catch (err: any) {
       console.log(err);
