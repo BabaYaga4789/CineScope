@@ -36,6 +36,7 @@ const MovieDetails = () => {
   const [movieDetails, setMovieDetails] = useState({}) as any;
   const [movieRating, setMovieRating] = useState() as any;
   const [movieReview, setMovieReview] = useState() as any;
+  const [movieRatingCount, setMovieRatingCount] = useState(0);
  
   const isLoggedIn= SessionManager.isLoggedIn();
   console.log(isLoggedIn);
@@ -47,13 +48,20 @@ const MovieDetails = () => {
     if(userID){
       const body: any = await userManagementService.getUser(userID);
       userEmail= body.email;
-      //console.log(userEmail, "userEmail");
     }
     return userEmail;
  
   }
 
- 
+  const fetchRatingCount = async () => {
+    const body: any = await ReviewsMagementService.getRatingCountForMovie(movieId);
+    if(body == null || body == undefined){
+      setMovieRatingCount(0);
+    }
+    else{
+      setMovieRatingCount(body[0].rating);
+    }
+  }
 
   const fetchMovieDetails = async () => {
     const body: any = await movieManagementService.fetchMovieByID(movieId);
@@ -71,12 +79,12 @@ const MovieDetails = () => {
       const formattedReleasedDate = mm + "/" + dd + "/" + yyyy;
       body.released_date = formattedReleasedDate;
       setMovieDetails(body);
-      console.log("movieDetailsssss", movieDetails);
-      console.log("body", body);
-      const body1: any = await ReviewsMagementService.getRating(body.title);
-      const roundedOff= body1.toFixed(2);
-      setMovieRating(roundedOff);
-      console.log("myRating", body1);
+      // console.log("movieDetailsssss", movieDetails);
+      // console.log("body", body);
+      // const body1: any = await ReviewsMagementService.getRating(body.title);
+      // const roundedOff= body1.toFixed(2);
+      // setMovieRating(roundedOff);
+      // console.log("myRating", body1);
       const body2: any = await ReviewsMagementService.getReview(body.title);
       const reviewedMovies = body2.filter((movie: any) => {
         return movie.hasOwnProperty("review");
@@ -139,6 +147,7 @@ const MovieDetails = () => {
 
   useEffect(() => {
     fetchMovieDetails();
+    fetchRatingCount();
   }, [movieReview]);
 
   return (
@@ -224,7 +233,7 @@ const MovieDetails = () => {
           </Text>
           <Text fontSize="xl" fontWeight="semibold" color="gray.500">
             {movieDetails.released_date} | {movieDetails.time_in_minutes}{" "}
-            Minutes |{" "} Rating <Badge colorScheme="yellow" fontSize="1.2rem">{movieRating}</Badge> {" "} | {" "}
+            Minutes |{" "} Rating <Badge colorScheme="yellow" fontSize="1.2rem">{movieRatingCount}</Badge> {" "} | {" "}
             {movieDetails.genres?.map((genre: any, index: any) => (
               <Badge key={index} mr="1" colorScheme="purple">
                 {genre}

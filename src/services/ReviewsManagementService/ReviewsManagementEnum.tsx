@@ -3,4 +3,6 @@ export enum ReviewsManagementState {
     ReviewsAddFailure = "Review addition failed.",
     ReviewsDeleteSuccess = "Reviews deleted successfully.",
     ReviewsDeleteFailure = "Reviews deletion failed.",
+    ReviewsFetchSuccess = "Review Fetching successful for a movie.",
+    ReviewsFetchFailure = "Review Fetching failed for a movie.",
   }

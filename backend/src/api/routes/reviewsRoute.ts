@@ -8,6 +8,9 @@ const reviewsRoute = (): Router => {
   router.route("/get-review/").post(reviewsController.getReviews);
   router.route("/add-rating/").post(reviewsController.addRatings);
   router.route("/add-reviews/").post(reviewsController.addReviews);
+  router.route("/count/").post(reviewsController.getReviewCountForMovie);
+  router.route("/most-rated/").get(reviewsController.getMostRatedMovies);
+  router.route("/rate-count/").post(reviewsController.getCountOfRateForMovie);
 
   return router;
 };

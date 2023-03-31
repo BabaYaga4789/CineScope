@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { createMovie, fetchLastestMovies, searchMovie, filterMovie, updateMovie, fetchAllMovies, fetchMovieById, deleterMovieById } from "../models/Movie";
+import { getMostRatedMovies } from "../models/Reviews";
 
 const MovieController = {
   async fetchLastestMovies(req: Request, res: Response) {
@@ -134,6 +135,23 @@ const MovieController = {
     try{
       const message = await deleterMovieById(movieId);
       res.status(200).json(message);
+    } catch (err: any) {
+      console.log(err);
+      res.status(500).json({ message: err.message ?? err });
+    }
+  },
+
+  async fetchMostRatedMovies(req: Request, res: Response){
+    try{
+      const movies = await getMostRatedMovies();
+      var mostRatedMovies = new Array();
+      for( let movie = 0; movie < movies.length; movie++){
+        const movieId = movies[movie]._id;
+        const movieDetail = await fetchMovieById(movieId);
+        mostRatedMovies.push(movieDetail);
+      }
+      // console.log(mostRatedMovies);
+      res.status(200).json(mostRatedMovies);
     } catch (err: any) {
       console.log(err);
       res.status(500).json({ message: err.message ?? err });

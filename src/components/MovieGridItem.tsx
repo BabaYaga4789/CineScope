@@ -1,5 +1,6 @@
 import Movie from "@/common/Movie";
 import AddMovieDialog from "@/components/AddMovieDialog";
+import ReviewsMagementService from "@/services/ReviewsManagementService/ReviewsManagementService";
 import { AddIcon, CheckIcon, StarIcon, ViewIcon } from "@chakra-ui/icons";
 import {
   Box,
@@ -11,7 +12,7 @@ import {
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface MovieGridItemProps {
@@ -23,16 +24,33 @@ export default function MovieGridItem(props: MovieGridItemProps): JSX.Element {
 
   const [isAdded, setIsAdded] = useState(false);
   const navigateTo = useNavigate();
-
-  const getReviewPage = (e: any) => {
-    e.preventDefault();
-    navigateTo("/reviews", { state: props.movie._id });
-  };
+  const [movieRatingCount, setMovieRatingCount] = useState(0);
+  const [count, setCount] = useState(0);
 
   const getMovieDetails = (e: any) => {
     e.preventDefault();
     navigateTo("/movie-details", { state: props.movie._id });
   };
+
+  const fetchRatingCount = async () => {
+    const body: any = await ReviewsMagementService.getRatingCountForMovie(props.movie._id);
+    if(body == null || body == undefined || body.length == 0){
+      setMovieRatingCount(0);
+    }
+    else{
+      setMovieRatingCount(body[0].rating);
+    }
+  }
+
+  const fetchCount = async () => {
+    const body: any = await ReviewsMagementService.getCountForRate(props.movie._id);
+    setCount(body);
+  }
+
+  useEffect(() => {
+    fetchRatingCount();
+    fetchCount();
+  }, [movieRatingCount]);
 
   return (
     <Card
@@ -58,14 +76,13 @@ export default function MovieGridItem(props: MovieGridItemProps): JSX.Element {
           .map((_, i) => (
             <StarIcon
               key={i}
-              color={i < 9 / 2 ? "teal.500" : "gray.300"}
-              // color={i < props.movie.rating / 2 ? "teal.500" : "gray.300"}
+              // color={i < 9 / 2 ? "teal.500" : "gray.300"}
+              color={i < movieRatingCount ? "teal.500" : "gray.300"}
             />
 
           ))}
         <Box as="span" ml="2" color="gray.600" fontSize="sm">
-          {/* ({props.movie.reviewCount}) */}
-          (20)
+          ({count})
         </Box>
       </Box>
       <VStack w="100%" p={4}>

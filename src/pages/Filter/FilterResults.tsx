@@ -66,6 +66,10 @@ export const FilterResults = () => {
     }
   };
 
+  const handleReset = async () => {
+    fetchAllMovies();
+  };
+
   useEffect(() => {
     fetchAllMovies();
   }, []);
@@ -92,6 +96,15 @@ export const FilterResults = () => {
               onClick={handleSearch}
             >
               Search
+            </Button>
+            <Button
+              size="lg"
+              colorScheme={"yellow"}
+              variant={"solid"}
+              // onClick = {searchMovies}
+              onClick={handleReset}
+            >
+              Reset
             </Button>
           </HStack>
         </Box>
@@ -170,6 +183,15 @@ export const FilterResults = () => {
               onClick={handleSearch}
             >
               Search
+            </Button>
+            <Button
+              size="lg"
+              colorScheme={"yellow"}
+              variant={"solid"}
+              // onClick = {searchMovies}
+              onClick={handleReset}
+            >
+              Reset
             </Button>
           </HStack>
         </Box>
