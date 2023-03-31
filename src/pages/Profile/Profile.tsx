@@ -1,8 +1,11 @@
 /**
 @Author: Hrishi Patel <hrishi.patel@dal.ca>
 */
+import { SessionManager } from "@/common/SessionManager";
 import CustomContainer from "@/components/CustomContainer";
+import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
 import UserManagementService from "@/services/UserManagementService/UserManagementService";
+import WatchlistService from "@/services/WatchlistService";
 import {
   Box,
   Flex,
@@ -16,23 +19,6 @@ import { Avatar, Button, Image, Text, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { UserData } from "../Registration/UserData";
-
-const movies = [
-  {
-    id: 1,
-    poster: "/img/ShawshankRedemptionMoviePoster.jpeg",
-    title: "The Shawshank Redemption",
-    description:
-      "The Shawshank Redemption is a 1994 American drama film directed by Frank Darabont. The film is based on the novella 'Rita Hayworth and Shawshank Redemption' by Stephen King. The film stars Tim Robbins as Andy Dufresne, a banker who is wrongly convicted of murder and sent to Shawshank State Penitentiary. While in prison, Andy forms an unlikely friendship with a fellow inmate named Red, played by Morgan Freeman. Over time, Andy uses his wit and determination to help himself and his fellow prisoners, ultimately leading to his escape from Shawshank. The film was well-received by audiences and critics, and is widely regarded as one of the greatest films of all time.",
-  },
-  {
-    id: 2,
-    poster: "/img/AvatarPoster.jpeg",
-    title: "Avatar: The Way of Water",
-    description:
-      "Jake Sully lives with his newfound family formed on the extrasolar moon Pandora. Once a familiar threat returns to finish what was previously started, Jake must work with Neytiri and the army of the Na'vi race to protect their home.",
-  },
-];
 
 const activity = [
   {
@@ -56,8 +42,11 @@ const Profile = () => {
   const navigate = useNavigate();
   const toast = useToast();
 
-  const [m, setMovies] = useState(movies);
-  const [user, setUser] = useState({} as UserData);
+  const [user, setUser] = useState({} as any);
+  const [list, setList] = useState([] as any);
+
+  const movieManager = new MovieMagementService();
+  const watchlistService = new WatchlistService();
 
   const { id } = useParams();
   if (!id) {
@@ -71,6 +60,27 @@ const Profile = () => {
 
       if (user) {
         setUser(user);
+        console.log(user);
+        const setWatchListMovies = async (watchlist: any) => {
+          let l: any = [];
+          await Promise.all(
+            watchlist.map(async (item: any) => {
+              const movieId = item.movieId;
+              let movie = await movieManager.fetchMovieByID(movieId);
+              movie.status = item.status;
+              l.push(movie);
+            })
+          );
+          return l;
+        };
+
+        const getWatchlist = async () => {
+          const watchlist = await watchlistService.getWatchlist(user.id);
+          const x = await setWatchListMovies(watchlist);
+          setList(x);
+        };
+
+        await getWatchlist();
       } else {
         toast({
           title: "Error",
@@ -84,10 +94,6 @@ const Profile = () => {
 
     getUser();
   }, []);
-
-  const removeMovie = (id: number) => {
-    setMovies(movies.filter((movie) => movie.id !== id));
-  };
 
   return (
     <Flex flexShrink={"0"} mx={4} justifyContent="center">
@@ -154,40 +160,35 @@ const Profile = () => {
                   Watchlist
                 </Text>
                 <Spacer />
-                {/* <Link
+                <Link
                   as={Button}
                   colorScheme="yellow"
                   size="sm"
                   variant={"ghost"}
-                  to="/watchlist"
+                  onClick={() => navigate("/watchlist")}
                 >
                   View All
-                </Link> */}
+                </Link>
               </HStack>
-              {m.map((movie) => (
-                <CustomContainer boxShadow="md" key={movie.id} w={"100%"} p={2}>
+              {list.slice(0, 3).map((item: any) => (
+                <CustomContainer boxShadow="md" key={item._id} w={"100%"} p={2}>
                   <HStack alignItems="center">
                     <Image
                       boxShadow={"xl"}
                       borderRadius="md"
                       boxSize="70px"
-                      src={movie.poster}
-                      alt={movie.title}
+                      src={item.poster}
+                      alt={item.title}
                     />
                     <Box w={1} />
-                    <HStack w="100%" p={2} justifyContent={"space-between"}>
+                    <VStack alignItems="start">
                       <Text fontSize={"lg"} fontWeight="semibold">
-                        {movie.title}
+                        {item.title}
                       </Text>
-                      <Spacer />
-                      <Button
-                        colorScheme="red"
-                        size="sm"
-                        onClick={() => removeMovie(movie.id)}
-                      >
-                        Remove
-                      </Button>
-                    </HStack>
+                      <Text fontSize="sm" color="gray.500" textAlign="center">
+                        Status: {item.status ?? ""}
+                      </Text>
+                    </VStack>
                   </HStack>
                 </CustomContainer>
               ))}

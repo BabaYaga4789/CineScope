@@ -56,6 +56,7 @@ export async function getUserByUserName(userName: String) {
       userName: user.userName,
       genres: user.genres ?? [],
       about: user.about,
+      id: user._id,
     };
   }
 }
