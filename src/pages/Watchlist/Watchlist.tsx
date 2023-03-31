@@ -1,5 +1,5 @@
 import { SessionManager } from "@/common/SessionManager";
-import MovieMagementService from "@/services/MovieManagementService";
+import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
 import WatchlistService from "@/services/WatchlistService";
 import { DeleteIcon, MinusIcon, ViewIcon } from "@chakra-ui/icons";
 import {
