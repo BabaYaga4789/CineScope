@@ -21,7 +21,7 @@ import { useLocation } from "react-router-dom";
 import CommentBox from "@/components/CommentBox";
 import React from "react";
 import Movie from "../Watchlist/Data";
-import MovieMagementService from "@/services/MovieManagementService";
+import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
 
 interface Review {
   rating: number;
@@ -36,7 +36,7 @@ const Reviews = () => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [display, setDisplay] = useState<string[]>([]);
-  const [movieDetails, setMovieDetails] = useState({});
+  const [movieDetails, setMovieDetails] = useState<any>({});
   const toast = useToast();
   const location = useLocation();
   const movieId = location.state;

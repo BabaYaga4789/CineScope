@@ -1,5 +1,6 @@
 import CustomContainer from "@/components/CustomContainer";
-import UserManagementService from "@/services/UserManagementService";
+import { UserManagementState } from "@/services/UserManagementService/UserManagementEnum";
+import UserManagementService from "@/services/UserManagementService/UserManagementService";
 import {
   Button,
   Center,
@@ -41,7 +42,9 @@ export default function ResetPassword() {
 
       {
         const message = await userManagementService.resetPassword(email);
-        if (message === "User not found") {
+        if (
+          message === UserManagementState.PasswordResetFailedUserDoesNotExist
+        ) {
           toast({
             title: "Error",
             description: "Sorry, can't find any such user :(",
@@ -74,7 +77,7 @@ export default function ResetPassword() {
               width={"300px"}
               textAlign="center"
             >
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Enter your email address and we'll send you a temporary password
             </Text>
           </VStack>
         </Center>

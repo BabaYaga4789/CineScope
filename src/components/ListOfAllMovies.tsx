@@ -1,4 +1,4 @@
-import MovieMagementService from "@/services/MovieManagementService";
+import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
 import { SimpleGrid } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { LabelAllMovies } from "./LabelAllMovies";

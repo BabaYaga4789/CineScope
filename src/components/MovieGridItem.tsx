@@ -29,6 +29,11 @@ export default function MovieGridItem(props: MovieGridItemProps): JSX.Element {
     navigateTo("/reviews", { state: props.movie._id });
   };
 
+  const getMovieDetails = (e: any) => {
+    e.preventDefault();
+    navigateTo("/movie-details", { state: props.movie._id });
+  };
+
   return (
     <Card
       key={props.movie._id}
@@ -67,7 +72,8 @@ export default function MovieGridItem(props: MovieGridItemProps): JSX.Element {
         <Button
           w="100%"
           id={props.movie._id}
-          onClick={getReviewPage}
+          // onClick={getReviewPage}
+          onClick={getMovieDetails}
           leftIcon={<ViewIcon />}
         >
           View

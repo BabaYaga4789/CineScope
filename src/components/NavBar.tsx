@@ -1,4 +1,5 @@
 import { SessionManager } from "@/common/SessionManager";
+import UserManagementService from "@/services/UserManagementService/UserManagementService";
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 import {
   Avatar,
@@ -121,7 +122,19 @@ const NavBar = () => {
               fontWeight="normal"
               onMouseEnter={onOpen}
               onMouseLeave={onClose}
-              onClick={() => navigate("/profile")}
+              onClick={async () => {
+                const userID = localStorage.getItem("userID");
+                if (userID == null) {
+                  navigate("/login");
+                } else {
+                  const userManagementService = new UserManagementService();
+                  const data: any = await userManagementService.getUser(
+                    userID!!
+                  );
+                  console.log(data);
+                  navigate("/profile/" + data.userName);
+                }
+              }}
             >
               <Avatar name="Harsh" />
             </MenuButton>

@@ -1,9 +1,11 @@
 import Movie from "@/common/Movie";
+import { MovieManagementState } from "./MovieManagementEnum";
 
 export default class MovieMagementService {
 
   async addMovie(movie: Movie) {
-    const response = await fetch("http://127.0.0.1:3000/movie/add-movie/", {
+    debugger
+    const response = await fetch("http://127.0.0.1:3000/movie/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -11,14 +13,14 @@ export default class MovieMagementService {
       body: JSON.stringify(movie)
     });
     if (response.status === 200) {
-      return "Movie added successfully.";
+      return MovieManagementState.MovieAddSuccess;
     } else {
-      return "Something went wrong. Please try again";
+      return MovieManagementState.MovieAddFailure;
     }
   }
 
   async fetchLatestMovies() {
-    const response = await fetch('http://127.0.0.1:3000/movie/fetch-latest-movies/', {
+    const response = await fetch('http://127.0.0.1:3000/movie/latest/', {
       method: "GET",
     });
 
@@ -31,7 +33,7 @@ export default class MovieMagementService {
   }
 
   async fetchAllMovies() {
-    const response = await fetch('http://127.0.0.1:3000/movie/fetch-all-movies/', {
+    const response = await fetch('http://127.0.0.1:3000/movie/all/', {
       method: "GET",
     });
     if (response.status === 200) {
@@ -42,34 +44,43 @@ export default class MovieMagementService {
     }
   }
 
-  async deleteMovieByID(id: any) {
-    const response = await fetch('http://127.0.0.1:3000/movie/delete-movie-by-id/', {
+  async deleteMovieByID(movieId: any) {
+    const response = await fetch(`http://127.0.0.1:3000/movie/${movieId}`, {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        "movieId": id,
-      })
     });
     if (response.status === 200) {
-      return "Movie deleted successfully.";
+      return MovieManagementState.MovieDeleteSuccess;
 
     } else {
-      return "Something went wrong. Please try again";
+      return MovieManagementState.MovieDeleteFailure;
     }
   }
 
+<<<<<<< HEAD:src/services/MovieManagementService.tsx
   async fetchMovieByID(id: any) {
     console.log
     const response = await fetch('http://127.0.0.1:3000/movie/fetch-movie-by-id/', {
       method: "POST",
+=======
+  async updateMovieByID(movieId: any, movie: Movie) {
+    const response = await fetch(`http://127.0.0.1:3000/movie/${movieId}`, {
+      method: "PUT",
+>>>>>>> 56055c3bbc8cd75af76d2b755096ba02ce86c0f2:src/services/MovieManagementService/MovieManagementService.tsx
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        "movieId": id,
-      })
+      body: JSON.stringify(movie),
+    });
+    if (response.status === 200) {
+      return MovieManagementState.MovieUpdateSuccess;
+    } else {
+      return MovieManagementState.MovieUpdateFailure;
+    }
+  }
+
+  async fetchMovieByID(movieId: any) {
+    const response = await fetch(`http://127.0.0.1:3000/movie/${movieId}`, {
+      method: "GET",
     });
     if (response.status === 200) {
       const body = await response.json();

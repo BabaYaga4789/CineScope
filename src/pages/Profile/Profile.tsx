@@ -1,4 +1,5 @@
 import CustomContainer from "@/components/CustomContainer";
+import UserManagementService from "@/services/UserManagementService/UserManagementService";
 import {
   Box,
   Flex,
@@ -6,11 +7,12 @@ import {
   Link,
   Spacer,
   Stack,
-  VStack,
+  VStack
 } from "@chakra-ui/layout";
-import { Button, Image, Text } from "@chakra-ui/react";
-import { useState } from "react";
-import { useNavigate } from "react-router";
+import { Avatar, Button, Image, Text, useToast } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router";
+import { UserData } from "../Registration/UserData";
 
 const movies = [
   {
@@ -49,8 +51,36 @@ const activity = [
 
 const Profile = () => {
   const navigate = useNavigate();
+  const toast = useToast();
 
   const [m, setMovies] = useState(movies);
+  const [user, setUser] = useState({} as UserData);
+
+  const { id } = useParams();
+  if (!id) {
+    navigate("/");
+  }
+
+  useEffect(() => {
+    const getUser = async () => {
+      const userManagementService = new UserManagementService();
+      const user = await userManagementService.getUserByUserName(id!);
+
+      if (user) {
+        setUser(user);
+      } else {
+        toast({
+          title: "Error",
+          description: "Something went wrong. Please try again later.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    };
+
+    getUser();
+  }, []);
 
   const removeMovie = (id: number) => {
     setMovies(movies.filter((movie) => movie.id !== id));
@@ -68,19 +98,13 @@ const Profile = () => {
       >
         <CustomContainer w={{ base: "100%", md: "30%" }} mx={4}>
           <VStack>
-            <Image
-              boxShadow={"xl"}
-              borderRadius="full"
-              boxSize="150px"
-              src="https://bit.ly/dan-abramov"
-              alt="Dan Abramov"
-            />
-            <VStack>
+            <Avatar size="2xl" name={user.userName} />
+            <VStack w="100%">
               <Text fontSize={"lg"} fontWeight="semibold">
-                Hrishi Patel
+                {user.userName ?? ""}
               </Text>
               <Text fontSize="sm" color="gray.500" textAlign="center" mb={2}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                {user.about ?? ""}
               </Text>
               <Button
                 w={"100%"}

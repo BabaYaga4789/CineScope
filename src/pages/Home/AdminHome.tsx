@@ -7,7 +7,7 @@ import { FilterResults } from "../Filter/FilterResults";
 export default function AdminHome() {
   return (
     <div>
-      <AdminNavBar></AdminNavBar>
+      {/* <AdminNavBar></AdminNavBar> */}
       <VStack w="100%">
       <ListOfNewMovies></ListOfNewMovies>
       <ListOfAllMovies></ListOfAllMovies>
