@@ -1,3 +1,6 @@
+/**
+@Author: Hrishi Patel <hrishi.patel@dal.ca>
+*/
 import CustomContainer from "@/components/CustomContainer";
 import UserManagementService from "@/services/UserManagementService/UserManagementService";
 import {

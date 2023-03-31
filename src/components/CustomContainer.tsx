@@ -1,3 +1,6 @@
+/**
+@Author: Hrishi Patel <hrishi.patel@dal.ca>
+*/
 import { Flex, useBreakpointValue } from "@chakra-ui/react";
 
 interface ContainerProps extends React.PropsWithChildren<any> {
