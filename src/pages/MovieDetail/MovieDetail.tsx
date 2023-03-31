@@ -53,7 +53,8 @@ const MovieDetails = () => {
       console.log("movieDetailsssss", movieDetails);
       console.log("body", body);
       const body1: any = await ReviewsMagementService.getRating(body.title);
-      setMovieRating(body1);
+      const roundedOff= body1.toFixed(2);
+      setMovieRating(roundedOff);
       console.log("myRating", body1);
       const body2: any = await ReviewsMagementService.getReview(body.title);
       const reviewedMovies = body2.filter((movie: any) => {
@@ -131,27 +132,8 @@ const MovieDetails = () => {
             w={["350px", "500px", "700px", "700px"]}
             h={["350px", "500px", "600px", "600px"]}
           />
-        </Box>
-        <Box
-          ml={2}
-          mr={2}
-          w={["350px", "450px", "700px", "700px"]}
-          h={["auto", "auto", "auto", "auto"]}
-        >
-          <Text fontWeight="bold" fontSize="4xl" mt="4">
-            {movieDetails.title} "Rating: {movieRating}"
-          </Text>
-          <Text fontSize="xl" fontWeight="semibold" color="gray.500">
-            {movieDetails.released_date} | {movieDetails.time_in_minutes}{" "}
-            Minutes |{" "}
-            {movieDetails.genres?.map((genre: any, index: any) => (
-              <Badge key={index} mr="1" colorScheme="purple">
-                {genre}
-              </Badge>
-            ))}
-          </Text>
-          <Box boxShadow="2xl" p="2" mb="4" ml="20" width="85%">
-            <Text mb={2} color="gray.600" fontWeight="medium">
+          <Box boxShadow="2xl" p="2" mb="4" ml={2} mt={12} width="85%">
+            <Text mb={2} color="gray.700" fontWeight="medium">
               Add Rating
             </Text>
             <ButtonGroup>
@@ -168,6 +150,59 @@ const MovieDetails = () => {
               ))}
             </ButtonGroup>
           </Box>
+
+        <Box
+        borderWidth="1px"
+        borderRadius="lg"
+        overflow="hidden"
+        p="2"
+        mt="3"
+        boxShadow="xl"
+        ml="0.5rem"
+        width="85%"
+        h="40vh"
+        backgroundColor="gray.100"
+      >
+        <Text mb={3} fontWeight="medium">
+          Add a Review
+        </Text>
+        <Textarea
+          placeholder="Write a comment..."
+          size="sm"
+          resize="none"
+          border="none"
+          _focus={{ outline: "none" }}
+          height="75%"
+          bg="white"
+          value={comment}
+          onChange={handleTextChange}
+        />
+        <Flex justifyContent="flex-end" marginTop="1">
+          <Button size="sm" colorScheme="yellow" onClick={handleSubmit}>
+            Submit
+          </Button>
+        </Flex>
+      </Box>
+        </Box>
+        <Box
+          ml={2}
+          mr={2}
+          w={["350px", "450px", "700px", "700px"]}
+          h={["auto", "auto", "auto", "auto"]}
+        >
+          <Text fontWeight="bold" fontSize="4xl" mt="4">
+            {movieDetails.title}"
+          </Text>
+          <Text fontSize="xl" fontWeight="semibold" color="gray.500">
+            {movieDetails.released_date} | {movieDetails.time_in_minutes}{" "}
+            Minutes |{" "} Rating <Badge colorScheme="yellow" fontSize="1.2rem">{movieRating}</Badge> {" "} | {" "}
+            {movieDetails.genres?.map((genre: any, index: any) => (
+              <Badge key={index} mr="1" colorScheme="purple">
+                {genre}
+              </Badge>
+            ))}
+          </Text>
+         
           <Box mt="4" mb="4">
             <Text>{movieDetails.plot}</Text>
           </Box>
@@ -227,7 +262,7 @@ const MovieDetails = () => {
         </SimpleGrid>
       </Box>
 
-      <Box
+      {/* <Box
         borderWidth="1px"
         borderRadius="lg"
         overflow="hidden"
@@ -258,7 +293,7 @@ const MovieDetails = () => {
             Submit
           </Button>
         </Flex>
-      </Box>
+      </Box> */}
       <Box w="100%" maxW="1200px" mx="auto" boxShadow="xl" p={10}>
         <CommentBox value={display} />
       </Box>

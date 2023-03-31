@@ -1,4 +1,5 @@
 import {
+  Badge,
   Box,
   Button,
   Input,
@@ -23,9 +24,11 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+
 interface Props {
   value: { email: string, comment: string }[];
 }
+
 
 const CommentBox: React.FC<Props> = (props) => {
   const { value: comments } = props;
@@ -61,7 +64,10 @@ const CommentBox: React.FC<Props> = (props) => {
             <Tr key={index}>
               <Td>
                 <Box as="h2" fontSize="md" maxWidth="50%">
-                  <Text>{email}: {comment}</Text>
+                  {/* <Text>{email}: {comment}</Text> */}
+                  {/* <Text fontSize="sm" fontStyle="italic" > {email}</Text> */}
+                  <Badge colorScheme="gray" variant="outline" textTransform="lowercase" fontSize="xs" mb="1">{email}</Badge>
+                  <Text mt="1" fontSize="md">{comment}</Text>
                 </Box>
               </Td>
 

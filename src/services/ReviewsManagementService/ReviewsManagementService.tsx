@@ -45,7 +45,7 @@ export default class ReviewsMagementService {
 
   static async addRating(movie: any, email: any, rating: any, movieId:any) {
     // debugger;
-    console.log("movie+email", movie,email,rating,movieId);
+    console.log("movie+email", movie, email, rating, movieId);
     const response = await fetch("http://127.0.0.1:3000/reviews/add-rating/", {
       method: "POST",
       headers: {
@@ -68,7 +68,7 @@ export default class ReviewsMagementService {
 
   static async addReview(movie: any, email: any, review: any, movieId:any) {
     // debugger;
-    console.log("movie+email", movie,email,review,movieId);
+    console.log("movie+email", movie, email, review, movieId);
     const response = await fetch("http://127.0.0.1:3000/reviews/add-reviews/", {
       method: "POST",
       headers: {
