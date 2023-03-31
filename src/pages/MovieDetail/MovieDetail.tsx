@@ -38,23 +38,25 @@ const MovieDetails = () => {
   const [movieDetails, setMovieDetails] = useState({}) as any;
   const [movieRating, setMovieRating] = useState() as any;
   const [movieReview, setMovieReview] = useState() as any;
-  const [wstatus, setWStatus] = useState(false) as any;
-  let res='';
- 
-  const isLoggedIn= SessionManager.isLoggedIn();
-  const userID= SessionManager.getUserID();
-  
+  const [wstatus, setWStatus] = useState("") as any;
+  const [logUser, setLogUser] = useState("") as any;
 
-  const getLoggedInUserEmail = async () =>{
-    let userEmail = '';
-    if(userID){
+  let res = "";
+
+  const isLoggedIn = SessionManager.isLoggedIn();
+  const userID = SessionManager.getUserID();
+
+  const getLoggedInUserEmail = async () => {
+    let userEmail = "";
+    if (userID) {
       const body: any = await userManagementService.getUser(userID);
-      userEmail= body.email;
+      userEmail = body.email;
       //console.log(userEmail, "userEmail");
     }
     return userEmail;
- 
-  }
+  };
+
+  console.log("getLoggedInUserEmail",getLoggedInUserEmail);
 
   // const watchListStatus = async () =>{
   //   //let getStatus = false;
@@ -71,10 +73,8 @@ const MovieDetails = () => {
   //       });
   //   }
   //   return wstatus;
- 
-  // }
 
- 
+  // }
 
   const fetchMovieDetails = async () => {
     const body: any = await movieManagementService.fetchMovieByID(movieId);
@@ -94,7 +94,7 @@ const MovieDetails = () => {
       setMovieDetails(body);
 
       const body1: any = await ReviewsMagementService.getRating(body.title);
-      const roundedOff= body1.toFixed(2);
+      const roundedOff = body1.toFixed(2);
       setMovieRating(roundedOff);
       console.log("myRating", body1);
       const body2: any = await ReviewsMagementService.getReview(body.title);
@@ -110,39 +110,31 @@ const MovieDetails = () => {
       setDisplay(ratingObjects);
       console.log("ratingObjects", ratingObjects);
 
-    
-      if(userID){  
+      if (userID) {
         const body: any = await watchlistService.getWatchlist(userID);
-        console.log(body);
+        console.log("WatchList body", body);
         body.forEach((item: any) => {
-          if (item.movieId === movieId && item.status === 'watched') {
-            //setWStatus(true)
-            res = 'watched';
-            console.log(res,"statusss inside if")
+          if (item.movieId === movieId && item.status === "watched") {
+            setWStatus("watched");
+            // res = 'watched';
+            // console.log(res,"statusss inside if")
             console.log(`Movie ID: ${item.movieId}, Status: ${item.status}`);
           }
-          console.log(res,"statusss")
+          console.log(res, "statusss");
         });
-        
-
-      //   const res= body[0].status;
-      //   console.log(res)
-      //   if(res === "watched"){
-      //     setStatus(true);
-      //     console.log(status,"statusss inside if")
-      //   }
-      //  console.log(status,"statusss")
       }
     }
+
+    const fetchedEmail = await getLoggedInUserEmail();
+    setLogUser(fetchedEmail)
   };
 
   const [rating, setRating] = useState(0);
   const toast = useToast();
 
-
   const handleRatingClick = async (value: number) => {
     setRating(value);
-    const fetchedEmail= await getLoggedInUserEmail();
+    const fetchedEmail = await getLoggedInUserEmail();
     const body: any = await ReviewsMagementService.addRating(
       movieDetails.title,
       //"xyz@@gmail.com",
@@ -151,7 +143,6 @@ const MovieDetails = () => {
       movieId
     );
     console.log("rating", rating);
-   
 
     toast({
       description: "Rating has been added",
@@ -167,8 +158,8 @@ const MovieDetails = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const fetchedEmail= await getLoggedInUserEmail();
-    const body: any = await ReviewsMagementService.addReview( 
+    const fetchedEmail = await getLoggedInUserEmail();
+    const body: any = await ReviewsMagementService.addReview(
       movieDetails.title,
       fetchedEmail,
       comment,
@@ -179,9 +170,22 @@ const MovieDetails = () => {
     // console.log(comment);
   };
 
+  const handleChildData = async (data: string) => {
+    console.log(`Received data from child component: ${data}`);
+
+    const fetchedEmail = await getLoggedInUserEmail();
+    const body: any = await ReviewsMagementService.addReview(
+      movieDetails.title,
+      fetchedEmail,
+      data,
+      movieId
+    );
+    setMovieReview(body);
+  };
+
   useEffect(() => {
     fetchMovieDetails();
-  }, [movieReview, userID, movieId]);
+  }, [movieReview]);
 
   return (
     <Box maxW="1200px" mx="auto" my="6">
@@ -201,60 +205,62 @@ const MovieDetails = () => {
             w={["350px", "500px", "700px", "700px"]}
             h={["350px", "500px", "600px", "600px"]}
           />
-          {isLoggedIn && res==='watched' && <Box boxShadow="2xl" p="2" mb="4" ml={2} mt={12} width="85%">
-            <Text mb={2} color="gray.700" fontWeight="medium">
-              Add Rating
-            </Text>
-            <ButtonGroup>
-              {[1, 2, 3, 4, 5].map((value) => (
-                <Button
-                  key={value}
-                  size="xs"
-                  colorScheme={value <= rating ? "yellow" : "gray"}
-                  leftIcon={<Icon as={FaStar} />}
-                  onClick={() => handleRatingClick(value)}
-                >
-                  {value}
+          {isLoggedIn && wstatus === "watched" && (
+            <Box boxShadow="2xl" p="2" mb="4" ml={2} mt={12} width="85%">
+              <Text mb={2} color="gray.700" fontWeight="medium">
+                Add Rating
+              </Text>
+              <ButtonGroup>
+                {[1, 2, 3, 4, 5].map((value) => (
+                  <Button
+                    key={value}
+                    size="xs"
+                    colorScheme={value <= rating ? "yellow" : "gray"}
+                    leftIcon={<Icon as={FaStar} />}
+                    onClick={() => handleRatingClick(value)}
+                  >
+                    {value}
+                  </Button>
+                ))}
+              </ButtonGroup>
+            </Box>
+          )}
+
+          {isLoggedIn && wstatus === "watched" && (
+            <Box
+              borderWidth="1px"
+              borderRadius="lg"
+              overflow="hidden"
+              p="2"
+              mt="3"
+              boxShadow="xl"
+              ml="0.5rem"
+              width="85%"
+              h="40vh"
+              backgroundColor="gray.100"
+            >
+              <Text mb={3} fontWeight="medium">
+                Add a Review
+              </Text>
+              <Textarea
+                placeholder="Write a comment..."
+                size="sm"
+                resize="none"
+                border="none"
+                _focus={{ outline: "none" }}
+                height="75%"
+                bg="white"
+                value={comment}
+                onChange={handleTextChange}
+              />
+              <Flex justifyContent="flex-end" marginTop="1">
+                <Button size="sm" colorScheme="yellow" onClick={handleSubmit}>
+                  Submit
                 </Button>
-              ))}
-            </ButtonGroup>
-          </Box>}
-
-             
-        {isLoggedIn && res==='watched' && <Box
-        borderWidth="1px"
-        borderRadius="lg"
-        overflow="hidden"
-        p="2"
-        mt="3"
-        boxShadow="xl"
-        ml="0.5rem"
-        width="85%"
-        h="40vh"
-        backgroundColor="gray.100"
-      >
-        <Text mb={3} fontWeight="medium">
-          Add a Review
-        </Text>
-        <Textarea
-          placeholder="Write a comment..."
-          size="sm"
-          resize="none"
-          border="none"
-          _focus={{ outline: "none" }}
-          height="75%"
-          bg="white"
-          value={comment}
-          onChange={handleTextChange}
-        />
-        <Flex justifyContent="flex-end" marginTop="1">
-          <Button size="sm" colorScheme="yellow" onClick={handleSubmit}>
-            Submit
-          </Button>
-        </Flex>
-      </Box>}
-
-    </Box>
+              </Flex>
+            </Box>
+          )}
+        </Box>
 
         <Box
           ml={2}
@@ -267,14 +273,18 @@ const MovieDetails = () => {
           </Text>
           <Text fontSize="xl" fontWeight="semibold" color="gray.500">
             {movieDetails.released_date} | {movieDetails.time_in_minutes}{" "}
-            Minutes |{" "} Rating <Badge colorScheme="yellow" fontSize="1.2rem">{movieRating}</Badge> {" "} | {" "}
+            Minutes | Rating{" "}
+            <Badge colorScheme="yellow" fontSize="1.2rem">
+              {movieRating}
+            </Badge>{" "}
+            |{" "}
             {movieDetails.genres?.map((genre: any, index: any) => (
               <Badge key={index} mr="1" colorScheme="purple">
                 {genre}
               </Badge>
             ))}
           </Text>
-         
+
           <Box mt="4" mb="4">
             <Text>{movieDetails.plot}</Text>
           </Box>
@@ -333,41 +343,8 @@ const MovieDetails = () => {
           ))}
         </SimpleGrid>
       </Box>
-
-      {/* <Box
-        borderWidth="1px"
-        borderRadius="lg"
-        overflow="hidden"
-        p="2"
-        mt="6"
-        boxShadow="xl"
-        ml="6rem"
-        width="90%"
-        h="50vh"
-        backgroundColor="gray.100"
-      >
-        <Text mb={3} fontWeight="medium">
-          Add a Review
-        </Text>
-        <Textarea
-          placeholder="Write a comment..."
-          size="sm"
-          resize="none"
-          border="none"
-          _focus={{ outline: "none" }}
-          height="75%"
-          bg="white"
-          value={comment}
-          onChange={handleTextChange}
-        />
-        <Flex justifyContent="flex-end" marginTop="4">
-          <Button size="sm" colorScheme="yellow" onClick={handleSubmit}>
-            Submit
-          </Button>
-        </Flex>
-      </Box> */}
       <Box w="100%" maxW="1200px" mx="auto" boxShadow="xl" p={10}>
-        <CommentBox value={display} />
+        <CommentBox value={display} loggedUser={logUser} onChildData={handleChildData} />
       </Box>
     </Box>
   );

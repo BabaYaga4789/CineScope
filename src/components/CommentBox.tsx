@@ -47,7 +47,10 @@ import {
 
 interface Props {
   value: { email: string, comment: string }[];
+  onChildData: (data: string) => void;
+  loggedUser : string;
 }
+
 
 
 const CommentBox: React.FC<Props> = (props) => {
@@ -55,9 +58,12 @@ const CommentBox: React.FC<Props> = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [text, setText] = useState("");
   const toast = useToast();
+  console.log("loggedUser",props.loggedUser)
+
 
   const handleSaveClick = () => {
     if (text.trim() !== "") {
+      props.onChildData(text);
       setIsModalOpen(false);
     } else {
       toast({
@@ -97,6 +103,8 @@ const CommentBox: React.FC<Props> = (props) => {
                   onClick={() => setIsModalOpen(true)}
                   as={FaPencilAlt}
                   ml="2"
+                  isDisabled={email != props.loggedUser}
+                  value={email}
                 />
               </Td>
 
