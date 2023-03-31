@@ -27,6 +27,11 @@ export const AdminNavBar = () => {
     window.location.replace("/");
   };
 
+  const handleLogout = () => {
+    localStorage.setItem("isAdmin", "false");
+    window.location.replace("/");
+  }
+
   return (
     <div>
       <Box as="nav" boxShadow="md" mb="20px">
@@ -84,7 +89,7 @@ export const AdminNavBar = () => {
               name="User Name"
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7-oYBJgcWpBfjaS1rQAwYZS5px0eeZ0g4rw&usqp=CAU"
             /> */}
-            <Button colorScheme="yellow" fontSize={["sm", "sm", "md", "md"]}>
+            <Button colorScheme="yellow" fontSize={["sm", "sm", "md", "md"]} onClick = {handleLogout}>
               Logout
             </Button>
           </HStack>
