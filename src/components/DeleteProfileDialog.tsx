@@ -10,6 +10,9 @@ import {
   AlertDialogHeader,
   AlertDialogOverlay,
 } from "@chakra-ui/modal";
+/**
+@Author: Hrishi Patel <hrishi.patel@dal.ca>
+*/
 import { useToast } from "@chakra-ui/react";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";

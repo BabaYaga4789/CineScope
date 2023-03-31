@@ -1,3 +1,6 @@
+/**
+@Author: Hrishi Patel <hrishi.patel@dal.ca>
+*/
 import CustomContainer from "@/components/CustomContainer";
 import UserManagementService from "@/services/UserManagementService/UserManagementService";
 import {
@@ -151,7 +154,7 @@ const Profile = () => {
                   Watchlist
                 </Text>
                 <Spacer />
-                <Link
+                {/* <Link
                   as={Button}
                   colorScheme="yellow"
                   size="sm"
@@ -159,7 +162,7 @@ const Profile = () => {
                   to="/watchlist"
                 >
                   View All
-                </Link>
+                </Link> */}
               </HStack>
               {m.map((movie) => (
                 <CustomContainer boxShadow="md" key={movie.id} w={"100%"} p={2}>

@@ -1,3 +1,6 @@
+/**
+@Author: Hrishi Patel <hrishi.patel@dal.ca>
+*/
 import cors from "cors";
 import express from "express";
 import helmet from "helmet";

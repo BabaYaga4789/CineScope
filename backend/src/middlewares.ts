@@ -1,3 +1,6 @@
+/**
+@Author: Hrishi Patel <hrishi.patel@dal.ca>
+*/
 import { Request, Response, NextFunction } from "express";
 
 function notFound(req: Request, res: Response, next: NextFunction): void {

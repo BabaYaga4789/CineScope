@@ -1,3 +1,6 @@
+/**
+@Author: Hrishi Patel <hrishi.patel@dal.ca>
+*/
 import Genres from "@/common/Genres";
 import { SessionManager } from "@/common/SessionManager";
 import ChangePasswordDialog from "@/components/ChangePasswordDialog";
