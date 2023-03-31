@@ -20,6 +20,8 @@ import {
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
+import UserManagementService from "@/services/UserManagementService/UserManagementService";
+import { SessionManager } from "@/common/SessionManager";
 import { FaStar } from "react-icons/fa";
 import ReviewsMagementService from "@/services/ReviewsManagementService/ReviewsManagementService";
 import CommentBox from "@/components/CommentBox";
@@ -28,11 +30,30 @@ const MovieDetails = () => {
   const location = useLocation();
   const movieId = location.state;
   const movieManagementService = new MovieMagementService();
+  const userManagementService = new UserManagementService();
   const [comment, setComment] = useState("");
   const [display, setDisplay] = useState([]);
   const [movieDetails, setMovieDetails] = useState({}) as any;
   const [movieRating, setMovieRating] = useState() as any;
   const [movieReview, setMovieReview] = useState() as any;
+ 
+  const isLoggedIn= SessionManager.isLoggedIn();
+  console.log(isLoggedIn);
+  const userID= SessionManager.getUserID();
+  
+
+  const getLoggedInUserEmail = async () =>{
+    let userEmail = '';
+    if(userID){
+      const body: any = await userManagementService.getUser(userID);
+      userEmail= body.email;
+      //console.log(userEmail, "userEmail");
+    }
+    return userEmail;
+ 
+  }
+
+ 
 
   const fetchMovieDetails = async () => {
     const body: any = await movieManagementService.fetchMovieByID(movieId);
@@ -74,16 +95,19 @@ const MovieDetails = () => {
   const [rating, setRating] = useState(0);
   const toast = useToast();
 
+
   const handleRatingClick = async (value: number) => {
     setRating(value);
-
+    const fetchedEmail= await getLoggedInUserEmail();
     const body: any = await ReviewsMagementService.addRating(
       movieDetails.title,
-      "xyz@@gmail.com",
+      //"xyz@@gmail.com",
+      fetchedEmail,
       value,
       movieId
     );
     console.log("rating", rating);
+   
 
     toast({
       description: "Rating has been added",
@@ -99,9 +123,12 @@ const MovieDetails = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    const fetchedEmail= await getLoggedInUserEmail();
     const body: any = await ReviewsMagementService.addReview(
+     
       movieDetails.title,
-      "xyz@@gmail.com",
+      //"xyz@@gmail.com",
+      fetchedEmail,
       comment,
       movieId
     );
@@ -132,7 +159,7 @@ const MovieDetails = () => {
             w={["350px", "500px", "700px", "700px"]}
             h={["350px", "500px", "600px", "600px"]}
           />
-          <Box boxShadow="2xl" p="2" mb="4" ml={2} mt={12} width="85%">
+          {isLoggedIn && <Box boxShadow="2xl" p="2" mb="4" ml={2} mt={12} width="85%">
             <Text mb={2} color="gray.700" fontWeight="medium">
               Add Rating
             </Text>
@@ -149,9 +176,9 @@ const MovieDetails = () => {
                 </Button>
               ))}
             </ButtonGroup>
-          </Box>
+          </Box>}
 
-        <Box
+        {isLoggedIn && <Box
         borderWidth="1px"
         borderRadius="lg"
         overflow="hidden"
@@ -182,8 +209,10 @@ const MovieDetails = () => {
             Submit
           </Button>
         </Flex>
-      </Box>
-        </Box>
+      </Box>}
+
+    </Box>
+
         <Box
           ml={2}
           mr={2}
