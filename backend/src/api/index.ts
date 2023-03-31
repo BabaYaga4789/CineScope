@@ -1,5 +1,5 @@
 import express, { Request, Response, Router } from "express";
-import UserRoute from "./routes/UserRoute";
+import UserRoute from "./routes/userRoute";
 import movieRoute from "./routes/movieRoute";
 const router: Router = express.Router();
 
