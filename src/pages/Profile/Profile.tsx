@@ -57,7 +57,9 @@ const Profile = () => {
   const [user, setUser] = useState({} as UserData);
 
   const { id } = useParams();
-  console.log(id);
+  if (!id) {
+    navigate("/");
+  }
 
   useEffect(() => {
     const getUser = async () => {
