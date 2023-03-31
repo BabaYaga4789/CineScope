@@ -1,4 +1,5 @@
 import {
+  Badge,
   Box,
   Button,
   Input,
@@ -25,11 +26,12 @@ import {
 } from "@chakra-ui/react";
 
 interface Props {
-  value: string[];
+  value: { email: string, comment: string }[];
 }
 
+
 const CommentBox: React.FC<Props> = (props) => {
-  const { value: commentVal } = props;
+  const { value: comments } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [text, setText] = useState("");
   const toast = useToast();
@@ -58,11 +60,14 @@ const CommentBox: React.FC<Props> = (props) => {
           </Tr>
         </Thead>
         <Tbody>
-          {commentVal.map((comments, index) => (
+          {comments.map(({ email, comment }, index) => (
             <Tr key={index}>
               <Td>
                 <Box as="h2" fontSize="md" maxWidth="50%">
-                  <Text>{comments}</Text>
+                  {/* <Text>{email}: {comment}</Text> */}
+                  {/* <Text fontSize="sm" fontStyle="italic" > {email}</Text> */}
+                  <Badge colorScheme="gray" variant="outline" textTransform="lowercase" fontSize="xs" mb="1">{email}</Badge>
+                  <Text mt="1" fontSize="md">{comment}</Text>
                 </Box>
               </Td>
 
@@ -98,5 +103,6 @@ const CommentBox: React.FC<Props> = (props) => {
     </TableContainer>
   );
 };
+
 
 export default CommentBox;
