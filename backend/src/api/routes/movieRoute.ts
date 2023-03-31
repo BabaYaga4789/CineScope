@@ -1,3 +1,7 @@
+/**
+ * @author Ketul Patel - <ketul.patel@dal.ca>
+ */
+
 import { Router } from "express";
 import movieController from "../controllers/MovieController";
 

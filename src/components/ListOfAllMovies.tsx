@@ -1,6 +1,10 @@
+/**
+ * @author Ketul Patel - <ketul.patel@dal.ca>
+ */
+
 import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
 import { SimpleGrid } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { LabelAllMovies } from "./LabelAllMovies";
 import MovieGridItemAdmin from "./MovieGridItemAdmin";
 

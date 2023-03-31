@@ -57,25 +57,33 @@ export default function SignIn() {
       setError(false);
 
       const userManagementService = new UserManagementService();
-      const message = await userManagementService.login(username, password);
-      if (message === UserManagementState.UserLoginFailedUserDoesNotExist) {
-        setError(true);
-        setMessage("User not found");
-        return;
-      } else if (
-        message === UserManagementState.UserLoginFailedIncorrectPassword
-      ) {
-        setError(true);
-        setMessage("Incorrect password");
-        return;
-      } else if (message === UserManagementState.UserLoginSuccess) {
-        setError(false);
-        setMessage("Login successful");
-        navigate("/");
+      const response = await userManagementService.login(username, password);
+      console.log(typeof response);
+      if (typeof response === "string") {
+        if (response === UserManagementState.UserLoginFailedUserDoesNotExist) {
+          setError(true);
+          setMessage("User not found");
+          return;
+        } else if (
+          response === UserManagementState.UserLoginFailedIncorrectPassword
+        ) {
+          setError(true);
+          setMessage("Incorrect password");
+          return;
+        } else {
+          setError(true);
+          setMessage("Something went wrong");
+          return;
+        }
       } else {
-        setError(true);
-        setMessage("Something went wrong");
-        return;
+        setError(false);
+        setMessage("");
+        if (response.type === "admin") {
+          localStorage.setItem("isAdmin", "true");
+          window.location.replace("/");
+        } else {
+          navigate("/");
+        }
       }
     }
   };

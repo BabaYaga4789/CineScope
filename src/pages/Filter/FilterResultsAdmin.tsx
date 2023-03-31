@@ -1,9 +1,12 @@
+/**
+ * @author Ketul Patel - <ketul.patel@dal.ca>
+ */
+
 import { SimpleGrid, VStack } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { HStack, Box, Button, Input, Select } from "@chakra-ui/react";
 import { AlertForNoMovieFound } from "@/components/AlertForNoMovieFound";
 import { useState } from "react";
-import MovieGridItem from "@/components/MovieGridItem";
 import MovieGridItemAdmin from "@/components/MovieGridItemAdmin";
 import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
 

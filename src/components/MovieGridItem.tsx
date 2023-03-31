@@ -97,7 +97,7 @@ export default function MovieGridItem(props: MovieGridItemProps): JSX.Element {
         </Button>
         <Button
           w="100%"
-          leftIcon={!isAdded ? <AddIcon /> : <CheckIcon />}
+          leftIcon={!isAdded ? <AddIcon/> : <CheckIcon />}
           onClick={!isAdded ? onOpen : () => {}}
         >
           {!isAdded ? "Watchlist" : "Added"}

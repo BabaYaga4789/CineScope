@@ -1,15 +1,18 @@
+/**
+ * @author Ketul Patel - <ketul.patel@dal.ca>
+ */
+
 import { useState } from 'react';
 import { useToast , Button, Text, Box, Heading, List, ListItem, Image, Flex, HStack, Spacer } from '@chakra-ui/react';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
 import {AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader,AlertDialogContent, AlertDialogOverlay} from '@chakra-ui/react'
 import { useRef } from 'react';
-import topMoviesList from '../common/top-movies';
 import { useNavigate } from 'react-router-dom';
 export default function ListOfTopMovies() {
 
 
     
-    const [topMovies, setTopMovies] = useState(topMoviesList);
+    const [topMovies, setTopMovies] = useState<any>([]);
 
     const [isOpen, setIsOpen] = useState<any>(false);
     const [deleteId, setDeleteID] = useState<any>();
@@ -61,7 +64,7 @@ export default function ListOfTopMovies() {
 
             <List styleType="none" pt="20px" >
                 <Flex justifyContent="space-around" wrap="wrap">
-                    {topMovies.map((topMovie) => (
+                    {topMovies.map((topMovie: any) => (
                     
                     <ListItem key={topMovie.id} boxSize={['50px','150px','175px']}>
                         

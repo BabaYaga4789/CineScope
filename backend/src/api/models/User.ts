@@ -1,3 +1,6 @@
+/**
+@Author: Hrishi Patel <hrishi.patel@dal.ca>
+*/
 import mongoose from "mongoose";
 import nodemailer from "nodemailer";
 
@@ -53,6 +56,7 @@ export async function getUserByUserName(userName: String) {
       userName: user.userName,
       genres: user.genres ?? [],
       about: user.about,
+      id: user._id,
     };
   }
 }
