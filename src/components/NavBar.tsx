@@ -16,7 +16,7 @@ import {
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
 const NavBar = () => {
@@ -39,6 +39,24 @@ const NavBar = () => {
     SessionManager.logout();
     navigate("/");
   };
+
+  const [userName, setUserName] = useState("");
+  const [userID, setUserID] = useState("");
+
+  useEffect(() => {
+    const getUser = async () => {
+      const userID = localStorage.getItem("userID");
+      if (userID) {
+        const userManagementService = new UserManagementService();
+        const data: any = await userManagementService.getUser(userID!!);
+        console.log(data);
+        setUserName(data.userName);
+        setUserID(data._id);
+      }
+    };
+
+    getUser();
+  }, []);
 
   return (
     <Box boxShadow="lg">
@@ -123,20 +141,14 @@ const NavBar = () => {
               onMouseEnter={onOpen}
               onMouseLeave={onClose}
               onClick={async () => {
-                const userID = localStorage.getItem("userID");
                 if (userID == null) {
                   navigate("/login");
                 } else {
-                  const userManagementService = new UserManagementService();
-                  const data: any = await userManagementService.getUser(
-                    userID!!
-                  );
-                  console.log(data);
-                  navigate("/profile/" + data.userName);
+                  navigate("/profile/" + userName);
                 }
               }}
             >
-              <Avatar name="Harsh" />
+              <Avatar name={userName} />
             </MenuButton>
             <MenuList onMouseEnter={onOpen} onMouseLeave={onClose}>
               {!isLoggedIn && (

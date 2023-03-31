@@ -10,7 +10,7 @@ import {
   Link,
   Spacer,
   Stack,
-  VStack
+  VStack,
 } from "@chakra-ui/layout";
 import { Avatar, Button, Image, Text, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
@@ -125,22 +125,22 @@ const Profile = () => {
                   color="black.500"
                   textAlign="left"
                 >
-                  Statistics
+                  Available Statistics
                 </Text>
                 <Box h={3} />
                 <VStack alignItems={"left"}>
-                  <Link href="#" color={"yellow.500"}>
+                  {/* <Link href="#" color={"yellow.500"}>
                     Clubs Joined (3)
                   </Link>
                   <Link href="#" color={"yellow.500"}>
                     Club Posts (2)
-                  </Link>
+                  </Link> */}
                   <Link href="#" color={"yellow.500"}>
                     Reviews (5)
                   </Link>
-                  <Link href="#" color={"yellow.500"}>
+                  {/* <Link href="#" color={"yellow.500"}>
                     Trivia Completed (2)
-                  </Link>
+                  </Link> */}
                 </VStack>
               </Box>
             </VStack>
