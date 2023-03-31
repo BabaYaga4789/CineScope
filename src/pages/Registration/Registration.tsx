@@ -1,3 +1,6 @@
+/**
+@Author: Hrishi Patel <hrishi.patel@dal.ca>
+*/
 import Genres from "@/common/Genres";
 import CustomContainer from "@/components/CustomContainer";
 import CustomInputField from "@/components/CustomInputField";
@@ -143,7 +146,7 @@ export default function Registration() {
               width={"300px"}
               textAlign="center"
             >
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Get started with your CineScope account
             </Text>
           </VStack>
         </Center>

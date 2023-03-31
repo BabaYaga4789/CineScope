@@ -1,3 +1,6 @@
+/**
+@Author: Hrishi Patel <hrishi.patel@dal.ca>
+*/
 const movieGenres = [
   { value: "ACTION", label: "Action" },
   { value: "ADVENTURE", label: "Adventure" },

@@ -1,9 +1,13 @@
+/**
+@Author: Hrishi Patel <hrishi.patel@dal.ca>
+*/
 import { Request, Response } from "express";
 import {
   createUser,
   deleteUser,
   getUser,
   getUserById,
+  getUserByUserName,
   sendPasswordResetEmail,
   updateUser,
 } from "../models/User";
@@ -39,6 +43,17 @@ const UserController = {
     }
   },
 
+  async getUserByUserName(req: Request, res: Response) {
+    const username = req.params.userName;
+    try {
+      const user = await getUserByUserName(username);
+      res.json(user);
+    } catch (err: any) {
+      console.log(err);
+      res.status(500).json({ message: err.message ?? err });
+    }
+  },
+
   async createUser(req: Request, res: Response) {
     const { email, password, userName, genres, about, dob } = req.body;
 
@@ -60,8 +75,15 @@ const UserController = {
 
   async updateUser(req: Request, res: Response) {
     try {
-      const { email, password, userName, genres, dob } = req.body;
-      const user = await updateUser({ email, password, userName, genres, dob });
+      const { email, password, userName, genres, dob, about } = req.body;
+      const user = await updateUser({
+        email,
+        password,
+        userName,
+        genres,
+        dob,
+        about,
+      });
       res.json(user);
     } catch (err: any) {
       console.log(err);

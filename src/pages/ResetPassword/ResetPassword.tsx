@@ -1,3 +1,6 @@
+/**
+@Author: Hrishi Patel <hrishi.patel@dal.ca>
+*/
 import CustomContainer from "@/components/CustomContainer";
 import { UserManagementState } from "@/services/UserManagementService/UserManagementEnum";
 import UserManagementService from "@/services/UserManagementService/UserManagementService";
@@ -11,7 +14,7 @@ import {
   InputLeftElement,
   Text,
   useToast,
-  VStack
+  VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { AiOutlineUser } from "react-icons/ai";
@@ -77,7 +80,7 @@ export default function ResetPassword() {
               width={"300px"}
               textAlign="center"
             >
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Enter your email address and we'll send you a temporary password
             </Text>
           </VStack>
         </Center>

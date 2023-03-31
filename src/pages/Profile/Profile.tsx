@@ -1,4 +1,11 @@
+/**
+@Author: Hrishi Patel <hrishi.patel@dal.ca>
+*/
+import { SessionManager } from "@/common/SessionManager";
 import CustomContainer from "@/components/CustomContainer";
+import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
+import UserManagementService from "@/services/UserManagementService/UserManagementService";
+import WatchlistService from "@/services/WatchlistService";
 import {
   Box,
   Flex,
@@ -8,26 +15,10 @@ import {
   Stack,
   VStack,
 } from "@chakra-ui/layout";
-import { Button, Image, Text } from "@chakra-ui/react";
-import { useState } from "react";
-import { useNavigate } from "react-router";
-
-const movies = [
-  {
-    id: 1,
-    poster: "/img/ShawshankRedemptionMoviePoster.jpeg",
-    title: "The Shawshank Redemption",
-    description:
-      "The Shawshank Redemption is a 1994 American drama film directed by Frank Darabont. The film is based on the novella 'Rita Hayworth and Shawshank Redemption' by Stephen King. The film stars Tim Robbins as Andy Dufresne, a banker who is wrongly convicted of murder and sent to Shawshank State Penitentiary. While in prison, Andy forms an unlikely friendship with a fellow inmate named Red, played by Morgan Freeman. Over time, Andy uses his wit and determination to help himself and his fellow prisoners, ultimately leading to his escape from Shawshank. The film was well-received by audiences and critics, and is widely regarded as one of the greatest films of all time.",
-  },
-  {
-    id: 2,
-    poster: "/img/AvatarPoster.jpeg",
-    title: "Avatar: The Way of Water",
-    description:
-      "Jake Sully lives with his newfound family formed on the extrasolar moon Pandora. Once a familiar threat returns to finish what was previously started, Jake must work with Neytiri and the army of the Na'vi race to protect their home.",
-  },
-];
+import { Avatar, Button, Image, Text, useToast } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router";
+import { UserData } from "../Registration/UserData";
 
 const activity = [
   {
@@ -49,12 +40,60 @@ const activity = [
 
 const Profile = () => {
   const navigate = useNavigate();
+  const toast = useToast();
 
-  const [m, setMovies] = useState(movies);
+  const [user, setUser] = useState({} as any);
+  const [list, setList] = useState([] as any);
 
-  const removeMovie = (id: number) => {
-    setMovies(movies.filter((movie) => movie.id !== id));
-  };
+  const movieManager = new MovieMagementService();
+  const watchlistService = new WatchlistService();
+
+  const { id } = useParams();
+  if (!id) {
+    navigate("/");
+  }
+
+  useEffect(() => {
+    const getUser = async () => {
+      const userManagementService = new UserManagementService();
+      const user = await userManagementService.getUserByUserName(id!);
+
+      if (user) {
+        setUser(user);
+        console.log(user);
+        const setWatchListMovies = async (watchlist: any) => {
+          let l: any = [];
+          await Promise.all(
+            watchlist.map(async (item: any) => {
+              const movieId = item.movieId;
+              let movie = await movieManager.fetchMovieByID(movieId);
+              movie.status = item.status;
+              l.push(movie);
+            })
+          );
+          return l;
+        };
+
+        const getWatchlist = async () => {
+          const watchlist = await watchlistService.getWatchlist(user.id);
+          const x = await setWatchListMovies(watchlist);
+          setList(x);
+        };
+
+        await getWatchlist();
+      } else {
+        toast({
+          title: "Error",
+          description: "Something went wrong. Please try again later.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    };
+
+    getUser();
+  }, []);
 
   return (
     <Flex flexShrink={"0"} mx={4} justifyContent="center">
@@ -68,19 +107,13 @@ const Profile = () => {
       >
         <CustomContainer w={{ base: "100%", md: "30%" }} mx={4}>
           <VStack>
-            <Image
-              boxShadow={"xl"}
-              borderRadius="full"
-              boxSize="150px"
-              src="https://bit.ly/dan-abramov"
-              alt="Dan Abramov"
-            />
-            <VStack>
+            <Avatar size="2xl" name={user.userName} />
+            <VStack w="100%">
               <Text fontSize={"lg"} fontWeight="semibold">
-                Hrishi Patel
+                {user.userName ?? ""}
               </Text>
               <Text fontSize="sm" color="gray.500" textAlign="center" mb={2}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                {user.about ?? ""}
               </Text>
               <Button
                 w={"100%"}
@@ -98,22 +131,22 @@ const Profile = () => {
                   color="black.500"
                   textAlign="left"
                 >
-                  Statistics
+                  Available Statistics
                 </Text>
                 <Box h={3} />
                 <VStack alignItems={"left"}>
-                  <Link href="#" color={"yellow.500"}>
+                  {/* <Link href="#" color={"yellow.500"}>
                     Clubs Joined (3)
                   </Link>
                   <Link href="#" color={"yellow.500"}>
                     Club Posts (2)
-                  </Link>
+                  </Link> */}
                   <Link href="#" color={"yellow.500"}>
                     Reviews (5)
                   </Link>
-                  <Link href="#" color={"yellow.500"}>
+                  {/* <Link href="#" color={"yellow.500"}>
                     Trivia Completed (2)
-                  </Link>
+                  </Link> */}
                 </VStack>
               </Box>
             </VStack>
@@ -132,35 +165,30 @@ const Profile = () => {
                   colorScheme="yellow"
                   size="sm"
                   variant={"ghost"}
-                  to="/watchlist"
+                  onClick={() => navigate("/watchlist")}
                 >
                   View All
                 </Link>
               </HStack>
-              {m.map((movie) => (
-                <CustomContainer boxShadow="md" key={movie.id} w={"100%"} p={2}>
+              {list.slice(0, 3).map((item: any) => (
+                <CustomContainer boxShadow="md" key={item._id} w={"100%"} p={2}>
                   <HStack alignItems="center">
                     <Image
                       boxShadow={"xl"}
                       borderRadius="md"
                       boxSize="70px"
-                      src={movie.poster}
-                      alt={movie.title}
+                      src={item.poster}
+                      alt={item.title}
                     />
                     <Box w={1} />
-                    <HStack w="100%" p={2} justifyContent={"space-between"}>
+                    <VStack alignItems="start">
                       <Text fontSize={"lg"} fontWeight="semibold">
-                        {movie.title}
+                        {item.title}
                       </Text>
-                      <Spacer />
-                      <Button
-                        colorScheme="red"
-                        size="sm"
-                        onClick={() => removeMovie(movie.id)}
-                      >
-                        Remove
-                      </Button>
-                    </HStack>
+                      <Text fontSize="sm" color="gray.500" textAlign="center">
+                        Status: {item.status ?? ""}
+                      </Text>
+                    </VStack>
                   </HStack>
                 </CustomContainer>
               ))}

@@ -1,3 +1,6 @@
+/**
+@Author: Hrishi Patel <hrishi.patel@dal.ca>
+*/
 import mongoose from "mongoose";
 import nodemailer from "nodemailer";
 
@@ -38,6 +41,24 @@ export async function getUser(email: String) {
   }
   const user = await User.findOne({ email: email });
   return user;
+}
+
+export async function getUserByUserName(userName: String) {
+  if (userName === undefined) {
+    throw "Oi! You forgot to pass a username!";
+  }
+
+  const user: any = await User.findOne({ userName: userName });
+  if (user === null) {
+    throw "User not found";
+  } else {
+    return {
+      userName: user.userName,
+      genres: user.genres ?? [],
+      about: user.about,
+      id: user._id,
+    };
+  }
 }
 
 export async function createUser(

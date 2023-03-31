@@ -1,11 +1,16 @@
+/**
+@Author: Hrishi Patel <hrishi.patel@dal.ca>
+*/
 import { SessionManager } from "@/common/SessionManager";
 import { UserData } from "@/pages/Registration/UserData";
 import { UserManagementState } from "./UserManagementEnum";
 
 export default class UserManagementService {
+  API_URL = import.meta.env.VITE_API_URL;
+
   async register(data: UserData): Promise<UserManagementState> {
     console.log(data);
-    const response = await fetch("http://localhost:3000/users", {
+    const response = await fetch(this.API_URL + "/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -29,7 +34,7 @@ export default class UserManagementService {
     username: string,
     password: string
   ): Promise<UserManagementState> {
-    const response = await fetch("http://localhost:3000/users/login", {
+    const response = await fetch(this.API_URL + "/users/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -54,9 +59,25 @@ export default class UserManagementService {
   }
 
   async getUser(userID: string) {
-    const response = await fetch(`http://localhost:3000/users/${userID}`, {
+    const response = await fetch(`${this.API_URL}/users/${userID}`, {
       method: "GET",
     });
+
+    if (response.status === 200) {
+      const body = await response.json();
+      return body;
+    } else {
+      return null;
+    }
+  }
+
+  async getUserByUserName(userName: string) {
+    const response = await fetch(
+      `http://localhost:3000/users/username/${userName}`,
+      {
+        method: "GET",
+      }
+    );
 
     if (response.status === 200) {
       const body = await response.json();
@@ -70,7 +91,7 @@ export default class UserManagementService {
     userID: string,
     data: UserData
   ): Promise<UserManagementState> {
-    const response = await fetch(`http://localhost:3000/users/${userID}`, {
+    const response = await fetch(`${this.API_URL}/users/${userID}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -86,7 +107,7 @@ export default class UserManagementService {
   }
 
   async deleteUser(userID: string): Promise<UserManagementState> {
-    const response = await fetch(`http://localhost:3000/users/${userID}`, {
+    const response = await fetch(`${this.API_URL}/users/${userID}`, {
       method: "DELETE",
     });
 
@@ -98,15 +119,12 @@ export default class UserManagementService {
   }
 
   async resetPassword(email: String): Promise<UserManagementState> {
-    const response = await fetch(
-      "http://localhost:3000/users/reset?email=" + email,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await fetch(this.API_URL + "/users/reset?email=" + email, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     if (response.status === 200) {
       return UserManagementState.PasswordResetSuccess;

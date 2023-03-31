@@ -7,7 +7,6 @@ import { LabelAllMovies } from "@/components/LabelAllMovies";
 import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
 
 export default function Home() {
-
   const [latestMovies, setLatestMovies] = useState([]);
   const [allMovies, setAllMovies] = useState([]);
   const movieManagementService = new MovieMagementService();
@@ -20,47 +19,44 @@ export default function Home() {
     <MovieGridItem key={movie._id} movie={movie} />
   ));
 
-  const fetchAllMovies = async ()  =>  {
+  const fetchAllMovies = async () => {
     const body: any = await movieManagementService.fetchAllMovies();
-    if(body == null){
-      alert("Something went wrong loading latest movies. Please try again.")
-    }
-    else{
+    if (body == null) {
+      alert("Something went wrong loading latest movies. Please try again.");
+    } else {
       setAllMovies(body);
     }
-  } 
+  };
 
-  const fetchLatestMovies =async () => {
+  const fetchLatestMovies = async () => {
     const body: any = await movieManagementService.fetchLatestMovies();
-    if(body == null){
-      alert("Something went wrong loading latest movies. Please try again.")
-    }
-    else{
+    if (body == null) {
+      alert("Something went wrong loading latest movies. Please try again.");
+    } else {
       setLatestMovies(body);
     }
-  }
+  };
 
   useEffect(() => {
     fetchLatestMovies();
     fetchAllMovies();
-  },[])
+  }, []);
 
   return (
     <VStack w="100%">
-      <LabelMostRated/>
+      <LabelMostRated />
       {/* Reference: https://chakra-ui.com/docs/components/simple-grid */}
       {/* <SimpleGrid p={4} w="100%" columns={{ base: 1, md: 3, lg: 7 }} gap={6}>
         {mostRatedMovies}
       </SimpleGrid> */}
-      <LabelNewReleased/>
+      <LabelNewReleased />
       <SimpleGrid p={4} w="100%" columns={{ base: 1, md: 3, lg: 7 }} gap={6}>
         {newRealesedMovies}
       </SimpleGrid>
-      <LabelAllMovies/>
+      <LabelAllMovies />
       <SimpleGrid p={4} w="100%" columns={{ base: 1, md: 3, lg: 7 }} gap={6}>
         {totalMovies}
       </SimpleGrid>
-
     </VStack>
   );
 }

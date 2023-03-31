@@ -16,8 +16,6 @@ const MovieController = {
     }
   },
 
-  
-
   async fetchAllMovies(req: Request, res: Response) {
     try {
       const movies = await fetchAllMovies();
@@ -63,39 +61,22 @@ const MovieController = {
     }
   },
 
-  async searchMovie(req: Request, res: Response){
-    const keyword = req.params.keyword;
-    try{
-      const movies = await searchMovie(keyword);
-      res.status(200).json(movies);
-    } catch (err: any){
-      console.log(err);
-      res.status(500).json({ message: err.message ?? err });
-    }
-  },
+  async filterMovie(req: Request, res: Response) {
+    const { keyword, ratings, genre, year } = req.body;
 
-  async filterMovie(req: Request, res: Response){
-    const{
-      keyword,
-      ratings,
-      genre,
-      year
-    } = req.body;
-    
-    if (keyword){
-      try{
+    if (keyword) {
+      try {
         const movies = await searchMovie(keyword);
         res.status(200).json(movies);
-      } catch (err: any){
+      } catch (err: any) {
         console.log(err);
         res.status(500).json({ message: err.message ?? err });
       }
-    }
-    else{
-      try{
+    } else {
+      try {
         const movies = await filterMovie(ratings, genre, year);
         res.status(200).json(movies);
-      } catch (err: any){
+      } catch (err: any) {
         console.log(err);
         res.status(500).json({ message: err.message ?? err });
       }
@@ -108,7 +89,7 @@ const MovieController = {
     try{
       const movies = await fetchMovieById(movieId);
       res.status(200).json(movies);
-    } catch (err: any){
+    } catch (err: any) {
       console.log(err);
       res.status(500).json({ message: err.message ?? err });
     }
@@ -157,11 +138,11 @@ const MovieController = {
     try{
       const message = await deleterMovieById(movieId);
       res.status(200).json(message);
-    } catch (err: any){
+    } catch (err: any) {
       console.log(err);
       res.status(500).json({ message: err.message ?? err });
     }
-  }
+  },
 };
 
 export default MovieController;
