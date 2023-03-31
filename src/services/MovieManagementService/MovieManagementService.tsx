@@ -7,10 +7,10 @@ import { MovieManagementState } from "./MovieManagementEnum";
 
 export default class MovieMagementService {
   
-  // const API_URL = import.meta.VITE_API_URL; 
+  API_URL = import.meta.env.VITE_API_URL;
   async addMovie(movie: Movie) {
     debugger
-    const response = await fetch("http://127.0.0.1:3000/movie/", {
+    const response = await fetch(this.API_URL + "/movie/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -25,7 +25,7 @@ export default class MovieMagementService {
   }
 
   async fetchLatestMovies() {
-    const response = await fetch('http://127.0.0.1:3000/movie/latest/', {
+    const response = await fetch(this.API_URL + "/movie/latest/", {
       method: "GET",
     });
 
@@ -38,7 +38,7 @@ export default class MovieMagementService {
   }
 
   async fetchAllMovies() {
-    const response = await fetch('http://127.0.0.1:3000/movie/all/', {
+    const response = await fetch(this.API_URL + "/movie/all/", {
       method: "GET",
     });
     if (response.status === 200) {
@@ -50,7 +50,7 @@ export default class MovieMagementService {
   }
 
   async deleteMovieByID(movieId: any) {
-    const response = await fetch(`http://127.0.0.1:3000/movie/${movieId}`, {
+    const response = await fetch(this.API_URL + `/movie/${movieId}`, {
       method: "DELETE",
     });
     if (response.status === 200) {
@@ -62,7 +62,7 @@ export default class MovieMagementService {
   }
 
   async updateMovieByID(movieId: any, movie: Movie) {
-    const response = await fetch(`http://127.0.0.1:3000/movie/${movieId}`, {
+    const response = await fetch(this.API_URL + `/movie/${movieId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -77,7 +77,7 @@ export default class MovieMagementService {
   }
 
   async fetchMovieByID(movieId: any) {
-    const response = await fetch(`http://127.0.0.1:3000/movie/${movieId}`, {
+    const response = await fetch(this.API_URL + `/movie/${movieId}`, {
       method: "GET",
     });
     if (response.status === 200) {
@@ -99,7 +99,7 @@ export default class MovieMagementService {
             headers: myHeaders,
             body: raw
           };
-    const response = await fetch("http://127.0.0.1:3000/movie/search", requestOptions);
+    const response = await fetch(this.API_URL + "/movie/search", requestOptions);
     if (response.status === 200) {
       const body = await response.json();
       return body;
@@ -121,7 +121,7 @@ export default class MovieMagementService {
       headers: myHeaders,
       body: raw
     };
-    const response = await fetch("http://127.0.0.1:3000/movie/search", requestOptions);
+    const response = await fetch(this.API_URL + "/movie/search", requestOptions);
     if (response.status === 200) {
       const body = await response.json();
       return body;
