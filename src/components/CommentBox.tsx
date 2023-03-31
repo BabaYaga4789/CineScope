@@ -15,7 +15,6 @@ import {
 import React, { useState } from "react";
 import { FaPencilAlt } from "react-icons/fa";
 
-
 import {
   Table,
   TableContainer,
@@ -27,9 +26,9 @@ import {
 } from "@chakra-ui/react";
 
 interface Props {
-  value: { email: string; comment: string }[];
+  value: any;
   onChildData: (data: string) => void;
-  loggedUser: string;
+  loggedUser: boolean;
 }
 
 const CommentBox: React.FC<Props> = (props) => {
@@ -38,7 +37,6 @@ const CommentBox: React.FC<Props> = (props) => {
   const [text, setText] = useState("");
   const toast = useToast();
 
-  
   const handleSaveClick = () => {
     if (text.trim() !== "") {
       props.onChildData(text);
@@ -66,7 +64,7 @@ const CommentBox: React.FC<Props> = (props) => {
           </Tr>
         </Thead>
         <Tbody>
-          {comments.map(({ email, comment }, index) => (
+          {comments.map(({ email, comment }: any, index: any) => (
             <Tr key={index}>
               <Td>
                 <Box as="h2" fontSize="md" maxWidth="50%">
@@ -92,7 +90,7 @@ const CommentBox: React.FC<Props> = (props) => {
                   onClick={() => setIsModalOpen(true)}
                   as={FaPencilAlt}
                   ml="2"
-                  isDisabled={email != props.loggedUser}
+                  isDisabled={!props.loggedUser}
                   value={email}
                 />
               </Td>
