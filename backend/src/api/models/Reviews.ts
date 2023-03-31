@@ -13,26 +13,9 @@ const reviews = new Schema({
   movieId: String,
 });
 
-// interface Data {
-//     email: String;
-//     movie: String;
-//     rating: Number;
-//     review: String;
-//     review_date: Date;
-//     rating_date: Date;
-//     flag: Boolean;
-//   }
 
 const Reviews = mongoose.model("Reviews", reviews);
 
-// Use the find method to search for documents where the name field is equal to "John"
-// MyDataModel.find({ name: 'John' }, (err, docs) => {
-//     if (err) {
-//       console.log(err);
-//     } else {
-//       console.log(docs);
-//     }
-//   });
 
 export async function getRating(movie: any) {
   const movies = await Reviews.find({ movie: movie });

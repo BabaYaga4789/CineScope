@@ -42,6 +42,8 @@ const ReviewsController = {
     }
   },
 
+  
+  //for update as well
   async addReviews(req: Request, res: Response) {
     const movie = req.body.movie;
     const email = req.body.email;

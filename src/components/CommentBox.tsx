@@ -14,6 +14,26 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { FaPencilAlt } from "react-icons/fa";
+import UserManagementService from "@/services/UserManagementService/UserManagementService";
+import { SessionManager } from "@/common/SessionManager";
+const isLoggedIn= SessionManager.isLoggedIn();
+const userID= SessionManager.getUserID();
+const userManagementService = new UserManagementService();
+  
+
+
+  // const getLoggedInUserEmail = async () =>{
+  //   let userEmail = '';
+  //   if(userID){
+  //     const body: any = await userManagementService.getUser(userID);
+  //     userEmail= body.email;
+  //     //console.log(userEmail, "userEmail");
+  //   }
+  //   return userEmail;
+ 
+  // }
+
+  // const fetchedEmail=  getLoggedInUserEmail();
 
 import {
   Table,
@@ -71,6 +91,7 @@ const CommentBox: React.FC<Props> = (props) => {
                 </Box>
               </Td>
 
+  
               <Td>
                 <Button
                   onClick={() => setIsModalOpen(true)}
