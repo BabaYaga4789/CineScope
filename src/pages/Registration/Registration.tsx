@@ -143,7 +143,7 @@ export default function Registration() {
               width={"300px"}
               textAlign="center"
             >
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Get started with your CineScope account
             </Text>
           </VStack>
         </Center>

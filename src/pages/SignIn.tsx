@@ -94,7 +94,8 @@ export default function SignIn() {
               width={"300px"}
               textAlign="center"
             >
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Login to your CineScope account to access your watchlist, reviews,
+              and more.
             </Text>
           </VStack>
         </Center>

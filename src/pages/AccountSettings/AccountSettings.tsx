@@ -194,7 +194,7 @@ export default function AccountSettings() {
               width={"300px"}
               textAlign="center"
             >
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Update your profile and settings here.
             </Text>
           </VStack>
         </Center>
@@ -263,7 +263,6 @@ export default function AccountSettings() {
         </InputGroup>
 
         {/* Genres */}
-
         <Autocomplete
           as={Input}
           focusBorderColor={accent}

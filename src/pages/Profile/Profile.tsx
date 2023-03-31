@@ -80,7 +80,7 @@ const Profile = () => {
                 Hrishi Patel
               </Text>
               <Text fontSize="sm" color="gray.500" textAlign="center" mb={2}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                ...
               </Text>
               <Button
                 w={"100%"}
