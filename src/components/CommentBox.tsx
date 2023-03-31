@@ -1,4 +1,5 @@
 import {
+  Badge,
   Box,
   Button,
   Input,
@@ -14,6 +15,7 @@ import {
 import React, { useState } from "react";
 import { FaPencilAlt } from "react-icons/fa";
 
+
 import {
   Table,
   TableContainer,
@@ -25,17 +27,21 @@ import {
 } from "@chakra-ui/react";
 
 interface Props {
-  value: string[];
+  value: { email: string; comment: string }[];
+  onChildData: (data: string) => void;
+  loggedUser: string;
 }
 
 const CommentBox: React.FC<Props> = (props) => {
-  const { value: commentVal } = props;
+  const { value: comments } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [text, setText] = useState("");
   const toast = useToast();
 
+  
   const handleSaveClick = () => {
     if (text.trim() !== "") {
+      props.onChildData(text);
       setIsModalOpen(false);
     } else {
       toast({
@@ -49,20 +55,35 @@ const CommentBox: React.FC<Props> = (props) => {
   };
 
   return (
-    <TableContainer display="block" >
+    <TableContainer display="block">
       <Table variant="simple" colorScheme="teal" overflowX="auto">
         <Thead>
           <Tr>
-            <Th fontWeight="medium" fontSize="md">Reviews: </Th>
+            <Th fontWeight="medium" fontSize="md">
+              Reviews:{" "}
+            </Th>
             <Th></Th>
           </Tr>
         </Thead>
         <Tbody>
-          {commentVal.map((comments, index) => (
+          {comments.map(({ email, comment }, index) => (
             <Tr key={index}>
               <Td>
                 <Box as="h2" fontSize="md" maxWidth="50%">
-                  <Text>{comments}</Text>
+                  {/* <Text>{email}: {comment}</Text> */}
+                  {/* <Text fontSize="sm" fontStyle="italic" > {email}</Text> */}
+                  <Badge
+                    colorScheme="gray"
+                    variant="outline"
+                    textTransform="lowercase"
+                    fontSize="xs"
+                    mb="1"
+                  >
+                    {email}
+                  </Badge>
+                  <Text mt="1" fontSize="md">
+                    {comment}
+                  </Text>
                 </Box>
               </Td>
 
@@ -71,6 +92,8 @@ const CommentBox: React.FC<Props> = (props) => {
                   onClick={() => setIsModalOpen(true)}
                   as={FaPencilAlt}
                   ml="2"
+                  isDisabled={email != props.loggedUser}
+                  value={email}
                 />
               </Td>
 
