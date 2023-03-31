@@ -63,7 +63,7 @@ const AddMovieDialog: React.FC<AddMovieDialogProps> = ({
         const watchlistService = new WatchlistService();
         const message = await watchlistService.addToWatchlist(
           userId,
-          movie._id,
+          movie._id!,
           status
         );
 
