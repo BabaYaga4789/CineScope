@@ -33,7 +33,7 @@ export default class UserManagementService {
   async login(
     username: string,
     password: string
-  ): Promise<UserManagementState> {
+  ): Promise<any> {
     const response = await fetch(this.API_URL + "/users/login", {
       method: "POST",
       headers: {
@@ -51,7 +51,7 @@ export default class UserManagementService {
       return UserManagementState.UserLoginFailedUserDoesNotExist;
     } else if (response.status === 200) {
       SessionManager.login(body._id);
-      return UserManagementState.UserLoginSuccess;
+      return body;
     } else if (response.status === 401) {
       return UserManagementState.UserLoginFailedIncorrectPassword;
     }
@@ -73,7 +73,7 @@ export default class UserManagementService {
 
   async getUserByUserName(userName: string) {
     const response = await fetch(
-      `http://localhost:3000/users/username/${userName}`,
+      `${this.API_URL}/users/username/${userName}`,
       {
         method: "GET",
       }

@@ -170,9 +170,9 @@ const NavBar = () => {
                 </MenuItem>
               )}
               {isLoggedIn && <MenuItem onClick={logout}>Logout</MenuItem>}
-              {isLoggedIn && (
+              {/* {isLoggedIn && (
                 <MenuItem onClick={switchToAdmin}>Switch to Admin</MenuItem>
-              )}
+              )} */}
             </MenuList>
           </Menu>
           <Box display={{ base: "flex", md: "none" }} onClick={toggle}>
