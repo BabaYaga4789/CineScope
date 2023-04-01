@@ -45,17 +45,14 @@ const MovieDetails = () => {
   const [rating, setRating] = useState(0);
   const toast = useToast();
 
-
-  const getLoggedInUserEmail = async () => {
-    let userEmail = "";
+  const getUserName = async () => {
+    let userName = "";
     if (userID) {
       const body: any = await userManagementService.getUser(userID);
-      userEmail = body.email;
+      userName = body.userName;
     }
-    return userEmail;
+    return userName;
   };
-
-
 
   const fetchMovieDetails = async () => {
     const body: any = await movieManagementService.fetchMovieByID(movieId);
@@ -78,22 +75,22 @@ const MovieDetails = () => {
       const body1: any = await ReviewsMagementService.getRating(body.title);
       const roundedOff = body1.toFixed(2);
       setMovieRating(roundedOff);
-     
+
       const body2: any = await ReviewsMagementService.getReview(body.title);
       const reviewedMovies = body2.filter((movie: any) => {
         return movie.hasOwnProperty("review");
       });
       const ratingObjects = reviewedMovies.map((i: any) => {
         return {
-          email: i.email,
+          email: i.userName ?? "Unknown",
           comment: i.review,
         };
       });
       setDisplay(ratingObjects);
-     
+
       if (userID) {
         const body: any = await watchlistService.getWatchlist(userID);
-        
+
         body.forEach((item: any) => {
           if (item.movieId === movieId && item.status === "watched") {
             setWStatus("watched");
@@ -103,21 +100,19 @@ const MovieDetails = () => {
       }
     }
 
-    const fetchedEmail = await getLoggedInUserEmail();
-    setLogUser(fetchedEmail);
+    const fetchedUserName = await getUserName();
+    setLogUser(fetchedUserName);
   };
 
- 
   const handleRatingClick = async (value: number) => {
     setRating(value);
-    const fetchedEmail = await getLoggedInUserEmail();
+    const fetchedUserName = await getUserName();
     const body: any = await ReviewsMagementService.addRating(
       movieDetails.title,
-      fetchedEmail,
+      fetchedUserName,
       value,
       movieId
     );
-  
 
     toast({
       description: "Rating has been added",
@@ -133,10 +128,11 @@ const MovieDetails = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const fetchedEmail = await getLoggedInUserEmail();
+    const fetchedUserName = await getUserName();
+    console.log(`Movie ID: ${movieId}, User: ${fetchedUserName}`);
     const body: any = await ReviewsMagementService.addReview(
       movieDetails.title,
-      fetchedEmail,
+      fetchedUserName,
       comment,
       movieId
     );
@@ -144,14 +140,13 @@ const MovieDetails = () => {
     setComment("");
   };
 
-
   const handleChildData = async (data: string) => {
     console.log(`Received data from child component: ${data}`);
 
-    const fetchedEmail = await getLoggedInUserEmail();
+    const fetchedUserName = await getUserName();
     const body: any = await ReviewsMagementService.addReview(
       movieDetails.title,
-      fetchedEmail,
+      fetchedUserName,
       data,
       movieId
     );
