@@ -2,10 +2,11 @@ import News from "@/common/News";
 import { NewsManagementState } from "./NewsManagementEnum";
 
 export default class MovieMagementService {
+  API_URL = import.meta.env.VITE_API_URL;
 
   async addNews(news: News) {
     debugger
-    const response = await fetch("http://127.0.0.1:3000/news/", {
+    const response = await fetch(`${this.API_URL}/news/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -20,7 +21,7 @@ export default class MovieMagementService {
   }
 
   async deleteNewsByID(newsId: any) {
-    const response = await fetch(`http://127.0.0.1:3000/news/${newsId}`, {
+    const response = await fetch(`${this.API_URL}/news/${newsId}`, {
       method: "DELETE",
     });
     if (response.status === 200) {
@@ -32,7 +33,7 @@ export default class MovieMagementService {
   }
 
   async updateNewsByID(newsId: any, news: News) {
-    const response = await fetch(`http://127.0.0.1:3000/news/${newsId}`, {
+    const response = await fetch(`${this.API_URL}/news/${newsId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -47,7 +48,7 @@ export default class MovieMagementService {
   }
 
   async fetchAllNews() {
-    const response = await fetch("http://127.0.0.1:3000/news/latestNews/", {
+    const response = await fetch(`${this.API_URL}/news/latestNews/`, {
       method: "GET",
     });
     if (response.status === 200) {
@@ -59,7 +60,7 @@ export default class MovieMagementService {
   }
   
   async fetchNewsByID(newsId: any) {
-    const response = await fetch(`http://127.0.0.1:3000/news/${newsId}`, {
+    const response = await fetch(`${this.API_URL}/news/${newsId}`, {
       method: "GET",
     });
     if (response.status === 200) {
