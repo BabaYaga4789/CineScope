@@ -3,7 +3,7 @@
  */
 
 import { Request, Response } from "express";
-import { createMovie, fetchLastestMovies, searchMovie, filterMovie, updateMovie, fetchAllMovies, fetchMovieById, deleterMovieById } from "../models/Movie";
+import { createMovie, fetchLastestMovies, searchMovie, filterMovie, updateMovie, fetchAllMovies, fetchMovieById, deleterMovieById, ratingFilter } from "../models/Movie";
 import { getMostRatedMovies } from "../models/Reviews";
 
 const MovieController = {
@@ -76,6 +76,17 @@ const MovieController = {
     } else {
       try {
         const movies = await filterMovie(ratings, genre, year);
+        // console.log(movies);
+        if(ratings)
+        {
+          const l = [];
+          for(let i = 0; i < movies.length; i++){
+            l.push(movies[i]._id.valueOf());
+          }
+          console.log(l);
+          const filterRatings = await ratingFilter(l);
+          console.log(filterRatings);
+        }
         res.status(200).json(movies);
       } catch (err: any) {
         console.log(err);

@@ -12,10 +12,6 @@ export default function Home() {
   const [mostRatedMovies, setMostRatedMovies] = useState([]);
   const movieManagementService = new MovieMagementService();
 
-  const highestRatedMovies = mostRatedMovies.map((movie: any) => (
-    <MovieGridItem key={movie._id} movie={movie} />
-  ));
-
   const newRealesedMovies = latestMovies.map((movie: any) => (
     <MovieGridItem key={movie._id} movie={movie} />
   ));
@@ -23,6 +19,10 @@ export default function Home() {
   const totalMovies = allMovies.map((movie: any) => (
     <MovieGridItem key={movie._id} movie={movie} />
   ));
+
+  // const highestRatedMovies = mostRatedMovies.map((movie: any) => (
+  //   <MovieGridItem key={movie._id} movie={movie} />
+  // ));
 
   const fetchAllMovies = async () => {
     const body: any = await movieManagementService.fetchAllMovies();
@@ -52,18 +52,18 @@ export default function Home() {
   };
 
   useEffect(() => {
-    fetchMostRatedMovies();
     fetchLatestMovies();
     fetchAllMovies();
+    fetchMostRatedMovies();
   }, []);
 
   return (
     <VStack w="100%">
-      <LabelMostRated />
+      {/* <LabelMostRated /> */}
       {/* Reference: https://chakra-ui.com/docs/components/simple-grid */}
-      <SimpleGrid p={4} w="100%" columns={{ base: 1, md: 3, lg: 7 }} gap={6}>
+      {/* <SimpleGrid p={4} w="100%" columns={{ base: 1, md: 3, lg: 7 }} gap={6}>
         {highestRatedMovies}
-      </SimpleGrid>
+      </SimpleGrid> */}
       <LabelNewReleased />
       <SimpleGrid p={4} w="100%" columns={{ base: 1, md: 3, lg: 7 }} gap={6}>
         {newRealesedMovies}

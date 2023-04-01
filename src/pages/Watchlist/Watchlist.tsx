@@ -65,7 +65,7 @@ const Watchlist = () => {
 
   const getReviewPage = (e: any) => {
     e.preventDefault();
-    navigate("/reviews", { state: e.target.id });
+    navigate("/movie-details", { state: e.target.id });
   };
 
   const handleRemove = async (id: any) => {
