@@ -60,6 +60,10 @@ npm run build
 
 To deploy this application, Netlify was used. You can follow the Tutorial 2 Netlify guide for deployment steps.
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> fcd04275ab9e24f46efe966ba8d8afa6f6452163
 ## Built With
 
 - [React.js](https://reactjs.org/) - JavaScript library to create interactive UIs
