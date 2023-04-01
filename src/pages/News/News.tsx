@@ -78,7 +78,7 @@ export default function News() {
       <Spacer />
       <Flex pl="20px" pr={"20px"} display="flex" flexDirection={"column"}>
         {allNews.map((news: any) => (
-          <Card onClick={() => navigate("/news-details/" + news._id)} cursor="pointer">
+          <Card onClick={() => navigate("/news-details/" + news._id)} cursor="pointer" padding={8}>
             <Heading
               fontSize={"3xl"}
               fontStyle="bold"
@@ -109,6 +109,7 @@ export default function News() {
               </CardFooter>
             </Stack>
           </Card>
+        
         ))}
 
       </Flex>
