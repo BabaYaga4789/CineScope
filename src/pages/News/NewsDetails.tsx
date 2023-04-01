@@ -89,15 +89,15 @@ export default function NewsDetails() {
                 display="flex"
                 flexDirection={"column"}
                 alignItems="end"
-            >
-                <HStack>
-                    <Text>
-                        Share:
-                    </Text>
-                    <Icon as={FaFacebookSquare} boxSize={6} />
-                    <Icon as={FaInstagram} boxSize={6} />
-                    <Icon as={FaWhatsapp} boxSize={6} />
-                </HStack>
+            // >
+            //     <HStack>
+            //         <Text>
+            //             Share:
+            //         </Text>
+            //         <Icon as={FaFacebookSquare} boxSize={6} />
+            //         <Icon as={FaInstagram} boxSize={6} />
+            //         <Icon as={FaWhatsapp} boxSize={6} />
+            //     </HStack>
 
             </Flex></>
 
