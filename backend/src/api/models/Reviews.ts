@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const reviews = new Schema({
-  email: String,
+  userName: String,
   movie: String,
   rating: Number,
   review: String,
@@ -27,15 +27,20 @@ export async function getReview(movie: any) {
   return movies;
 }
 
+export async function getReviewByUserName(userName: any) {
+  const movies = await Reviews.find({ userName: userName });
+  return movies;
+}
+
 /*adds rating to database*/
 export async function addRating(
   movie: any,
-  email: any,
+  userName: any,
   rating: any,
   movieId: any
 ) {
   const currentDate = Date.now();
-  const filter = { email: email, movie: movie };
+  const filter = { userName: userName, movie: movie };
   const update = {
     rating: rating,
     rating_date: currentDate,
@@ -55,12 +60,12 @@ export async function addRating(
 /* to add or update a review to database*/
 export async function addReview(
   movie: any,
-  email: any,
+  userName: any,
   review: any,
   movieId: any
 ) {
   const currentDate = Date.now();
-  const filter = { email: email, movie: movie };
+  const filter = { userName: userName, movie: movie };
   const update = {
     review: review,
     review_date: currentDate,

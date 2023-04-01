@@ -4,10 +4,18 @@ import reviewsController from "../controllers/ReviewsController";
 const reviewsRoute = (): Router => {
   const router = Router();
 
-  router.route("/get-rating/").post(reviewsController.getRatings);
-  router.route("/get-review/").post(reviewsController.getReviews);
-  router.route("/add-rating/").post(reviewsController.addRatings);
-  router.route("/add-reviews/").post(reviewsController.addReviews);
+  router
+    .route("/ratings/:movieID")
+    .get(reviewsController.getRatings)
+    .post(reviewsController.addRatings);
+
+  router
+    .route("/:movieID")
+    .post(reviewsController.addReviews)
+    .get(reviewsController.getReviews);
+
+  router.route("/user/:userName").get(reviewsController.getReviewsByUser);
+
   //router.route("update-review").post(reviewsController.addReviews);
 
   return router;

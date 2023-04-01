@@ -141,7 +141,7 @@ const NavBar = () => {
               onMouseEnter={onOpen}
               onMouseLeave={onClose}
               onClick={async () => {
-                if (userID == null) {
+                if (userID == null || userID == "") {
                   navigate("/login");
                 } else {
                   navigate("/profile/" + userName);
