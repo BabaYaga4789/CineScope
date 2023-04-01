@@ -1,3 +1,7 @@
+/**
+ * @author Harsh Kamleshbhai Shah <shah.harsh@dal.ca>
+ */
+
 import { SessionManager } from "@/common/SessionManager";
 import UserManagementService from "@/services/UserManagementService/UserManagementService";
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
