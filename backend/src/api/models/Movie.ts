@@ -3,6 +3,7 @@
  */
 
 import mongoose from "mongoose";
+import Reviews from "./Reviews";
 
 const Schema = mongoose.Schema;
 
@@ -25,7 +26,9 @@ const Movie = mongoose.model("Movie", movie);
 export function fetchLastestMovies() {
   const oneMonthAgo = new Date();
   oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 2);
-  const movies = Movie.find({ released_date: { $gte: oneMonthAgo } }) .sort('-released_date').limit(7)
+  const movies = Movie.find({ released_date: { $gte: oneMonthAgo } })
+    .sort("-released_date")
+    .limit(7);
   return movies;
 }
 
@@ -96,7 +99,7 @@ export function searchMovie(keyword: any) {
 
 export function filterMovie(ratings: any, genre: any, year: any) {
   try {
-    let filteredMovies = {};
+    let filteredMovies: any = {};
     const query = {} as any;
 
     if (year) {
@@ -127,16 +130,16 @@ export function fetchAllMovies() {
   }
 }
 
-export function fetchMovieById(movieId: any){
+export function fetchMovieById(movieId: any) {
   try {
     const movie = Movie.findById(movieId);
-      return movie;
+    return movie;
   } catch (err) {
     throw err;
   }
 }
 
-export function deleterMovieById(movieId: any){
+export function deleterMovieById(movieId: any) {
   try {
     const message = Movie.findByIdAndDelete(movieId);
     return message;
@@ -161,4 +164,13 @@ export async function updateMovie(movie: any) {
   return { message: "No changes to movie." };
 }
 
+export async function ratingFilter(list: any) {
+  if (list.length == 0) {
+    return null;
+  } else {
+    const movies = Reviews.find({ movieId: { $in: list } });
+    console.log(movies);
+    return movies;
+  }
+}
 export default mongoose.model("Movie", movie);

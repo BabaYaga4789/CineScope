@@ -159,6 +159,7 @@ const MovieDetails = () => {
 
   useEffect(() => {
     fetchMovieDetails();
+    // fetchRatingCount();
   }, [movieReview]);
 
   return (
@@ -251,6 +252,7 @@ const MovieDetails = () => {
             {movieDetails.released_date} | {movieDetails.time_in_minutes}{" "}
             Minutes | Rating{" "}
             <Badge colorScheme="yellow" fontSize="1.2rem">
+              {/* {movieRatingCount} */}
               {movieRating}
             </Badge>{" "}
             |{" "}
