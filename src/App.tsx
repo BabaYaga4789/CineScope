@@ -13,7 +13,6 @@ import NewsDetails from "./pages/News/NewsDetails";
 import Profile from "./pages/Profile/Profile";
 import Registration from "./pages/Registration/Registration";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
-import Reviews from "./pages/Reviews/Reviews";
 import SignIn from "./pages/SignIn";
 import Watchlist from "./pages/Watchlist/Watchlist";
 import RootLayout from "./RootLayout";
@@ -97,12 +96,8 @@ const router = createBrowserRouter([
         element: <FilterResults />,
       },
       {
-        path: "/reviews",
-        element: <Reviews />,
-      },
-      {
-        path: "/movie-details",
-        element: <MovieDetail />
+        path: "/movie-details/:id",
+        element: <MovieDetail />,
       },
     ],
   },

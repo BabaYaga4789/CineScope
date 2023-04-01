@@ -1,3 +1,6 @@
+/**
+@Author: Hrishi Patel <hrishi.patel@dal.ca>
+*/
 import Genres from "@/common/Genres";
 import CustomContainer from "@/components/CustomContainer";
 import CustomInputField from "@/components/CustomInputField";
@@ -14,7 +17,7 @@ import {
   InputLeftElement,
   SlideFade,
   Text,
-  VStack
+  VStack,
 } from "@chakra-ui/react";
 import { Autocomplete, Option } from "chakra-ui-simple-autocomplete";
 import React, { useState } from "react";
@@ -24,7 +27,7 @@ import {
   AiOutlineLock,
   AiOutlineMail,
   AiOutlineUnorderedList,
-  AiOutlineUser
+  AiOutlineUser,
 } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { UserData } from "./UserData";
@@ -50,7 +53,6 @@ export default function Registration() {
 
     setError(false);
     setErrorMessage("");
-
 
     const {
       userName,
@@ -116,7 +118,7 @@ export default function Registration() {
     const message = await userManagementService.register(userData);
 
     if (message === UserManagementState.UserRegistrationSuccess) {
-      navigate("/profile", { state: data });
+      navigate("/");
     } else {
       setError(true);
       setErrorMessage(message);

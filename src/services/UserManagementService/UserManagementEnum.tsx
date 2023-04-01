@@ -1,3 +1,6 @@
+/**
+@Author: Hrishi Patel <hrishi.patel@dal.ca>
+*/
 export enum UserManagementState {
   UserRegistrationSuccess = "User Registered Successfully",
   UserAlreadyExists = "User already exists",

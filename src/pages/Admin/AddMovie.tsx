@@ -1,3 +1,7 @@
+/**
+ * @author Ketul Patel - <ketul.patel@dal.ca>
+ */
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -10,7 +14,6 @@ import {
   Center,
   Heading,
   Flex,
-  Select,
   Stack,
   useToast,
 } from "@chakra-ui/react";

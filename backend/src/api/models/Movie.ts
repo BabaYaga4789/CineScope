@@ -1,3 +1,7 @@
+/**
+ * @author Ketul Patel - <ketul.patel@dal.ca>
+ */
+
 import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
