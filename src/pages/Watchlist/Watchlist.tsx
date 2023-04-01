@@ -60,12 +60,12 @@ const Watchlist = () => {
   useEffect(() => {
     fetchData();
   }, [isLoggedIn]);
-  
-  
 
-  const getReviewPage = (e: any) => {
+  const navigateToMoviePage = (e: any) => {
     e.preventDefault();
-    navigate("/reviews", { state: e.target.id });
+    if (e.target.id) {
+      navigate("/movie-details/" + e.target.id);
+    }
   };
 
   const handleRemove = async (id: any) => {
@@ -132,7 +132,7 @@ const Watchlist = () => {
                     <HStack w={"100%"} justifyContent="flex-end">
                       <Button
                         id={movie._id}
-                        onClick={getReviewPage}
+                        onClick={navigateToMoviePage}
                         leftIcon={<ViewIcon />}
                       >
                         View

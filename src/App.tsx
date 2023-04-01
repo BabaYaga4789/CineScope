@@ -91,7 +91,7 @@ const router = createBrowserRouter([
         element: <FilterResults />,
       },
       {
-        path: "/movie-details",
+        path: "/movie-details/:id",
         element: <MovieDetail />,
       },
     ],

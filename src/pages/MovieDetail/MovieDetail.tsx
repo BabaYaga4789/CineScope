@@ -18,7 +18,7 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
 import UserManagementService from "@/services/UserManagementService/UserManagementService";
 import WatchlistService from "@/services/WatchlistService";
@@ -28,8 +28,12 @@ import ReviewsMagementService from "@/services/ReviewsManagementService/ReviewsM
 import CommentBox from "@/components/CommentBox";
 
 const MovieDetails = () => {
-  const location = useLocation();
-  const movieId = location.state;
+  const navigate = useNavigate();
+  const { id } = useParams();
+  if (!id) {
+    navigate("/");
+  }
+
   const movieManagementService = new MovieMagementService();
   const userManagementService = new UserManagementService();
   const watchlistService = new WatchlistService();
@@ -45,20 +49,17 @@ const MovieDetails = () => {
   const [rating, setRating] = useState(0);
   const toast = useToast();
 
-
-  const getLoggedInUserEmail = async () => {
-    let userEmail = "";
+  const getUserName = async () => {
+    let userName = "";
     if (userID) {
       const body: any = await userManagementService.getUser(userID);
-      userEmail = body.email;
+      userName = body.userName;
     }
-    return userEmail;
+    return userName;
   };
 
-
-
   const fetchMovieDetails = async () => {
-    const body: any = await movieManagementService.fetchMovieByID(movieId);
+    const body: any = await movieManagementService.fetchMovieByID(id);
     if (body == null) {
       alert(
         "Something went wrong while loading movie details. Please try again."
@@ -78,46 +79,44 @@ const MovieDetails = () => {
       const body1: any = await ReviewsMagementService.getRating(body.title);
       const roundedOff = body1.toFixed(2);
       setMovieRating(roundedOff);
-     
+
       const body2: any = await ReviewsMagementService.getReview(body.title);
       const reviewedMovies = body2.filter((movie: any) => {
         return movie.hasOwnProperty("review");
       });
       const ratingObjects = reviewedMovies.map((i: any) => {
         return {
-          email: i.email,
+          email: i.userName ?? "Unknown",
           comment: i.review,
         };
       });
       setDisplay(ratingObjects);
-     
+
       if (userID) {
         const body: any = await watchlistService.getWatchlist(userID);
-        
+
         body.forEach((item: any) => {
-          if (item.movieId === movieId && item.status === "watched") {
+          if (item.id === id && item.status === "watched") {
             setWStatus("watched");
-            console.log(`Movie ID: ${item.movieId}, Status: ${item.status}`);
+            console.log(`Movie ID: ${item.id}, Status: ${item.status}`);
           }
         });
       }
     }
 
-    const fetchedEmail = await getLoggedInUserEmail();
-    setLogUser(fetchedEmail);
+    const fetchedUserName = await getUserName();
+    setLogUser(fetchedUserName);
   };
 
- 
   const handleRatingClick = async (value: number) => {
     setRating(value);
-    const fetchedEmail = await getLoggedInUserEmail();
+    const fetchedUserName = await getUserName();
     const body: any = await ReviewsMagementService.addRating(
       movieDetails.title,
-      fetchedEmail,
+      fetchedUserName,
       value,
-      movieId
+      id
     );
-  
 
     toast({
       description: "Rating has been added",
@@ -133,27 +132,27 @@ const MovieDetails = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const fetchedEmail = await getLoggedInUserEmail();
+    const fetchedUserName = await getUserName();
+    console.log(`Movie ID: ${id}, User: ${fetchedUserName}`);
     const body: any = await ReviewsMagementService.addReview(
       movieDetails.title,
-      fetchedEmail,
+      fetchedUserName,
       comment,
-      movieId
+      id
     );
     setMovieReview(body);
     setComment("");
   };
 
-
   const handleChildData = async (data: string) => {
     console.log(`Received data from child component: ${data}`);
 
-    const fetchedEmail = await getLoggedInUserEmail();
+    const fetchedUserName = await getUserName();
     const body: any = await ReviewsMagementService.addReview(
       movieDetails.title,
-      fetchedEmail,
+      fetchedUserName,
       data,
-      movieId
+      id
     );
     setMovieReview(body);
   };
