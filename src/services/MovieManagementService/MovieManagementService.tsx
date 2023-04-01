@@ -131,7 +131,7 @@ export default class MovieMagementService {
   }
 
   async fetchMostRatedMovies() {
-    const response = await fetch('http://127.0.0.1:3000/movie/rated/', {
+    const response = await fetch(this.API_URL+"/movie/rated", {
       method: "GET",
     });
     if (response.status === 200) {
