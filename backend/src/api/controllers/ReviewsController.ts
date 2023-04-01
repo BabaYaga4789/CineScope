@@ -1,10 +1,16 @@
 import { Request, Response } from "express";
-import { addRating, addReview, getRating, getReview } from "../models/Reviews";
+import {
+  addRating,
+  addReview,
+  getRating,
+  getReview,
+  getReviewByUserName,
+} from "../models/Reviews";
 
 /* controller function to retrieve ratings by calculating average*/
 const ReviewsController = {
   async getRatings(req: Request, res: Response) {
-    const movie = req.body.movie;
+    const movie = req.params.movieID;
     try {
       const message = await getRating(movie);
       const sum = message.reduce((accumulator, currentValue: any) => {
@@ -20,7 +26,7 @@ const ReviewsController = {
 
   /* to get added reviews*/
   async getReviews(req: Request, res: Response) {
-    const movie = req.body.movie;
+    const movie = req.params.movieID;
     try {
       const message = await getReview(movie);
       res.status(200).json(message);
@@ -30,14 +36,25 @@ const ReviewsController = {
     }
   },
 
+  async getReviewsByUser(req: Request, res: Response) {
+    const userName = req.params.userName;
+    try {
+      const message = await getReviewByUserName(userName);
+      res.status(200).json(message);
+    } catch (err: any) {
+      console.log(err);
+      res.status(500).json({ message: err.message ?? err });
+    }
+  },
+
   /* to add rating for a movie*/
   async addRatings(req: Request, res: Response) {
-    const movie = req.body.movie;
-    const email = req.body.email;
+    const movie = req.params.movieID;
+    const userName = req.body.userName;
     const rating = req.body.rating;
     const movieId = req.body.movieId;
     try {
-      const message = await addRating(movie, email, rating, movieId);
+      const message = await addRating(movie, userName, rating, movieId);
       res.status(200).json(message);
     } catch (err: any) {
       console.log(err);
@@ -47,12 +64,12 @@ const ReviewsController = {
 
   /* to add reviews*/
   async addReviews(req: Request, res: Response) {
-    const movie = req.body.movie;
-    const email = req.body.email;
+    const movie = req.params.movieID;
+    const userName = req.body.userName;
     const review = req.body.review;
     const movieId = req.body.movieId;
     try {
-      const message = await addReview(movie, email, review, movieId);
+      const message = await addReview(movie, userName, review, movieId);
       res.status(200).json(message);
     } catch (err: any) {
       console.log(err);
