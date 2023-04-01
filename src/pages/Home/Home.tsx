@@ -1,10 +1,9 @@
-import MovieGridItem from "@/components/MovieGridItem";
-import { useEffect, useState } from "react";
-import { SimpleGrid, VStack } from "@chakra-ui/react";
-import { LabelNewReleased } from "@/components/LabelNewReleased";
-import { LabelMostRated } from "@/components/LabelMostRated";
 import { LabelAllMovies } from "@/components/LabelAllMovies";
+import { LabelNewReleased } from "@/components/LabelNewReleased";
+import MovieGridItem from "@/components/MovieGridItem";
 import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
+import { SimpleGrid, VStack } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const [latestMovies, setLatestMovies] = useState([]);
@@ -54,7 +53,7 @@ export default function Home() {
   useEffect(() => {
     fetchLatestMovies();
     fetchAllMovies();
-    fetchMostRatedMovies();
+    // fetchMostRatedMovies();
   }, []);
 
   return (
