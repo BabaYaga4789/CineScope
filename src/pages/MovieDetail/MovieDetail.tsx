@@ -21,7 +21,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
 import UserManagementService from "@/services/UserManagementService/UserManagementService";
-import WatchlistService from "@/services/WatchlistService";
+import WatchlistService from "@/services/WatchlistManagementService/WatchlistService";
 import { SessionManager } from "@/common/SessionManager";
 import { FaStar } from "react-icons/fa";
 import ReviewsMagementService from "@/services/ReviewsManagementService/ReviewsManagementService";

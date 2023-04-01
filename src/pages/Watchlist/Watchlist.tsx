@@ -1,6 +1,10 @@
+/**
+ * @author Harsh Kamleshbhai Shah <shah.harsh@default.ca>
+ */
 import { SessionManager } from "@/common/SessionManager";
 import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
-import WatchlistService from "@/services/WatchlistService";
+import { WatchlistState } from "@/services/WatchlistManagementService/WatchlistEnum";
+import WatchlistService from "@/services/WatchlistManagementService/WatchlistService";
 import { DeleteIcon, MinusIcon, ViewIcon } from "@chakra-ui/icons";
 import {
   Box,
@@ -71,17 +75,21 @@ const Watchlist = () => {
   const handleRemove = async (id: any) => {
     // setList(list.filter((movie) => movie.id !== id));
     const response = await watchlistService.removeFromWatchlist(userId, id);
-    console.log(id);
     fetchData();
-    toast({
-      title: "Movie Removed",
-      description: "Successfully removed from watchlist",
-      duration: 1000,
-      isClosable: true,
-      status: "error",
-      position: "top",
-      icon: <DeleteIcon />,
-    });
+    if (response == WatchlistState.RemoveMovieSuccess) {
+      toast({
+        title: "Movie Removed",
+        description: "Successfully removed from watchlist",
+        duration: 1000,
+        isClosable: true,
+        status: "error",
+        position: "top",
+        icon: <DeleteIcon />,
+      });
+    }
+    else{
+      alert("System Error! Please try again");
+    }
   };
 
   return (
