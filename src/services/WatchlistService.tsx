@@ -1,6 +1,8 @@
 export default class WatchlistService {
+  API_URL = import.meta.env.VITE_API_URL;
+
   async addToWatchlist(userId: string, movieId: string, status: string) {
-    const response = await fetch("http://localhost:3000/watchlist/", {
+    const response = await fetch(`${this.API_URL}/watchlist/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -20,7 +22,7 @@ export default class WatchlistService {
   }
 
   async removeFromWatchlist(userId: string, movieId: string) {
-    const response = await fetch("http://localhost:3000/watchlist/", {
+    const response = await fetch(`${this.API_URL}/watchlist/`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -38,7 +40,7 @@ export default class WatchlistService {
   }
 
   async updateWatchlist(userId: string, movieId: string, status: string) {
-    const response = await fetch("http://localhost:3000/watchlist/", {
+    const response = await fetch(`${this.API_URL}/watchlist/`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -59,7 +61,7 @@ export default class WatchlistService {
   }
 
   async getWatchlist(userId: string) {
-    const response = await fetch(`http://localhost:3000/watchlist/${userId}/`, {
+    const response = await fetch(`${this.API_URL}/watchlist/${userId}/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -75,7 +77,7 @@ export default class WatchlistService {
   }
 
   async clearWatchlist(userId: string) {
-    const response = await fetch("http://localhost:3000/watchlist/:userId/", {
+    const response = await fetch(`${this.API_URL}/watchlist/:userId/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

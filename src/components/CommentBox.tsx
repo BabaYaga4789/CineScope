@@ -26,9 +26,10 @@ import {
 } from "@chakra-ui/react";
 
 interface Props {
-  value: { email: string, comment: string }[];
+  value: any;
+  onChildData: (data: string) => void;
+  loggedUser: boolean;
 }
-
 
 const CommentBox: React.FC<Props> = (props) => {
   const { value: comments } = props;
@@ -38,6 +39,7 @@ const CommentBox: React.FC<Props> = (props) => {
 
   const handleSaveClick = () => {
     if (text.trim() !== "") {
+      props.onChildData(text);
       setIsModalOpen(false);
     } else {
       toast({
@@ -51,23 +53,35 @@ const CommentBox: React.FC<Props> = (props) => {
   };
 
   return (
-    <TableContainer display="block" >
+    <TableContainer display="block">
       <Table variant="simple" colorScheme="teal" overflowX="auto">
         <Thead>
           <Tr>
-            <Th fontWeight="medium" fontSize="md">Reviews: </Th>
+            <Th fontWeight="medium" fontSize="md">
+              Reviews:{" "}
+            </Th>
             <Th></Th>
           </Tr>
         </Thead>
         <Tbody>
-          {comments.map(({ email, comment }, index) => (
+          {comments.map(({ email, comment }: any, index: any) => (
             <Tr key={index}>
               <Td>
                 <Box as="h2" fontSize="md" maxWidth="50%">
                   {/* <Text>{email}: {comment}</Text> */}
                   {/* <Text fontSize="sm" fontStyle="italic" > {email}</Text> */}
-                  <Badge colorScheme="gray" variant="outline" textTransform="lowercase" fontSize="xs" mb="1">{email}</Badge>
-                  <Text mt="1" fontSize="md">{comment}</Text>
+                  <Badge
+                    colorScheme="gray"
+                    variant="outline"
+                    textTransform="lowercase"
+                    fontSize="xs"
+                    mb="1"
+                  >
+                    {email}
+                  </Badge>
+                  <Text mt="1" fontSize="md">
+                    {comment}
+                  </Text>
                 </Box>
               </Td>
 
@@ -76,6 +90,8 @@ const CommentBox: React.FC<Props> = (props) => {
                   onClick={() => setIsModalOpen(true)}
                   as={FaPencilAlt}
                   ml="2"
+                  isDisabled={!props.loggedUser}
+                  value={email}
                 />
               </Td>
 
@@ -103,6 +119,5 @@ const CommentBox: React.FC<Props> = (props) => {
     </TableContainer>
   );
 };
-
 
 export default CommentBox;

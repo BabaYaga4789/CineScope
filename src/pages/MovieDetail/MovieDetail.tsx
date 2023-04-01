@@ -18,52 +18,48 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
 import UserManagementService from "@/services/UserManagementService/UserManagementService";
+import WatchlistService from "@/services/WatchlistService";
 import { SessionManager } from "@/common/SessionManager";
 import { FaStar } from "react-icons/fa";
 import ReviewsMagementService from "@/services/ReviewsManagementService/ReviewsManagementService";
 import CommentBox from "@/components/CommentBox";
 
 const MovieDetails = () => {
-  const location = useLocation();
-  const movieId = location.state;
+  const navigate = useNavigate();
+  const { id } = useParams();
+  if (!id) {
+    navigate("/");
+  }
+
   const movieManagementService = new MovieMagementService();
   const userManagementService = new UserManagementService();
+  const watchlistService = new WatchlistService();
   const [comment, setComment] = useState("");
   const [display, setDisplay] = useState([]);
   const [movieDetails, setMovieDetails] = useState({}) as any;
   const [movieRating, setMovieRating] = useState() as any;
   const [movieReview, setMovieReview] = useState() as any;
-  const [movieRatingCount, setMovieRatingCount] = useState(0);
-
+  const [wstatus, setWStatus] = useState("") as any;
+  const [logUser, setLogUser] = useState("") as any;
   const isLoggedIn = SessionManager.isLoggedIn();
-  console.log(isLoggedIn);
   const userID = SessionManager.getUserID();
+  const [rating, setRating] = useState(0);
+  const toast = useToast();
 
-  const getLoggedInUserEmail = async () => {
-    let userEmail = "";
+  const getUserName = async () => {
+    let userName = "";
     if (userID) {
       const body: any = await userManagementService.getUser(userID);
-      userEmail = body.email;
+      userName = body.userName;
     }
-    return userEmail;
-  };
-
-  const fetchRatingCount = async () => {
-    const body: any = await ReviewsMagementService.getRatingCountForMovie(
-      movieId
-    );
-    if (body == null || body == undefined) {
-      setMovieRatingCount(0);
-    } else {
-      setMovieRatingCount(body[0].rating);
-    }
+    return userName;
   };
 
   const fetchMovieDetails = async () => {
-    const body: any = await movieManagementService.fetchMovieByID(movieId);
+    const body: any = await movieManagementService.fetchMovieByID(id);
     if (body == null) {
       alert(
         "Something went wrong while loading movie details. Please try again."
@@ -78,34 +74,49 @@ const MovieDetails = () => {
       const formattedReleasedDate = mm + "/" + dd + "/" + yyyy;
       body.released_date = formattedReleasedDate;
       setMovieDetails(body);
+
+      //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed
+      const body1: any = await ReviewsMagementService.getRating(body.title);
+      const roundedOff = body1.toFixed(2);
+      setMovieRating(roundedOff);
+
       const body2: any = await ReviewsMagementService.getReview(body.title);
       const reviewedMovies = body2.filter((movie: any) => {
         return movie.hasOwnProperty("review");
       });
       const ratingObjects = reviewedMovies.map((i: any) => {
         return {
-          email: i.email,
+          email: i.userName ?? "Unknown",
           comment: i.review,
         };
       });
       setDisplay(ratingObjects);
-      console.log("ratingObjects", ratingObjects);
-    }
-  };
 
-  const [rating, setRating] = useState(0);
-  const toast = useToast();
+      if (userID) {
+        const body: any = await watchlistService.getWatchlist(userID);
+
+        body.forEach((item: any) => {
+          if (item.id === id && item.status === "watched") {
+            setWStatus("watched");
+            console.log(`Movie ID: ${item.id}, Status: ${item.status}`);
+          }
+        });
+      }
+    }
+
+    const fetchedUserName = await getUserName();
+    setLogUser(fetchedUserName);
+  };
 
   const handleRatingClick = async (value: number) => {
     setRating(value);
-    const fetchedEmail = await getLoggedInUserEmail();
+    const fetchedUserName = await getUserName();
     const body: any = await ReviewsMagementService.addRating(
       movieDetails.title,
-      fetchedEmail,
+      fetchedUserName,
       value,
-      movieId
+      id
     );
-    console.log("rating", rating);
 
     toast({
       description: "Rating has been added",
@@ -121,22 +132,34 @@ const MovieDetails = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const fetchedEmail = await getLoggedInUserEmail();
+    const fetchedUserName = await getUserName();
+    console.log(`Movie ID: ${id}, User: ${fetchedUserName}`);
     const body: any = await ReviewsMagementService.addReview(
       movieDetails.title,
-      //"xyz@@gmail.com",
-      fetchedEmail,
+      fetchedUserName,
       comment,
-      movieId
+      id
     );
     setMovieReview(body);
-    console.log("rating", rating);
-    console.log(comment);
+    setComment("");
+  };
+
+  const handleChildData = async (data: string) => {
+    console.log(`Received data from child component: ${data}`);
+
+    const fetchedUserName = await getUserName();
+    const body: any = await ReviewsMagementService.addReview(
+      movieDetails.title,
+      fetchedUserName,
+      data,
+      id
+    );
+    setMovieReview(body);
   };
 
   useEffect(() => {
     fetchMovieDetails();
-    fetchRatingCount();
+    // fetchRatingCount();
   }, [movieReview]);
 
   return (
@@ -157,6 +180,8 @@ const MovieDetails = () => {
             w={["350px", "500px", "700px", "700px"]}
             h={["350px", "500px", "600px", "600px"]}
           />
+
+          {/* ratings and reviews enabled only for logged in users */}
           {isLoggedIn && (
             <Box boxShadow="2xl" p="2" mb="4" ml={2} mt={12} width="85%">
               <Text mb={2} color="gray.700" fontWeight="medium">
@@ -178,7 +203,7 @@ const MovieDetails = () => {
             </Box>
           )}
 
-          {isLoggedIn && (
+          {isLoggedIn && ( //&& wstatus === "watched" - need to add later
             <Box
               borderWidth="1px"
               borderRadius="lg"
@@ -227,7 +252,8 @@ const MovieDetails = () => {
             {movieDetails.released_date} | {movieDetails.time_in_minutes}{" "}
             Minutes | Rating{" "}
             <Badge colorScheme="yellow" fontSize="1.2rem">
-              {movieRatingCount}
+              {/* {movieRatingCount} */}
+              {movieRating}
             </Badge>{" "}
             |{" "}
             {movieDetails.genres?.map((genre: any, index: any) => (
@@ -295,41 +321,12 @@ const MovieDetails = () => {
           ))}
         </SimpleGrid>
       </Box>
-
-      {/* <Box
-        borderWidth="1px"
-        borderRadius="lg"
-        overflow="hidden"
-        p="2"
-        mt="6"
-        boxShadow="xl"
-        ml="6rem"
-        width="90%"
-        h="50vh"
-        backgroundColor="gray.100"
-      >
-        <Text mb={3} fontWeight="medium">
-          Add a Review
-        </Text>
-        <Textarea
-          placeholder="Write a comment..."
-          size="sm"
-          resize="none"
-          border="none"
-          _focus={{ outline: "none" }}
-          height="75%"
-          bg="white"
-          value={comment}
-          onChange={handleTextChange}
-        />
-        <Flex justifyContent="flex-end" marginTop="4">
-          <Button size="sm" colorScheme="yellow" onClick={handleSubmit}>
-            Submit
-          </Button>
-        </Flex>
-      </Box> */}
       <Box w="100%" maxW="1200px" mx="auto" boxShadow="xl" p={10}>
-        <CommentBox value={display} />
+        <CommentBox
+          value={display}
+          loggedUser={logUser}
+          onChildData={handleChildData}
+        />
       </Box>
     </Box>
   );

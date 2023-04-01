@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AccountSettings from "./pages/AccountSettings/AccountSettings";
 import AddMovie from "./pages/Admin/AddMovie";
+import AddNews from "./pages/Admin/AddNews";
 import UpdateMovieDetails from "./pages/Admin/UpdateMovieDetails";
 import { FilterResults } from "./pages/Filter/FilterResults";
 import { FilterResultsAdmin } from "./pages/Filter/FilterResultsAdmin";
@@ -12,7 +13,6 @@ import NewsDetails from "./pages/News/NewsDetails";
 import Profile from "./pages/Profile/Profile";
 import Registration from "./pages/Registration/Registration";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
-// import Reviews from "./pages/Reviews/Reviews";
 import SignIn from "./pages/SignIn";
 import Watchlist from "./pages/Watchlist/Watchlist";
 import RootLayout from "./RootLayout";
@@ -38,9 +38,12 @@ const adminRouter = createBrowserRouter([
         path: "/search",
         element: <FilterResultsAdmin />,
       },
+      {
+        path: "/add-news",
+        element: <AddNews />,
+      },
     ],
   },
-  
 ]);
 
 const router = createBrowserRouter([
@@ -85,20 +88,16 @@ const router = createBrowserRouter([
         element: <News />,
       },
       {
-        path: "/news-details",
+        path: "/news-details/:id",
         element: <NewsDetails />,
       },
       {
         path: "/search",
         element: <FilterResults />,
       },
-      // {
-      //   path: "/reviews",
-      //   element: <Reviews />,
-      // },
       {
-        path: "/movie-details",
-        element: <MovieDetail />
+        path: "/movie-details/:id",
+        element: <MovieDetail />,
       },
     ],
   },

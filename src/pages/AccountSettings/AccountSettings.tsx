@@ -104,7 +104,7 @@ export default function AccountSettings() {
       userName: data.userName,
       email: data.email,
       dob: data.dateOfBirth,
-      genres: result.map((genre) => genre.value),
+      genres: result.map((genre) => genre.label),
       password: data.password,
       confirmPassword: data.password,
       about: data.about,
@@ -309,7 +309,7 @@ export default function AccountSettings() {
           <Button
             w={"100%"}
             variant="solid"
-            onClick={() => navigate("/profile")}
+            onClick={() => navigate("/")}
           >
             Cancel
           </Button>
