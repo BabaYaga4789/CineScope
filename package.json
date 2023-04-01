@@ -16,6 +16,7 @@
     "@emotion/styled": "^11.10.6",
     "chakra-ui-simple-autocomplete": "^2.3.0",
     "framer-motion": "^9.1.6",
+    "mongoose": "^7.0.3",
     "path": "^0.12.7",
     "react": "^18.2.0",
     "react-card-slider-component": "^1.0.9",
