@@ -1,4 +1,3 @@
-import React from 'react'
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -9,8 +8,10 @@ import {
     Button,
     Box, Center, Heading, Flex, Select, Stack, useToast, Textarea
 } from "@chakra-ui/react";
-import { AdminNavBar } from '../../components/AdminNavBar';
-export default function AddMovie() {
+import NewsManagementService from '@/services/NewsManagementService/NewsManagementService';
+import { NewsManagementState } from '@/services/NewsManagementService/NewsManagementEnum';
+import News from '@/common/News';
+export default function AddNews() {
 
 
     const navigate = useNavigate();
@@ -21,12 +22,14 @@ export default function AddMovie() {
     const toast = useToast();
 
     const [formValues, setFormValues] = useState({
-        title: "",
-        poster: "",
+        newsTitle: "",
+        posterLink: "",
+        fullArticle: "",
+        date: Date,
         year: "2023",
-        date: "",
-        news: ""
-    });
+        movieName: "",
+        genre: []
+    } as unknown as News);
 
 
     for (let i = 2023; i >= 1970; i--) {
@@ -85,26 +88,19 @@ export default function AddMovie() {
     const validateForm = () => {
         // Using Map
         const errors = new Map();
-        if (!formValues.title) {
+        if (!formValues.newsTitle) {
             errors.set("title", "Title is required");
         }
-
-        if (!formValues.poster) {
+        if (!formValues.posterLink) {
             errors.set("poster", "Poster link is required");
-        } else if (formValues.poster.match(/\.(jpeg|jpg|gif|png)$/) == null) {
+        } else if (formValues.posterLink.match(/\.(jpeg|jpg|gif|png)$/) == null) {
             errors.set("poster", "Poster link is invalid image.");
         }
 
-        if (!formValues.news) {
+        if (!formValues.fullArticle) {
             errors.set("news", "Descirption of the news is required");
-        } else if (formValues.news.split(' ').length >= 250) {
+        } else if (formValues.fullArticle.split(' ').length >= 250) {
             errors.set("news", "Details must be less than 250 letters.");
-        }
-
-        if (!formValues.date) {
-            errors.set("date", "Date is required");
-        } else if (!/^\d{2}-\d{2}-\d{4}$/.test(formValues.date)) {
-            errors.set("date", "Date must be in DD-MM-YYYY Format.");
         }
         if (movie.length == 0) {
             errors.set("movie", "Movie name is required");
@@ -135,48 +131,30 @@ export default function AddMovie() {
 
 
     const handleSubmit = async (event: any) => {
-        // event.preventDefault();
+        event.preventDefault();
         if (validateForm()) {
-          var myHeaders = new Headers();
-          var raw = JSON.stringify({
-            title: formValues.title,
-            poster: formValues.poster,
-            year: formValues.year,
-            genres: genre,
-            newsdescription: formValues.news,
-            date: formValues.date
-          });
-          myHeaders.append("Content-Type", "application/json");
-          let requestOptions = {
-            method: "POST",
-            headers: myHeaders,
-            body: raw
-          };
-          let url = " http://127.0.0.1:3000/news/add-news/";
-          await fetch(url, requestOptions)
-            .then((response) => {
-            
-                if(response.status == 200){
-                  toast({
+            ;
+            movie.forEach((item) => {
+                formValues.movieName = item;
+            });
+            genre.forEach((item) => {
+                formValues.genre = item;
+            });
+            const newsManagementService = new NewsManagementService();
+            const state = await newsManagementService.addNews(formValues);
+            if (state == NewsManagementState.NewsAddSuccess) {
+                toast({
                     title: `News added sucessfully.`,
                     status: "success",
                     isClosable: true,
-                  });
-                  navigate("/");
-                }
-                else{
-                  alert("Something went wrong while adding movie.")
-                }
-            })
-            .catch((error) => {
-              console.log(error);
-              alert("Interal server error.");
-            });
-    
-          
+                });
+                navigate("/");
+            } else {
+                alert(state);
+            }
         }
-      };
-    
+    };
+
 
     const handleCancel = (event: any) => {
         navigate('/')
@@ -185,7 +163,6 @@ export default function AddMovie() {
 
     return (
         <div>
-            <AdminNavBar></AdminNavBar>
             <Center m={[2, 5, 10]}>
 
                 <Box p="6" shadow="md" borderWidth="1px" borderRadius="md" width={[200, 300, 500]} bg="white" >
@@ -194,10 +171,12 @@ export default function AddMovie() {
                         <FormLabel htmlFor="title">News Title</FormLabel>
                         <Input
                             type="text"
-                            id="title"
+                            id="newsTitle"
                             name="title"
-                            value={formValues.title}
-                            onChange={handleInputChange}
+                            value={formValues.newsTitle}
+                            onChange={(event: any) =>
+                                setFormValues({ ...formValues, [event.target.id]: event.target.value })
+                            }
                         />
                         <FormErrorMessage>{formErrors?.get("title")}</FormErrorMessage>
                     </FormControl>
@@ -206,10 +185,12 @@ export default function AddMovie() {
                         <FormLabel htmlFor="firstname">Poster Link</FormLabel>
                         <Input
                             type="text"
-                            id="poster"
+                            id="posterLink"
                             name="poster"
-                            value={formValues.poster}
-                            onChange={handleInputChange}
+                            value={formValues.posterLink}
+                            onChange={(event: any) =>
+                                setFormValues({ ...formValues, [event.target.id]: event.target.value })
+                            }
                         />
                         <FormErrorMessage>{formErrors?.get("poster")}</FormErrorMessage>
                     </FormControl>
@@ -218,23 +199,27 @@ export default function AddMovie() {
                         <FormLabel htmlFor="firstname">Full article (Description)</FormLabel>
                         <Textarea
                             placeholder='Enter the details here'
-                            id="news"
+                            id="fullArticle"
                             name="news"
-                            value={formValues.news}
-                            onChange={handleInputChange}
+                            value={formValues.fullArticle}
+                            onChange={(event: any) =>
+                                setFormValues({ ...formValues, [event.target.id]: event.target.value })
+                            }
                         />
                         <FormErrorMessage>{formErrors?.get("news")}</FormErrorMessage>
                         <small>Must be less than 250 words.</small>
                     </FormControl>
 
-                    <FormControl isInvalid={!!formErrors?.get("date")}>
-                        <FormLabel htmlFor="date">Date</FormLabel>
+                    <FormControl isInvalid={!!formErrors?.get("articleDate")}>
+                        <FormLabel htmlFor="articleDate">Date</FormLabel>
                         <Input
-                            type="text"
-                            id="news_date"
-                            name="date"
-                            value={formValues.date}
-                            onChange={handleInputChange}
+                            onChange={(event: any) =>
+                                setFormValues({ ...formValues, [event.target.id]: event.target.value })
+                            }
+                            id="articleDate"
+                            name="articleDate"
+                            type={"date"}
+                    
                         />
                         <FormErrorMessage>{formErrors?.get("date")}</FormErrorMessage>
                     </FormControl>

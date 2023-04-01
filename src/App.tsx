@@ -39,16 +39,12 @@ const adminRouter = createBrowserRouter([
         path: "/search",
         element: <FilterResultsAdmin />,
       },
+      {
+        path: "/add-news",
+        element: <AddNews />,
+      },
     ],
   },
-<<<<<<< HEAD
-  {
-    path: "/add-news",
-    element: <AddNews />,
-  },
-=======
-  
->>>>>>> 64525271c3a66eee4b7f311e4ed319729d8e0541
 ]);
 
 const router = createBrowserRouter([
@@ -93,7 +89,7 @@ const router = createBrowserRouter([
         element: <News />,
       },
       {
-        path: "/news-details",
+        path: "/news-details/:id",
         element: <NewsDetails />,
       },
       {

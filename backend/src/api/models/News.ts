@@ -6,27 +6,35 @@ const news = new Schema({
   newsTitle: String,
   posterLink: String,
   fullArticle: String,
-  date: Date,
   year: String,
   movieName: String,
-  genre: [String]
+  genre: String
 });
 
-const News = mongoose.model("News", news);
+const News = mongoose.model("news", news);
 
-export function getNews(newsID: String) {
-  if (newsID === undefined) {
-    throw "Oi! You forgot to pass NewsID!";
+export async function getNews() {
+  try {
+    const news = await News.find();
+    return news;
+  } catch (err) {
+    throw err;
   }
-  const news = News.find({ newsID: newsID });
-  return news;
+}
+
+export async function getNewsById(id: string) {
+  try {
+    const news = await News.findById(id);
+    return news;
+  } catch (err) {
+    throw err;
+  }
 }
 
 export async function createNews(
   newsTitle: String,
   posterLink: String,
   fullArticle: String,
-  date: Date,
   year: String,
   movieName: String,
   genre: [String]
@@ -36,16 +44,14 @@ export async function createNews(
     posterLink === undefined ||
     fullArticle === undefined ||
     genre === undefined ||
-    date === undefined ||
     year === "" ||
     movieName === ""
   ) {
     throw "Missing parameters";
   }
 
-  const news = await getNews(newsTitle);
-  console.log(typeof news);
-  if (news.length > 0) {
+  const news = await getNews();
+  if (news.some((article) => article.newsTitle === newsTitle)) {
     throw "News already exists";
   }
 
@@ -53,24 +59,23 @@ export async function createNews(
     newsTitle: newsTitle,
     posterLink: posterLink,
     fullArticle: fullArticle,
-    date: date,
     year: year,
     movieName: movieName,
     genre: genre
   });
   try {
-    newNews.save();
+    await newNews.save();
   } catch (err) {
     throw err;
   }
 }
 
-export function updateNews(newsID: String) {
+export async function updateNews(newsID: String) {
   if (newsID === undefined) {
     throw "Oi! You forgot to pass an NewsID!";
   }
 
-  const usr = News.find({ email: newsID }).updateOne(news);
+  const usr = await News.find({ email: newsID }).updateOne(news);
   return usr;
 }
 
@@ -87,4 +92,4 @@ export async function deleteNews(newsID: String) {
   }
 }
 
-export default mongoose.model("News", news);
+export default mongoose.model("news", news);

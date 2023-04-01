@@ -1,16 +1,17 @@
 import { Router } from "express";
-import userController from "../controllers/NewsController";
+import NewsController from "../controllers/NewsController";
 
 const newsRouter = (): Router => {
   const router = Router();
 
-  router.route("/").post(userController.createNews);
+  router.route("/").post(NewsController.createNews);
+  router.route("/latestNews/").get(NewsController.getNews);
 
   router
     .route("/:newsId")
-    .get(userController.getNews)
-    .put(userController.updateNews)
-    .delete(userController.deleteNews);
+    .get(NewsController.getNewsById)
+    .put(NewsController.updateNews)
+    .delete(NewsController.deleteNews);
 
   return router;
 };
