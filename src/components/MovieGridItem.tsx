@@ -31,7 +31,7 @@ export default function MovieGridItem(props: MovieGridItemProps): JSX.Element {
 
   const getMovieDetails = (e: any) => {
     e.preventDefault();
-    navigateTo("/movie-details", { state: props.movie._id });
+    navigateTo("/movie-details/" + props.movie._id);
   };
 
   return (

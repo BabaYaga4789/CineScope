@@ -14,7 +14,7 @@ Cinescope is an online platform which requires internet connection. So, anyone w
 * [Shubham Patel](shubham.patel@dal.ca) - *(Full Stack Developer)*
 * [Harsh Shah](shah.harsh@dal.ca) - *(Full Stack Developer)*
 * [Priyal Patel](pr327862@dal.ca) - *(Full Stack Developer)*
-* [Ketul Patel](ketul.patel@dal.ca) - *(Full Stack Developer)*
+* [Ketul Patel](<ketul.patel@dal.ca>) - *(Full Stack Developer)*
 
 ## Getting Started
 
