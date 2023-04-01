@@ -5,7 +5,7 @@ import CustomContainer from "@/components/CustomContainer";
 import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
 import ReviewsMagementService from "@/services/ReviewsManagementService/ReviewsManagementService";
 import UserManagementService from "@/services/UserManagementService/UserManagementService";
-import WatchlistService from "@/services/WatchlistService";
+import WatchlistService from "@/services/WatchlistManagementService/WatchlistService";
 import {
   Box,
   Flex,

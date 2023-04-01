@@ -1,6 +1,6 @@
 import Movie from "@/common/Movie";
 import { SessionManager } from "@/common/SessionManager";
-import WatchlistService from "@/services/WatchlistService";
+import WatchlistService from "@/services/WatchlistManagementService/WatchlistService";
 import { AddIcon } from "@chakra-ui/icons";
 import {
   Button,
