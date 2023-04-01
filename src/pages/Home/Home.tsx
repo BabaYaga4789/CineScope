@@ -44,7 +44,7 @@ export default function Home() {
 
   return (
     <VStack w="100%">
-      <LabelMostRated />
+      {/* <LabelMostRated /> */}
       {/* Reference: https://chakra-ui.com/docs/components/simple-grid */}
       {/* <SimpleGrid p={4} w="100%" columns={{ base: 1, md: 3, lg: 7 }} gap={6}>
         {mostRatedMovies}
