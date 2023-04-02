@@ -85,9 +85,9 @@ export default function News() {
               textAlign="left"
               paddingBottom={"2"}
             >
-              <Link to="/news-details">
+              
                 {news.newsTitle}
-              </Link>
+              
             </Heading>
             <Stack>
               <Image
