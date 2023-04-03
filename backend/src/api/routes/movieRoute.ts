@@ -13,6 +13,7 @@ const movieRoute = (): Router => {
   router.route("/latest/").get(movieController.fetchLastestMovies);
   router.route("/search/").post(movieController.filterMovie);
   router.route("/all/").get(movieController.fetchAllMovies);
+  router.route("/rated/").get(movieController.fetchMostRatedMovies);
 
   router
     .route("/:movieId")

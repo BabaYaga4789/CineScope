@@ -129,4 +129,16 @@ export default class MovieMagementService {
       return null;
     }
   }
+
+  async fetchMostRatedMovies() {
+    const response = await fetch(this.API_URL+"/movie/rated", {
+      method: "GET",
+    });
+    if (response.status === 200) {
+      const body = await response.json();
+      return body;
+    } else {
+      return null;
+    }
+  }
 }

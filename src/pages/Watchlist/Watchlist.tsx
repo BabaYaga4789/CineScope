@@ -1,6 +1,10 @@
+/**
+ * @author Harsh Kamleshbhai Shah <shah.harsh@default.ca>
+ */
 import { SessionManager } from "@/common/SessionManager";
 import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
-import WatchlistService from "@/services/WatchlistService";
+import { WatchlistState } from "@/services/WatchlistManagementService/WatchlistEnum";
+import WatchlistService from "@/services/WatchlistManagementService/WatchlistService";
 import { DeleteIcon, MinusIcon, ViewIcon } from "@chakra-ui/icons";
 import {
   Box,
@@ -60,28 +64,32 @@ const Watchlist = () => {
   useEffect(() => {
     fetchData();
   }, [isLoggedIn]);
-  
-  
 
-  const getReviewPage = (e: any) => {
+  const navigateToMoviePage = (e: any) => {
     e.preventDefault();
-    navigate("/reviews", { state: e.target.id });
+    if (e.target.id) {
+      navigate("/movie-details/" + e.target.id);
+    }
   };
 
   const handleRemove = async (id: any) => {
     // setList(list.filter((movie) => movie.id !== id));
     const response = await watchlistService.removeFromWatchlist(userId, id);
-    console.log(id);
     fetchData();
-    toast({
-      title: "Movie Removed",
-      description: "Successfully removed from watchlist",
-      duration: 1000,
-      isClosable: true,
-      status: "error",
-      position: "top",
-      icon: <DeleteIcon />,
-    });
+    if (response == WatchlistState.RemoveMovieSuccess) {
+      toast({
+        title: "Movie Removed",
+        description: "Successfully removed from watchlist",
+        duration: 1000,
+        isClosable: true,
+        status: "error",
+        position: "top",
+        icon: <DeleteIcon />,
+      });
+    }
+    else{
+      alert("System Error! Please try again");
+    }
   };
 
   return (
@@ -132,7 +140,7 @@ const Watchlist = () => {
                     <HStack w={"100%"} justifyContent="flex-end">
                       <Button
                         id={movie._id}
-                        onClick={getReviewPage}
+                        onClick={navigateToMoviePage}
                         leftIcon={<ViewIcon />}
                       >
                         View

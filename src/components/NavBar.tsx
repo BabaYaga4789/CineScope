@@ -1,3 +1,7 @@
+/**
+ * @author Harsh Kamleshbhai Shah <shah.harsh@dal.ca>
+ */
+
 import { SessionManager } from "@/common/SessionManager";
 import UserManagementService from "@/services/UserManagementService/UserManagementService";
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
@@ -141,7 +145,7 @@ const NavBar = () => {
               onMouseEnter={onOpen}
               onMouseLeave={onClose}
               onClick={async () => {
-                if (userID == null) {
+                if (userID == null || userID == "") {
                   navigate("/login");
                 } else {
                   navigate("/profile/" + userName);

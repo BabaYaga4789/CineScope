@@ -1,11 +1,11 @@
 /**
 @Author: Hrishi Patel <hrishi.patel@dal.ca>
 */
-import { SessionManager } from "@/common/SessionManager";
 import CustomContainer from "@/components/CustomContainer";
 import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
+import ReviewsMagementService from "@/services/ReviewsManagementService/ReviewsManagementService";
 import UserManagementService from "@/services/UserManagementService/UserManagementService";
-import WatchlistService from "@/services/WatchlistService";
+import WatchlistService from "@/services/WatchlistManagementService/WatchlistService";
 import {
   Box,
   Flex,
@@ -13,30 +13,11 @@ import {
   Link,
   Spacer,
   Stack,
-  VStack,
+  VStack
 } from "@chakra-ui/layout";
 import { Avatar, Button, Image, Text, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import { UserData } from "../Registration/UserData";
-
-const activity = [
-  {
-    id: 1,
-    type: "Review",
-    description: "The movie was really nice! 10/10! Would watch it again!",
-  },
-  {
-    id: 2,
-    type: "Club Post | Action Movie Club",
-    description: "Any new action movie to suggest?",
-  },
-  {
-    id: 3,
-    type: "Review",
-    description: "Not a fan of this movie. 3/10!",
-  },
-];
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -44,6 +25,7 @@ const Profile = () => {
 
   const [user, setUser] = useState({} as any);
   const [list, setList] = useState([] as any);
+  const [reviews, setReviews] = useState([] as any);
 
   const movieManager = new MovieMagementService();
   const watchlistService = new WatchlistService();
@@ -60,7 +42,6 @@ const Profile = () => {
 
       if (user) {
         setUser(user);
-        console.log(user);
         const setWatchListMovies = async (watchlist: any) => {
           let l: any = [];
           await Promise.all(
@@ -80,6 +61,13 @@ const Profile = () => {
           setList(x);
         };
 
+        const getReviews = async () => {
+          const reviews = await ReviewsMagementService.getReviewsByUserName(id);
+          setReviews(reviews);
+          console.log(reviews);
+        };
+
+        await getReviews();
         await getWatchlist();
       } else {
         toast({
@@ -200,22 +188,27 @@ const Profile = () => {
               <Text fontSize={"lg"} fontWeight="semibold">
                 Recent Activity
               </Text>
-              {activity.map((act) => (
+              {reviews.length === 0 && (
+                <Text fontSize={"lg"} fontWeight="semibold">
+                  No recent activity
+                </Text>
+              )}
+              {reviews.map((review: any) => (
                 <CustomContainer
                   cursor="pointer"
                   boxShadow="md"
-                  key={act.id}
+                  key={review._id}
                   w={"100%"}
                   p={2}
                 >
                   <HStack alignItems="center">
                     <HStack w="100%" p={2} justifyContent={"space-between"}>
                       <Text fontSize={"lg"} fontWeight="semibold">
-                        {act.type}
+                        Review | {review.movie}
                       </Text>
                       <Spacer />
                       <Text fontSize={"sm"} fontWeight="semibold">
-                        {act.description}
+                        {review.review}
                       </Text>
                     </HStack>
                   </HStack>

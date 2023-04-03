@@ -23,6 +23,10 @@ export const AdminNavBar = () => {
     navigate("/add-movie/");
   };
 
+  const addNews = () => {
+    navigate("/add-news/");
+  };
+
   const switchToNormalUser = () => {
     localStorage.setItem("isAdmin", "false");
     window.location.replace("/");
@@ -68,6 +72,7 @@ export const AdminNavBar = () => {
               </MenuButton>
               <MenuList>
                 <MenuItem onClick={addMovie}> Add Movie</MenuItem>
+                <MenuItem onClick={addNews}> Add News</MenuItem>
                 <MenuItem>Comment moderation</MenuItem>
                 <MenuItem>Review moderation</MenuItem>
                 <MenuItem onClick={switchToNormalUser}>

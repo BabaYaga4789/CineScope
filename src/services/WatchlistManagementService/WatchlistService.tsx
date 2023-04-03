@@ -1,6 +1,13 @@
+/**
+ * @author Harsh Kamleshbhai Shah <shah.harsh@dal.ca>
+ */
+import { WatchlistState } from "./WatchlistEnum";
+
 export default class WatchlistService {
+  API_URL = import.meta.env.VITE_API_URL;
+
   async addToWatchlist(userId: string, movieId: string, status: string) {
-    const response = await fetch("http://localhost:3000/watchlist/", {
+    const response = await fetch(`${this.API_URL}/watchlist/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -10,17 +17,17 @@ export default class WatchlistService {
     // const body = await response.json();
 
     if (response.status === 200) {
-      return "Movie Successfully Added";
+      return WatchlistState.AddMovieSuccess;
     } else {
       if (response.status === 500) {
-        return "Movie Already Exists";
+        return WatchlistState.MovieAlreadyExistsInWatchlist;
       }
-      return "System Error";
+      return WatchlistState.AddMovieFailed;
     }
   }
 
   async removeFromWatchlist(userId: string, movieId: string) {
-    const response = await fetch("http://localhost:3000/watchlist/", {
+    const response = await fetch(`${this.API_URL}/watchlist/`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -28,17 +35,17 @@ export default class WatchlistService {
       body: JSON.stringify({ userId, movieId }),
     });
     if (response.status === 200) {
-      return "Movie Successfully Removed";
+      return WatchlistState.RemoveMovieSuccess;
     } else {
       if (response.status === 500) {
-        return "Movie cannot be Removed";
+        return WatchlistState.RemoveMovieFailure;
       }
-      return "System Error";
+      return WatchlistState.SystemError;
     }
   }
 
   async updateWatchlist(userId: string, movieId: string, status: string) {
-    const response = await fetch("http://localhost:3000/watchlist/", {
+    const response = await fetch(`${this.API_URL}/watchlist/`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -49,17 +56,17 @@ export default class WatchlistService {
     let m = body.message;
 
     if (response.status === 200) {
-      return "Movie Successfully Updated";
+      return WatchlistState.UpdateMovieSuccess;
     } else {
       if (response.status === 500) {
-        return "Movie cannot be Updated";
+        return WatchlistState.UpdateMovieFailure;
       }
-      return "System Error";
+      return WatchlistState.SystemError;
     }
   }
 
   async getWatchlist(userId: string) {
-    const response = await fetch(`http://localhost:3000/watchlist/${userId}/`, {
+    const response = await fetch(`${this.API_URL}/watchlist/${userId}/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -70,12 +77,12 @@ export default class WatchlistService {
       const body = await response.json();
       return body;
     } else {
-      return "System Error";
+      return WatchlistState.SystemError;
     }
   }
 
   async clearWatchlist(userId: string) {
-    const response = await fetch("http://localhost:3000/watchlist/:userId/", {
+    const response = await fetch(`${this.API_URL}/watchlist/:userId/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -83,9 +90,9 @@ export default class WatchlistService {
       body: JSON.stringify({ userId }),
     });
     if (response.status === 200) {
-      return "Watchlist Cleared";
+      return WatchlistState.ClearWatchlistSuccess;
     } else {
-      return "System Error";
+      return WatchlistState.SystemError;
     }
   }
 }

@@ -1,5 +1,5 @@
 import { SimpleGrid, VStack } from "@chakra-ui/react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { HStack, Box, Button, Input, Select } from "@chakra-ui/react";
 import { AlertForNoMovieFound } from "@/components/AlertForNoMovieFound";
 import { useState } from "react";
@@ -66,6 +66,14 @@ export const FilterResults = () => {
     }
   };
 
+  const handleReset = async () => {
+    setNewKeyword("");
+    fetchAllMovies();
+    setGenre("");
+    setRating("");
+    setYear("");
+  };
+
   useEffect(() => {
     fetchAllMovies();
   }, []);
@@ -80,6 +88,7 @@ export const FilterResults = () => {
             <Input
               size="lg"
               variant="outline"
+              value={newKeyword}
               placeholder="Search"
               onChange={(event) => {
                 setNewKeyword(event.target.value);
@@ -92,6 +101,15 @@ export const FilterResults = () => {
               onClick={handleSearch}
             >
               Search
+            </Button>
+            <Button
+              size="lg"
+              colorScheme={"yellow"}
+              variant={"solid"}
+              // onClick = {searchMovies}
+              onClick={handleReset}
+            >
+              Reset
             </Button>
           </HStack>
         </Box>
@@ -158,6 +176,7 @@ export const FilterResults = () => {
             <Input
               size="lg"
               variant="outline"
+              value={newKeyword}
               placeholder="Search"
               onChange={(event) => {
                 setNewKeyword(event.target.value);
@@ -170,6 +189,15 @@ export const FilterResults = () => {
               onClick={handleSearch}
             >
               Search
+            </Button>
+            <Button
+              size="lg"
+              colorScheme={"yellow"}
+              variant={"solid"}
+              // onClick = {searchMovies}
+              onClick={handleReset}
+            >
+              Reset
             </Button>
           </HStack>
         </Box>

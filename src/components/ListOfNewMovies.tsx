@@ -2,16 +2,13 @@
  * @author Ketul Patel - <ketul.patel@dal.ca>
  */
 
-import { useEffect } from "react";
-import {
-  SimpleGrid,
-} from "@chakra-ui/react";
-import { useState } from "react";
 import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
-import { LabelMostRated } from "./LabelMostRated";
-import MovieGridItemAdmin from "./MovieGridItemAdmin";
+import {
+  SimpleGrid
+} from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { LabelNewReleased } from "./LabelNewReleased";
-import { LabelAllMovies } from "./LabelAllMovies";
+import MovieGridItemAdmin from "./MovieGridItemAdmin";
 
 export default function ListOfNewMovies() {
 

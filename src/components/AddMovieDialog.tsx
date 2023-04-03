@@ -1,6 +1,10 @@
+/**
+ * @author Harsh Kamleshbhai Shah <shah.harsh@dal.ca>
+ */
 import Movie from "@/common/Movie";
 import { SessionManager } from "@/common/SessionManager";
-import WatchlistService from "@/services/WatchlistService";
+import { WatchlistState } from "@/services/WatchlistManagementService/WatchlistEnum";
+import WatchlistService from "@/services/WatchlistManagementService/WatchlistService";
 import { AddIcon } from "@chakra-ui/icons";
 import {
   Button,
@@ -67,7 +71,7 @@ const AddMovieDialog: React.FC<AddMovieDialogProps> = ({
           status
         );
 
-        if (message == "Movie Successfully Added") {
+        if (message == WatchlistState.AddMovieSuccess) {
           toast({
             title: "Movie Added",
             description: "Successfully added to watchlist",
