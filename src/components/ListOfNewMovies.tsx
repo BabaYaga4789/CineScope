@@ -43,7 +43,7 @@ export default function ListOfNewMovies() {
   return (
     <div>
        <LabelNewReleased/>
-      <SimpleGrid p={4} w="100%" columns={{ base: 1, md: 3, lg: 7 }} gap={6}>
+      <SimpleGrid p={4} width={["75%", "75%","100%", "100%"]} columns={{ base: 1, md: 3, lg: 7 }} gap={[1,3,6]}>
         {newMovies.map((newMovie : any) => (
          <MovieGridItemAdmin key={newMovie._id} movie={newMovie} />
       ))}

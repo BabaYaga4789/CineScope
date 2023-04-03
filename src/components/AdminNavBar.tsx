@@ -5,6 +5,7 @@
 import {
   Box,
   Button,
+  ButtonProps,
   Flex,
   HStack,
   Menu,
@@ -35,7 +36,6 @@ export const AdminNavBar = () => {
     localStorage.setItem("isAdmin", "false");
     window.location.replace("/");
   }
-
   return (
     <div>
       <Box as="nav" boxShadow="md" mb="20px">
@@ -46,8 +46,8 @@ export const AdminNavBar = () => {
           justifyContent="center"
           alignItems="center"
         >
-          <HStack spacing={[10, 20, 30]}>
-            <HStack>
+          <HStack gap={[3,5,7]}>
+            {/* <HStack> */}
               <Text
                 textAlign="left"
                 bgGradient="linear-gradient(311deg, rgba(143,107,41,1) 0%, rgba(237,193,65,1) 33%, rgba(223,159,40,1) 82%);"
@@ -58,10 +58,16 @@ export const AdminNavBar = () => {
               >
                 CineScope
               </Text>
-            </HStack>
+            {/* </HStack> */}
 
-            <Menu>
-              <MenuButton aria-label="Options" fontSize={["sm", "sm", "lg"]}>
+            <Menu >
+              <MenuButton aria-label="Options" fontSize={["sm", "sm", "lg"]} px={4}
+    py={2} transition='all 0.2s'
+    borderRadius='md'
+    borderWidth='1px'
+    _hover={{ bg: 'gray.400' }}
+    _focus={{ boxShadow: 'outline' }}
+                >
                 Menu
               </MenuButton>
               <MenuList>
@@ -77,8 +83,8 @@ export const AdminNavBar = () => {
           </HStack>
 
        
-       <Spacer></Spacer>
-          <HStack spacing={[10, 20, 30]}>
+       <Spacer ml={[3,5,7]}></Spacer>
+          <HStack gap={[3,5,7]}>
             <NavLink
               to="/search"
               style={({ isActive }) => {
@@ -88,13 +94,8 @@ export const AdminNavBar = () => {
               Search
             </NavLink>
 
-            <Text fontSize={["sm", "md", "lg", "lg"]}>Welcome, Admin!</Text>
-            {/* <Avatar
-              size="sm"
-              name="User Name"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7-oYBJgcWpBfjaS1rQAwYZS5px0eeZ0g4rw&usqp=CAU"
-            /> */}
-            <Button colorScheme="yellow" fontSize={["sm", "sm", "md", "md"]} onClick = {handleLogout}>
+            <Text fontSize={["sm", "sm", "lg", "lg"]} fontWeight="semibold">Welcome, Admin!</Text>
+            <Button colorScheme="yellow" fontSize={["sm", "sm", "md", "md"]} onClick = {handleLogout} mr="20">
               Logout
             </Button>
           </HStack>
