@@ -75,9 +75,6 @@ export const AdminNavBar = () => {
                 <MenuItem onClick={addNews}> Add News</MenuItem>
                 <MenuItem>Comment moderation</MenuItem>
                 <MenuItem>Review moderation</MenuItem>
-                <MenuItem onClick={switchToNormalUser}>
-                  Switch to Normal User
-                </MenuItem>
               </MenuList>
             </Menu>
           </HStack>
