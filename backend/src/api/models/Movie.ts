@@ -97,6 +97,25 @@ export function searchMovie(keyword: any) {
   }
 }
 
+
+export function fetchRecommendedMovieForUser(genres: any) {
+  try {
+    const recommendedMovies = Movie.find({ genres: { $in: genres} })
+    return recommendedMovies;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export function fetchRecommendedMovieForMovieDetailsPage(genres: any, movieId: any) {
+  try {
+    const recommendedMovies = Movie.find({ genres: { $in: genres},  _id: { $ne: movieId } })
+    return recommendedMovies;
+  } catch (err) {
+    throw err;
+  }
+}
+
 export function filterMovie(ratings: any, genre: any, year: any) {
   try {
     let filteredMovies: any = {};

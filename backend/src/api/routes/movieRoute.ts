@@ -14,6 +14,8 @@ const movieRoute = (): Router => {
   router.route("/search/").post(movieController.filterMovie);
   router.route("/all/").get(movieController.fetchAllMovies);
   router.route("/rated/").get(movieController.fetchMostRatedMovies);
+  router.route("/recommended/").post(movieController.fetchRecommendedMovieForUser);
+  router.route("/recommended/:movieId").post(movieController.fetchRecommendedMovieForMovieDetailsPage);
 
   router
     .route("/:movieId")
