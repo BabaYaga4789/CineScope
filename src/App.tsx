@@ -10,6 +10,7 @@ import Home from "./pages/Home/Home";
 import MovieDetail from "./pages/MovieDetail/MovieDetail";
 import News from "./pages/News/News";
 import NewsDetails from "./pages/News/NewsDetails";
+import ParentsGuide from "./pages/ParentsGuide";
 import Profile from "./pages/Profile/Profile";
 import Registration from "./pages/Registration/Registration";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
@@ -98,6 +99,10 @@ const router = createBrowserRouter([
       {
         path: "/movie-details/:id",
         element: <MovieDetail />,
+      },
+      {
+        path: "/parents-guide/:id",
+        element: <ParentsGuide />,
       },
     ],
   },

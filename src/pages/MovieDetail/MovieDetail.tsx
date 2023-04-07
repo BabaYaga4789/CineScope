@@ -1,31 +1,15 @@
-import {
-  Box,
-  Grid,
-  Image,
-  Text,
-  Divider,
-  Badge,
-  VStack,
-  HStack,
-  GridItem,
-  AspectRatio,
-  SimpleGrid,
-  ButtonGroup,
-  Button,
-  Icon,
-  useToast,
-  Textarea,
-  Flex,
-} from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { SessionManager } from "@/common/SessionManager";
+import CommentBox from "@/components/CommentBox";
 import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
+import ReviewsMagementService from "@/services/ReviewsManagementService/ReviewsManagementService";
 import UserManagementService from "@/services/UserManagementService/UserManagementService";
 import WatchlistService from "@/services/WatchlistManagementService/WatchlistService";
-import { SessionManager } from "@/common/SessionManager";
+import {
+  AspectRatio, Badge, Box, Button, ButtonGroup, Divider, Flex, Grid, GridItem, HStack, Icon, Image, SimpleGrid, Text, Textarea, useToast, VStack
+} from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
-import ReviewsMagementService from "@/services/ReviewsManagementService/ReviewsManagementService";
-import CommentBox from "@/components/CommentBox";
+import { useNavigate, useParams } from "react-router-dom";
 
 const MovieDetails = () => {
   const navigate = useNavigate();
@@ -144,6 +128,10 @@ const MovieDetails = () => {
     setComment("");
   };
 
+  const navigateToWatchlist = () => {
+    navigate("/watchlist");
+  };
+
   const handleChildData = async (data: string) => {
     console.log(`Received data from child component: ${data}`);
 
@@ -231,7 +219,11 @@ const MovieDetails = () => {
                 onChange={handleTextChange}
               />
               <Flex justifyContent="flex-end" marginTop="1">
-                <Button size="sm" colorScheme="yellow" onClick={handleSubmit}>
+                <Button
+                  size="sm"
+                  colorScheme="yellow"
+                  onClick={navigateToWatchlist}
+                >
                   Submit
                 </Button>
               </Flex>
@@ -299,6 +291,9 @@ const MovieDetails = () => {
               ></iframe>
             </AspectRatio>
           </VStack>
+          <Button size="md" colorScheme="yellow" onClick={handleSubmit}>
+            Parents Guide
+          </Button>
         </Box>
       </Grid>
       <Divider my="6" />
