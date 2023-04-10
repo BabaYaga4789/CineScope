@@ -5,9 +5,9 @@ import {
   getRating,
   getReview,
   getReviewByUserName,
-  getReviewCountForMovie, 
-  getMostRatedMovies, 
-  getCountOfRateForMovie
+  getReviewCountForMovie,
+  getMostRatedMovies,
+  getCountOfRateForMovie,
 } from "../models/Reviews";
 
 /* controller function to retrieve ratings by calculating average*/
@@ -111,7 +111,6 @@ const ReviewsController = {
       res.status(500).json({ message: err.message ?? err });
     }
   },
-
 };
 
 export default ReviewsController;

@@ -33,19 +33,28 @@ export default function MovieGridItem(props: MovieGridItemProps): JSX.Element {
   };
 
   const fetchRatingCount = async () => {
-    const body: any = await ReviewsMagementService.getRatingCountForMovie(props.movie._id);
-    if(body == null || body == undefined || body.length == 0){
-      setMovieRatingCount(0);
-    }
-    else{
-      setMovieRatingCount(body[0].rating);
-    }
-  }
+    const response: any = await ReviewsMagementService.getRating(
+      props.movie.title
+    );
+    const roundedOff = response.toFixed(2);
+    setMovieRatingCount(roundedOff);
+
+    // const body: any = await ReviewsMagementService.getRatingCountForMovie(
+    //   props.movie._id
+    // );
+    // if (body == null || body == undefined || body.length == 0) {
+    //   setMovieRatingCount(0);
+    // } else {
+    //   setMovieRatingCount(body[0].rating);
+    // }
+  };
 
   const fetchCount = async () => {
-    const body: any = await ReviewsMagementService.getCountForRate(props.movie._id);
+    const body: any = await ReviewsMagementService.getCountForRate(
+      props.movie._id
+    );
     setCount(body);
-  }
+  };
 
   useEffect(() => {
     fetchRatingCount();
@@ -62,7 +71,7 @@ export default function MovieGridItem(props: MovieGridItemProps): JSX.Element {
     >
       <Image
         src={props.movie.poster}
-        alt= "Movie Image"
+        alt="Movie Image"
         objectFit="cover"
         height="300px"
         width="100%"
@@ -79,7 +88,6 @@ export default function MovieGridItem(props: MovieGridItemProps): JSX.Element {
               // color={i < 9 / 2 ? "teal.500" : "gray.300"}
               color={i < movieRatingCount ? "teal.500" : "gray.300"}
             />
-
           ))}
         <Box as="span" ml="2" color="gray.600" fontSize="sm">
           ({count})
@@ -97,7 +105,7 @@ export default function MovieGridItem(props: MovieGridItemProps): JSX.Element {
         </Button>
         <Button
           w="100%"
-          leftIcon={!isAdded ? <AddIcon/> : <CheckIcon />}
+          leftIcon={!isAdded ? <AddIcon /> : <CheckIcon />}
           onClick={!isAdded ? onOpen : () => {}}
         >
           {!isAdded ? "Watchlist" : "Added"}

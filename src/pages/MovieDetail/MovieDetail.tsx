@@ -51,7 +51,7 @@ const MovieDetails = () => {
   const userID = SessionManager.getUserID();
   const [rating, setRating] = useState(0);
   const toast = useToast();
-  
+
   const [isRecommendMovieFound, setIsRecommendMovieFound] = useState(true);
   // navigate(0);
 
@@ -65,8 +65,8 @@ const MovieDetails = () => {
     return userName;
   };
 
+
   const fetchMovieDetails = async () => {
-    
     const body: any = await movieManagementService.fetchMovieByID(id);
     if (body == null) {
       alert(
@@ -87,6 +87,7 @@ const MovieDetails = () => {
       //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed
       const body1: any = await ReviewsMagementService.getRating(body.title);
       const roundedOff = body1.toFixed(2);
+      console.log(`Rounded off rating: ${roundedOff}`);
       setMovieRating(roundedOff);
 
       const body2: any = await ReviewsMagementService.getReview(body.title);
@@ -188,13 +189,12 @@ const MovieDetails = () => {
     } else {
       setIsRecommendMovieFound(true);
       setRecommendedMovies(body);
-      
     }
   };
 
   useEffect(() => {
     fetchMovieDetails();
-    
+
     // fetchRatingCount();
   }, [movieReview]);
 
@@ -389,8 +389,7 @@ const MovieDetails = () => {
           </SimpleGrid>
         </>
       ) : (
-        <>
-        </>
+        <></>
       )}
       ;
     </Box>
