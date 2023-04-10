@@ -1,3 +1,6 @@
+/**
+ * @author Harsh Kamleshbhai Shah <shah.harsh@dal.ca>
+ */
 import { NextFunction, Request, Response } from "express";
 import {
   addMovieToWatchlist,
