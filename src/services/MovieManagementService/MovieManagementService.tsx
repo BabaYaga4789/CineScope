@@ -146,6 +146,28 @@ export default class MovieMagementService {
     }
   }
 
+
+  async fetchRecommendedMoviesToUser(genres: any) {
+    var myHeaders = new Headers();
+    var raw = JSON.stringify({
+      genres: genres
+    });
+    myHeaders.append("Content-Type", "application/json");
+    let requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw
+    };
+    const response = await fetch(this.API_URL+ '/movie/recommended/', requestOptions);
+
+    if (response.status === 200) {
+      const body = await response.json();
+      return body;
+    } else {
+      return null;
+    }
+  };
+  
   async fetchGuidesByMovieID(movieId: any) {
     const response = await fetch(
       this.API_URL + `/parents-guide/movie/${movieId}`,
@@ -153,6 +175,27 @@ export default class MovieMagementService {
         method: "GET",
       }
     );
+    if (response.status === 200) {
+      const body = await response.json();
+      return body;
+    } else {
+      return null;
+    }
+    
+  }
+
+  async fetchRecommendedMoviesForMovieDetailsPage(genres: any, movieId: any) {
+    var myHeaders = new Headers();
+    var raw = JSON.stringify({
+      genres: genres
+    });
+    myHeaders.append("Content-Type", "application/json");
+    let requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw
+    };
+    const response = await fetch(this.API_URL+ `/movie/recommended/${movieId}`, requestOptions);
     if (response.status === 200) {
       const body = await response.json();
       return body;

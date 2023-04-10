@@ -3,7 +3,7 @@
  */
 
 import { Request, Response } from "express";
-import { createMovie, fetchLastestMovies, searchMovie, filterMovie, updateMovie, fetchAllMovies, fetchMovieById, deleterMovieById, ratingFilter } from "../models/Movie";
+import { createMovie, fetchLastestMovies, searchMovie, filterMovie, updateMovie, fetchAllMovies, fetchMovieById, deleterMovieById, ratingFilter, fetchRecommendedMovieForUser, fetchRecommendedMovieForMovieDetailsPage } from "../models/Movie";
 import { getMostRatedMovies } from "../models/Reviews";
 
 const MovieController = {
@@ -100,6 +100,31 @@ const MovieController = {
     const movieId = req.params.movieId;
     try{
       const movies = await fetchMovieById(movieId);
+      res.status(200).json(movies);
+    } catch (err: any) {
+      console.log(err);
+      res.status(500).json({ message: err.message ?? err });
+    }
+  },
+
+  async fetchRecommendedMovieForUser(req: Request, res: Response){
+    const body = req.body;
+    const genres = body.genres;
+    try{
+      const movies = await fetchRecommendedMovieForUser(genres);
+      res.status(200).json(movies);
+    } catch (err: any) {
+      console.log(err);
+      res.status(500).json({ message: err.message ?? err });
+    }
+  },
+
+  async fetchRecommendedMovieForMovieDetailsPage(req: Request, res: Response){
+    const body = req.body;
+    const genres = body.genres;
+    const movieId = req.params.movieId;
+    try{
+      const movies = await fetchRecommendedMovieForMovieDetailsPage(genres, movieId);
       res.status(200).json(movies);
     } catch (err: any) {
       console.log(err);
