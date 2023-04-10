@@ -86,8 +86,7 @@ const Watchlist = () => {
         position: "top",
         icon: <DeleteIcon />,
       });
-    }
-    else{
+    } else {
       alert("System Error! Please try again");
     }
   };
