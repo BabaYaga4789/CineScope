@@ -25,7 +25,7 @@ export async function getWatchlist(userId: String) {
   if (userId === undefined) {
     throw "Oi! You forgot to pass userId!";
   }
-  const watchlist = await Watchlist.find({ userId: userId });
+  const watchlist = await Watchlist.find({ userId: userId }).sort({last_update: -1});
   return watchlist;
 }
 

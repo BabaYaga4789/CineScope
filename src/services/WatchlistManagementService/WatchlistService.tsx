@@ -82,12 +82,11 @@ export default class WatchlistService {
   }
 
   async clearWatchlist(userId: string) {
-    const response = await fetch(`${this.API_URL}/watchlist/:userId/`, {
-      method: "GET",
+    const response = await fetch(`${this.API_URL}/watchlist/${userId}/`, {
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ userId }),
     });
     if (response.status === 200) {
       return WatchlistState.ClearWatchlistSuccess;
