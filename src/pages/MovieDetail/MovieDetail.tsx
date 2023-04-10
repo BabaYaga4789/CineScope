@@ -5,7 +5,23 @@ import ReviewsMagementService from "@/services/ReviewsManagementService/ReviewsM
 import UserManagementService from "@/services/UserManagementService/UserManagementService";
 import WatchlistService from "@/services/WatchlistManagementService/WatchlistService";
 import {
-  AspectRatio, Badge, Box, Button, ButtonGroup, Divider, Flex, Grid, GridItem, HStack, Icon, Image, SimpleGrid, Text, Textarea, useToast, VStack
+  AspectRatio,
+  Badge,
+  Box,
+  Button,
+  ButtonGroup,
+  Divider,
+  Flex,
+  Grid,
+  GridItem,
+  HStack,
+  Icon,
+  Image,
+  SimpleGrid,
+  Text,
+  Textarea,
+  useToast,
+  VStack,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
@@ -130,6 +146,10 @@ const MovieDetails = () => {
 
   const navigateToWatchlist = () => {
     navigate("/watchlist");
+  };
+
+  const navigateToParentalGuide = (id: string) => {
+    navigate("/parents-guide/" + id);
   };
 
   const handleChildData = async (data: string) => {
@@ -291,7 +311,13 @@ const MovieDetails = () => {
               ></iframe>
             </AspectRatio>
           </VStack>
-          <Button size="md" colorScheme="yellow" onClick={handleSubmit}>
+          <Button
+            size="md"
+            colorScheme="yellow"
+            onClick={() => {
+              navigateToParentalGuide(movieDetails._id);
+            }}
+          >
             Parents Guide
           </Button>
         </Box>
