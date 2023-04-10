@@ -27,7 +27,6 @@ const NavBar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const isLoggedIn = SessionManager.isLoggedIn();
   const navigate = useNavigate();
-
   const [isNavOpen, setIsNavOpen] = useState(false);
   const toggle = () => {
     setIsNavOpen(!isNavOpen);
@@ -38,6 +37,8 @@ const NavBar = () => {
     localStorage.setItem("isAdmin", "true");
     window.location.replace("/");
   };
+
+
 
   const logout = () => {
     SessionManager.logout();
