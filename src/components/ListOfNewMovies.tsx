@@ -2,16 +2,13 @@
  * @author Ketul Patel - <ketul.patel@dal.ca>
  */
 
-import { useEffect } from "react";
-import {
-  SimpleGrid,
-} from "@chakra-ui/react";
-import { useState } from "react";
 import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
-import { LabelMostRated } from "./LabelMostRated";
-import MovieGridItemAdmin from "./MovieGridItemAdmin";
+import {
+  SimpleGrid
+} from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { LabelNewReleased } from "./LabelNewReleased";
-import { LabelAllMovies } from "./LabelAllMovies";
+import MovieGridItemAdmin from "./MovieGridItemAdmin";
 
 export default function ListOfNewMovies() {
 
@@ -46,7 +43,7 @@ export default function ListOfNewMovies() {
   return (
     <div>
        <LabelNewReleased/>
-      <SimpleGrid p={4} w="100%" columns={{ base: 1, md: 3, lg: 7 }} gap={6}>
+      <SimpleGrid p={4} width={["75%", "75%","100%", "100%"]} columns={{ base: 1, md: 3, lg: 7 }} gap={[1,3,6]}>
         {newMovies.map((newMovie : any) => (
          <MovieGridItemAdmin key={newMovie._id} movie={newMovie} />
       ))}

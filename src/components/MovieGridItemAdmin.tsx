@@ -86,27 +86,28 @@ export default function MovieGridItemAdmin(
     <Card
       key={props.movie._id}
       rounded="lg"
-      width="100%"
-      overflow="hidden"
+      width={["100%", "100%","100%", "100%"]}
+      height = {["100%", "100%","100%", "100%"]}
       alignItems="center"
     >
       <Image
         src={props.movie.poster}
         alt="movie-poster"
         objectFit="cover"
-        height="300px"
-        width="100%"
+        width={["75%", "75%","100%", "100%"]}
+        height = {["75%", "75%","100%", "100%"]}
       />
       <CardBody color="gray.500">
         <Text>{props.movie.title}</Text>
       </CardBody>
-      <Box display="flex" mt="2" alignItems="center">
+      <Box display="flex" mt={["0","0","2","2"]} alignItems="center">
         {Array(5)
           .fill("")
           .map((_, i) => (
             <StarIcon
               key={i}
               // color={i < props.movie.rating / 2 ? "teal.500" : "gray.300"}
+              mt={["0","0","2","2"]}
               color={i < 8 / 2 ? "teal.500" : "gray.300"}
             />
           ))}
@@ -120,14 +121,15 @@ export default function MovieGridItemAdmin(
       </Box>
       <HStack w="100%" p={4} gap={10} justifyContent="center">
         <EditIcon
-          boxSize={[1, 3, 5]}
+          // boxSize={[10, 3, 5]}
+          boxSize={"25px"}
           onClick={() => {
             onEditIcon(props.movie._id);
           }}
           color="green.500"
         ></EditIcon>
         <DeleteIcon
-          boxSize={[1, 3, 5]}
+          boxSize={"25px"}
           onClick={() => {
             onDeleteIcon(props.movie._id, props.movie.title);
           }}

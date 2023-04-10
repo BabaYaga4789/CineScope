@@ -79,4 +79,28 @@ export async function addReview(
   return addedReview;
 }
 
+export async function getReviewCountForMovie(movieId: any){
+  // const ratings = await Reviews.count({})
+  const ratings = await Reviews.aggregate([
+    { $match: { movieId: movieId } },
+  { $group: { _id: "$movieId", avg_rating: { $avg: "$rating" } } },
+  { $project: { _id: 0, movieId: "$_id", rating: { $round: ["$avg_rating", 1] } } }
+  ])
+  return ratings;
+}
+
+export async function getMostRatedMovies(){
+  const movies = Reviews.aggregate([
+    { $group: { _id: "$movieId", rating: { $avg: "$rating" } } },
+    { $sort: { rating: -1 } },
+    { $limit: 7 }
+  ])
+  return movies;
+}
+
+export async function getCountOfRateForMovie(movieId: any){
+  const movies = Reviews.countDocuments({ movieId:  movieId})
+  return movies;
+}
+
 export default mongoose.model("Reviews", reviews);

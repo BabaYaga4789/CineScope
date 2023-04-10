@@ -105,4 +105,41 @@ export default class ReviewsMagementService {
       return ReviewsManagementState.ReviewsAddFailure;
     }
   }
+
+  static async getRatingCountForMovie(movieId: any){
+    const response = await fetch(`${ReviewsMagementService.API_URL}/reviews/count/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        movieId: movieId
+      }),
+    });
+    if (response.status === 200) {
+      const body = await response.json();
+      return body;
+    } else {
+      return ReviewsManagementState.ReviewsFetchFailure;
+    }
+  }
+
+  static async getCountForRate(movieId: any){
+    const response = await fetch(`${ReviewsMagementService.API_URL}/reviews/rate-count/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        movieId: movieId
+      }),
+    });
+    if (response.status === 200) {
+      const body = await response.json();
+      return body;
+    } else {
+      return ReviewsManagementState.ReviewsFetchFailure;
+    }
+  }
+
 }

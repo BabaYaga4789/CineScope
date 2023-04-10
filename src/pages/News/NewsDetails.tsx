@@ -32,7 +32,7 @@ export default function NewsDetails() {
                     duration: 3500,
                     isClosable: true,
                 })
-            }else{
+            } else {
                 setNews(body);
             }
         }
@@ -57,30 +57,30 @@ export default function NewsDetails() {
                 boxShadow={{ base: 'none', sm: 'md' }}
                 borderRadius={{ base: 'none', sm: 'xl' }}
                 {...{ mt: "10px" }}>
-                    <Card>
-                        <Heading
-                            fontSize={"3xl"}
-                            fontStyle="bold"
-                            textAlign="left"
-                            paddingBottom={"2"}>
-                                {news.newsTitle}
-                        </Heading>
-                        <Stack>
-              <Image
-                objectFit={"cover"}
-                maxW={{ base: "100%", sm: "300px" }}
-                src={news.posterLink}
-                alt="image"
-              />
-            </Stack>
-            <Stack>
-              <CardBody>
-                <Text py="2">
-                  {news.fullArticle}
-                </Text>
-              </CardBody>
-              </Stack>
-                    </Card>
+                <Card>
+                    <Heading
+                        fontSize={"3xl"}
+                        fontStyle="bold"
+                        textAlign="left"
+                        paddingBottom={"2"}>
+                        {news.newsTitle}
+                    </Heading>
+                    <Stack>
+                        <Image
+                            objectFit={"cover"}
+                            maxW={{ base: "100%", sm: "300px" }}
+                            src={news.posterLink}
+                            alt="image"
+                        />
+                    </Stack>
+                    <Stack>
+                        <CardBody>
+                            <Text py="2">
+                                {news.fullArticle}
+                            </Text>
+                        </CardBody>
+                    </Stack>
+                </Card>
             </Box>
         </Flex>
             <Flex
@@ -90,14 +90,14 @@ export default function NewsDetails() {
                 flexDirection={"column"}
                 alignItems="end"
             >
-                <HStack>
+                {/* <HStack>
                     <Text>
                         Share:
                     </Text>
                     <Icon as={FaFacebookSquare} boxSize={6} />
                     <Icon as={FaInstagram} boxSize={6} />
                     <Icon as={FaWhatsapp} boxSize={6} />
-                </HStack>
+                </HStack> */}
 
             </Flex></>
 
