@@ -63,7 +63,9 @@ const ParentsGuide: React.FC = () => {
       </HStack>
       <VStack p={4} pt={12} w="100%">
         <VStack w="100%" alignItems={"center"}>
-          {guides.length === 0 && <Text>No guides found for this movie</Text>}
+          {(guides ?? 0).length === 0 && (
+            <Text>No guides found for this movie</Text>
+          )}
           {guides.map((guide: any) => (
             <Card
               key={guide.id}

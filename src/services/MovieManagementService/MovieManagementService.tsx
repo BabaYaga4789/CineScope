@@ -8,7 +8,6 @@ import { MovieManagementState } from "./MovieManagementEnum";
 export default class MovieMagementService {
   API_URL = import.meta.env.VITE_API_URL;
   async addMovie(movie: Movie) {
-    debugger;
     const response = await fetch(this.API_URL + "/movie/", {
       method: "POST",
       headers: {

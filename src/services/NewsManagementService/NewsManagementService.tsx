@@ -5,7 +5,6 @@ export default class MovieMagementService {
   API_URL = import.meta.env.VITE_API_URL;
 
   async addNews(news: News) {
-    debugger
     const response = await fetch(`${this.API_URL}/news/`, {
       method: "POST",
       headers: {

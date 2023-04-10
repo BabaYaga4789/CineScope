@@ -102,7 +102,6 @@ export default function UpdateMovieDetails() {
   const handleCastChange = (index: number, value: string) => {
     const newItems = [...cast];
     newItems[index] = value;
-    debugger;
     setCast(newItems);
   };
 
