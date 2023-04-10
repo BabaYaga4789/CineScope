@@ -9,7 +9,7 @@ import {
 export const AlertNoRecommendationMovies = () => {
     // Reference: https://chakra-ui.com/docs/components/alert
     return(
-        <Box as="section" w="70%" marginBottom={5} marginLeft={5} marginRight={5}>
+        <Box as="section" w="70%" marginBottom={5} marginLeft={5} marginRight={5} p={5}>
         <Alert
         status="warning"
         variant="subtle"

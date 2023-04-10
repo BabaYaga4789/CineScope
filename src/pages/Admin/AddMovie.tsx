@@ -16,6 +16,7 @@ import {
   Flex,
   Stack,
   useToast,
+  Textarea,
 } from "@chakra-ui/react";
 import Movie from "@/common/Movie";
 import MovieMagementService from "@/services/MovieManagementService/MovieManagementService";
@@ -292,8 +293,7 @@ export default function AddMovie() {
 
           <FormControl isInvalid={!!formErrors?.get("plot")}>
             <FormLabel htmlFor="firstname">Plot (Description)</FormLabel>
-            <Input
-              type="text"
+            <Textarea
               id="plot"
               name="plot"
               value={movie.plot}

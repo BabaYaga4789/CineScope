@@ -121,7 +121,7 @@ export default function Home() {
               </>
                 
             ) : (
-              <AlertNoRecommendationMovies/>
+              <AlertNoRecommendationMovies />
             )}
         </>
       ) : (
