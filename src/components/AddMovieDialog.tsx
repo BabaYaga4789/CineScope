@@ -55,7 +55,6 @@ const AddMovieDialog: React.FC<AddMovieDialogProps> = ({
       // const userId =
       const isLoggedIn = SessionManager.isLoggedIn();
       const userId: any = SessionManager.getUserID();
-      debugger;
       if (!isLoggedIn) {
         console.log("Please register");
         navigateTo("/login");

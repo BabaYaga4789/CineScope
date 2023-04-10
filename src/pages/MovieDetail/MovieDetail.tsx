@@ -25,6 +25,9 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
+import MovieGridItem from "@/components/MovieGridItem";
+import { LabelRecommendedMoviesToUser } from "@/components/LabelRecommendedMoviesToUser";
+import { AlertNoRecommendationMovies } from "@/components/AlertNoRecommendationMovies";
 import { useNavigate, useParams } from "react-router-dom";
 
 const MovieDetails = () => {
@@ -48,7 +51,11 @@ const MovieDetails = () => {
   const userID = SessionManager.getUserID();
   const [rating, setRating] = useState(0);
   const toast = useToast();
+  
+  const [isRecommendMovieFound, setIsRecommendMovieFound] = useState(true);
+  // navigate(0);
 
+  const [recommendedMovies, setRecommendedMovies] = useState([]);
   const getUserName = async () => {
     let userName = "";
     if (userID) {
@@ -59,6 +66,7 @@ const MovieDetails = () => {
   };
 
   const fetchMovieDetails = async () => {
+    
     const body: any = await movieManagementService.fetchMovieByID(id);
     if (body == null) {
       alert(
@@ -74,6 +82,7 @@ const MovieDetails = () => {
       const formattedReleasedDate = mm + "/" + dd + "/" + yyyy;
       body.released_date = formattedReleasedDate;
       setMovieDetails(body);
+      fetchRecommendedMovies(body.genres, body._id);
 
       //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed
       const body1: any = await ReviewsMagementService.getRating(body.title);
@@ -144,6 +153,9 @@ const MovieDetails = () => {
     setComment("");
   };
 
+  const userRecommendedMovies = recommendedMovies.map((movie: any) => (
+    <MovieGridItem key={movie._id} movie={movie} />
+  ));
   const navigateToWatchlist = () => {
     navigate("/watchlist");
   };
@@ -165,8 +177,24 @@ const MovieDetails = () => {
     setMovieReview(body);
   };
 
+  const fetchRecommendedMovies = async (genres: any, movieId: any) => {
+    const body: any =
+      await movieManagementService.fetchRecommendedMoviesForMovieDetailsPage(
+        genres,
+        movieId
+      );
+    if (body == null) {
+      setIsRecommendMovieFound(false);
+    } else {
+      setIsRecommendMovieFound(true);
+      setRecommendedMovies(body);
+      
+    }
+  };
+
   useEffect(() => {
     fetchMovieDetails();
+    
     // fetchRatingCount();
   }, [movieReview]);
 
@@ -323,7 +351,6 @@ const MovieDetails = () => {
         </Box>
       </Grid>
       <Divider my="6" />
-
       <Box ml={2} mr={2}>
         <Text fontWeight="bold" fontSize="2xl" mb="4">
           Related Images
@@ -349,6 +376,23 @@ const MovieDetails = () => {
           onChildData={handleChildData}
         />
       </Box>
+      {isRecommendMovieFound ? (
+        <>
+          <LabelRecommendedMoviesToUser />
+          <SimpleGrid
+            p={4}
+            w="100%"
+            columns={{ base: 1, md: 3, lg: 7 }}
+            gap={6}
+          >
+            {userRecommendedMovies}
+          </SimpleGrid>
+        </>
+      ) : (
+        <>
+        </>
+      )}
+      ;
     </Box>
   );
 };

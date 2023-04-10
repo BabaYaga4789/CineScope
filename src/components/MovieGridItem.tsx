@@ -28,8 +28,8 @@ export default function MovieGridItem(props: MovieGridItemProps): JSX.Element {
   const [count, setCount] = useState(0);
 
   const getMovieDetails = (e: any) => {
-    e.preventDefault();
     navigateTo("/movie-details/" + props.movie._id);
+    window.location.reload();
   };
 
   const fetchRatingCount = async () => {

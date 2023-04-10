@@ -14,9 +14,10 @@ import {
   MenuList,
   Spacer,
   Text,
+  Tooltip,
 } from "@chakra-ui/react";
 import { NavLink, useNavigate } from "react-router-dom";
-
+import { SessionManager } from "@/common/SessionManager";
 export const AdminNavBar = () => {
   const navigate = useNavigate();
   const addMovie = () => {
@@ -33,8 +34,12 @@ export const AdminNavBar = () => {
   };
 
   const handleLogout = () => {
+    SessionManager.logout()
     localStorage.setItem("isAdmin", "false");
     window.location.replace("/");
+  }
+  const handleLogoClick = () => {
+    navigate("/");
   }
   return (
     <div>
@@ -48,6 +53,8 @@ export const AdminNavBar = () => {
         >
           <HStack gap={[3,5,7]}>
             {/* <HStack> */}
+            <Tooltip>
+              <Button variant="unstyled">
               <Text
                 textAlign="left"
                 bgGradient="linear-gradient(311deg, rgba(143,107,41,1) 0%, rgba(237,193,65,1) 33%, rgba(223,159,40,1) 82%);"
@@ -55,9 +62,14 @@ export const AdminNavBar = () => {
                 fontSize="4xl"
                 fontWeight="extrabold"
                 ml="20px"
+                onClick={handleLogoClick}
+                
               >
                 CineScope
+                
               </Text>
+              </Button>
+              </Tooltip>
             {/* </HStack> */}
 
             <Menu >

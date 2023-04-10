@@ -185,7 +185,7 @@ const Watchlist = () => {
                             {movie.title}
                           </Text>
                           <HStack>
-                          <Card size={"sm"} bgColor={"orange.600"}>
+                          <Card size={"sm"} bgColor={"orange.4=700"}>
                             <Text fontSize={12} p={0.5} fontStyle={"italic"} fontWeight={"bold"}>
                               {movie.status.toUpperCase()}
                             </Text>
