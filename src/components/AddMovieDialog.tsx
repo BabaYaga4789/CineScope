@@ -7,12 +7,8 @@ import { WatchlistState } from "@/services/WatchlistManagementService/WatchlistE
 import WatchlistService from "@/services/WatchlistManagementService/WatchlistService";
 import { AddIcon } from "@chakra-ui/icons";
 import {
-  Button,
-  Flex,
-  FormControl,
-  FormLabel,
-  Input,
-  Modal,
+  Button, FormControl,
+  FormLabel, Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
@@ -20,7 +16,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
-  useToast,
+  useToast
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";

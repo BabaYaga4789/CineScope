@@ -9,5 +9,9 @@ export enum MovieManagementState {
     MovieDeleteFailure = "Movie deletion failed.",
     MovieUpdateFailure = "Movie updation failed.",
     MovieUpdateSuccess = "Movie updated successfully.",
+    GuideAddSuccess = "Guide added successfully.",
+    GuideAddFailure = "Guide addition failed.",
+    GuideDeleteSuccess = "Guide deleted successfully.",
+    GuideDeleteFailure = "Guide deletion failed.",
   }
   
