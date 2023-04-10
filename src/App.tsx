@@ -110,7 +110,7 @@ const router = createBrowserRouter([
 
 const App = () => {
   const isAdmin = localStorage.getItem("isAdmin") === "true";
-
+  localStorage.setItem("chakra-ui-color-mode", "dark");
   return <RouterProvider router={isAdmin ? adminRouter : router} />;
 };
 

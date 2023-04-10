@@ -32,7 +32,6 @@ export default function News() {
       alert("Something went wrong loading latest News. Please try again.");
     } else {
       setAllNews(body);
-      console.log(body);
     }
   };
   useEffect(() => {
@@ -78,7 +77,7 @@ export default function News() {
       <Spacer />
       <Flex pl="20px" pr={"20px"} display="flex" flexDirection={"column"}>
         {allNews.map((news: any) => (
-          <Card onClick={() => navigate("/news-details/" + news._id)} cursor="pointer" padding={8}>
+          <Card m={2} onClick={() => navigate("/news-details/" + news._id)} cursor="pointer" padding={8}>
             <Heading
               fontSize={"3xl"}
               fontStyle="bold"

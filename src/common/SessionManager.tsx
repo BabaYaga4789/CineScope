@@ -7,6 +7,7 @@ export class SessionManager {
   }
 
   static logout() {
+    window.location.replace("/");
     localStorage.removeItem("userID");
   }
 

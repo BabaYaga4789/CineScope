@@ -65,7 +65,6 @@ const MovieDetails = () => {
     return userName;
   };
 
-
   const fetchMovieDetails = async () => {
     const body: any = await movieManagementService.fetchMovieByID(id);
     if (body == null) {
@@ -220,7 +219,7 @@ const MovieDetails = () => {
           {/* ratings and reviews enabled only for logged in users */}
           {isLoggedIn && (
             <Box boxShadow="2xl" p="2" mb="4" ml={2} mt={12} width="85%">
-              <Text mb={2} color="gray.700" fontWeight="medium">
+              <Text mb={2} fontWeight="medium">
                 Add Rating
               </Text>
               <ButtonGroup>
@@ -250,7 +249,6 @@ const MovieDetails = () => {
               ml="0.5rem"
               width="85%"
               h="40vh"
-              backgroundColor="gray.100"
             >
               <Text mb={3} fontWeight="medium">
                 Add a Review
@@ -262,16 +260,11 @@ const MovieDetails = () => {
                 border="none"
                 _focus={{ outline: "none" }}
                 height="75%"
-                bg="white"
                 value={comment}
                 onChange={handleTextChange}
               />
               <Flex justifyContent="flex-end" marginTop="1">
-                <Button
-                  size="sm"
-                  colorScheme="yellow"
-                  onClick={navigateToWatchlist}
-                >
+                <Button size="sm" colorScheme="yellow" onClick={handleSubmit}>
                   Submit
                 </Button>
               </Flex>
@@ -391,7 +384,6 @@ const MovieDetails = () => {
       ) : (
         <></>
       )}
-      ;
     </Box>
   );
 };

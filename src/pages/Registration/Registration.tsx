@@ -50,7 +50,6 @@ export default function Registration() {
 
   const validateAndRegister = async (event: any) => {
     event.preventDefault();
-
     setError(false);
     setErrorMessage("");
 
@@ -108,6 +107,10 @@ export default function Registration() {
       setError(true);
       setErrorMessage("You must select at least one genre.");
       return;
+    } else if (about.length === 0 || about === "") {
+      setError(true);
+      setErrorMessage("You must enter a short bio.");
+      return;
     }
 
     setError(false);
@@ -135,7 +138,7 @@ export default function Registration() {
       justifyContent="center"
       alignItems="center"
     >
-      <CustomContainer width="30%">
+      <CustomContainer>
         <Center mb={6}>
           <VStack>
             <Heading>Register</Heading>

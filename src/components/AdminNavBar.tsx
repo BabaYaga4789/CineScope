@@ -85,8 +85,8 @@ export const AdminNavBar = () => {
               <MenuList>
                 <MenuItem onClick={addMovie}> Add Movie</MenuItem>
                 <MenuItem onClick={addNews}> Add News</MenuItem>
-                <MenuItem>Comment moderation</MenuItem>
-                <MenuItem>Review moderation</MenuItem>
+                {/* <MenuItem>Comment moderation</MenuItem>
+                <MenuItem>Review moderation</MenuItem> */}
               </MenuList>
             </Menu>
           </HStack>

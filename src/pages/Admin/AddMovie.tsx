@@ -232,7 +232,6 @@ export default function AddMovie() {
           borderWidth="1px"
           borderRadius="md"
           width={[200, 300, 500]}
-          bg="white"
         >
           <Heading padding={[2, 4, 6]}>Add a movie</Heading>
           <FormControl isInvalid={!!formErrors?.get("title")}>
