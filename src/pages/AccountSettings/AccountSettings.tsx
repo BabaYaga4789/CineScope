@@ -306,11 +306,7 @@ export default function AccountSettings() {
           >
             Delete Profile
           </Button>{" "}
-          <Button
-            w={"100%"}
-            variant="solid"
-            onClick={() => navigate("/")}
-          >
+          <Button w={"100%"} variant="solid" onClick={() => navigate("/")}>
             Cancel
           </Button>
         </VStack>

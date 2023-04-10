@@ -6,16 +6,15 @@ import Movie from "@/common/Movie";
 import { MovieManagementState } from "./MovieManagementEnum";
 
 export default class MovieMagementService {
-  
   API_URL = import.meta.env.VITE_API_URL;
   async addMovie(movie: Movie) {
-    debugger
+    debugger;
     const response = await fetch(this.API_URL + "/movie/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(movie)
+      body: JSON.stringify(movie),
     });
     if (response.status === 200) {
       return MovieManagementState.MovieAddSuccess;
@@ -55,7 +54,6 @@ export default class MovieMagementService {
     });
     if (response.status === 200) {
       return MovieManagementState.MovieDeleteSuccess;
-
     } else {
       return MovieManagementState.MovieDeleteFailure;
     }
@@ -88,18 +86,21 @@ export default class MovieMagementService {
     }
   }
 
-  async searchMovie(keyword: any){
+  async searchMovie(keyword: any) {
     var myHeaders = new Headers();
     var raw = JSON.stringify({
       keyword: keyword,
     });
     myHeaders.append("Content-Type", "application/json");
-          let requestOptions = {
-            method: "POST",
-            headers: myHeaders,
-            body: raw
-          };
-    const response = await fetch(this.API_URL + "/movie/search", requestOptions);
+    let requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+    };
+    const response = await fetch(
+      this.API_URL + "/movie/search",
+      requestOptions
+    );
     if (response.status === 200) {
       const body = await response.json();
       return body;
@@ -108,7 +109,7 @@ export default class MovieMagementService {
     }
   }
 
-  async filterMovie(year: any, rating: any, genre: any){
+  async filterMovie(year: any, rating: any, genre: any) {
     var myHeaders = new Headers();
     var raw = JSON.stringify({
       year: year,
@@ -119,9 +120,12 @@ export default class MovieMagementService {
     let requestOptions = {
       method: "POST",
       headers: myHeaders,
-      body: raw
+      body: raw,
     };
-    const response = await fetch(this.API_URL + "/movie/search", requestOptions);
+    const response = await fetch(
+      this.API_URL + "/movie/search",
+      requestOptions
+    );
     if (response.status === 200) {
       const body = await response.json();
       return body;
@@ -131,7 +135,7 @@ export default class MovieMagementService {
   }
 
   async fetchMostRatedMovies() {
-    const response = await fetch(this.API_URL+"/movie/rated", {
+    const response = await fetch(this.API_URL + "/movie/rated", {
       method: "GET",
     });
     if (response.status === 200) {
@@ -155,12 +159,29 @@ export default class MovieMagementService {
       body: raw
     };
     const response = await fetch(this.API_URL+ '/movie/recommended/', requestOptions);
+
     if (response.status === 200) {
       const body = await response.json();
       return body;
     } else {
       return null;
     }
+  };
+  
+  async fetchGuidesByMovieID(movieId: any) {
+    const response = await fetch(
+      this.API_URL + `/parents-guide/movie/${movieId}`,
+      {
+        method: "GET",
+      }
+    );
+    if (response.status === 200) {
+      const body = await response.json();
+      return body;
+    } else {
+      return null;
+    }
+    
   }
 
   async fetchRecommendedMoviesForMovieDetailsPage(genres: any, movieId: any) {
@@ -183,4 +204,39 @@ export default class MovieMagementService {
     }
   }
 
+  async addGuide(
+    movieId: string,
+    comment: string,
+    severity: string,
+    category: string,
+    userId: string
+  ) {
+    const response = await fetch(this.API_URL + "/parents-guide/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        movieId: movieId,
+        comment: comment,
+        severity: severity,
+        category: category,
+        userId: userId,
+      }),
+    });
+    if (response.status === 200) {
+      return MovieManagementState.GuideAddSuccess;
+    } else {
+      return MovieManagementState.GuideAddFailure;
+    }
+  }
+
+  async deleteGuide(guideId: any) {
+    const response = await fetch(this.API_URL + `/parents-guide/${guideId}`, {
+      method: "DELETE",
+    });
+    if (response.status === 200) {
+      return MovieManagementState.GuideDeleteSuccess;
+    } else {
+      return MovieManagementState.GuideDeleteFailure;
+    }
+  }
 }
