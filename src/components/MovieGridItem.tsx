@@ -29,6 +29,7 @@ export default function MovieGridItem(props: MovieGridItemProps): JSX.Element {
 
   const getMovieDetails = (e: any) => {
     navigateTo("/movie-details/" + props.movie._id);
+    window.location.reload();
   };
 
   const fetchRatingCount = async () => {

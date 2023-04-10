@@ -51,7 +51,9 @@ const MovieDetails = () => {
   const userID = SessionManager.getUserID();
   const [rating, setRating] = useState(0);
   const toast = useToast();
+  
   const [isRecommendMovieFound, setIsRecommendMovieFound] = useState(true);
+  // navigate(0);
 
   const [recommendedMovies, setRecommendedMovies] = useState([]);
   const getUserName = async () => {
@@ -64,6 +66,7 @@ const MovieDetails = () => {
   };
 
   const fetchMovieDetails = async () => {
+    
     const body: any = await movieManagementService.fetchMovieByID(id);
     if (body == null) {
       alert(
@@ -178,12 +181,13 @@ const MovieDetails = () => {
     } else {
       setIsRecommendMovieFound(true);
       setRecommendedMovies(body);
+      
     }
   };
 
   useEffect(() => {
     fetchMovieDetails();
-    debugger
+    
     // fetchRatingCount();
   }, [movieReview]);
 
