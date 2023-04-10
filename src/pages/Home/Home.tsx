@@ -60,7 +60,7 @@ export default function Home() {
     if(watchListMovies.length != 0){
       
       setIsMovieInWatchList(true);
-      const watchListMoviesId = [...new Set(watchListMovies.map((watchListmovie: { watchListmovie: any; }) => watchListmovie.movieId))];
+      const watchListMoviesId = [...new Set(watchListMovies.map((watchListmovie: { movieId: any; }) => watchListmovie.movieId))];
       const genresList: any = [];
   
       const movieGenres = async (movieId: any) => {
