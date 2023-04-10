@@ -142,9 +142,15 @@ const Watchlist = () => {
                 <Spacer></Spacer>
                 <Button
                   p={5}
-                  bgColor={"red.600"}
+                  color={"red.600"}
+                  bgColor={"red.200"}
                   fontWeight={"bold"}
                   onClick={clearWatchlist}
+                  leftIcon={<DeleteIcon />}
+                  _hover={{
+                    bgColor: "red.500", // New background color on hover
+                    color: "white", // New text color on hover
+                  }}
                 >
                   Clear Watchlist
                 </Button>
@@ -185,13 +191,12 @@ const Watchlist = () => {
                             {movie.title}
                           </Text>
                           <HStack>
-                          <Card rounded="xl" size={"sm"} bgColor={"orange.700"}>
-                            <Text fontSize={12} p={1} fontStyle={"italic"} fontWeight={"bold"}>
+                          <Box rounded="xl" bgColor={"orange.200"}>
+                            <Text color={"orange.700"} fontSize={10} p={1} fontStyle={"italic"} fontWeight={"extrabold"}>
                               {movie.status.toUpperCase()}
                             </Text>
-                          </Card>
+                          </Box>
                           <Spacer></Spacer>
-
                           </HStack>
                          
                           <Text noOfLines={[1, 2]} fontSize={13}>
