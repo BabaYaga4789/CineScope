@@ -1,3 +1,6 @@
+/**
+ * @author Harsh Kamleshbhai Shah <shah.harsh@dal.ca>
+ */
 import { Router } from "express";
 import watchlistController from "../controllers/WatchlistController";
 
