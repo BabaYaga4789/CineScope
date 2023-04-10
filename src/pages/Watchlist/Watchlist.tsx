@@ -42,6 +42,7 @@ const Watchlist = () => {
       watchlist.map(async (item: any) => {
         const movieId = item.movieId;
         const movie = await movieManager.fetchMovieByID(movieId);
+        movie["status"] = item.status;
         l.push(movie);
       })
     );
@@ -53,9 +54,6 @@ const Watchlist = () => {
 
     if (watchlist.length === 0) {
       setIsWatchlistEmpty(true);
-      // return(
-      //
-      // );
     }
 
     const x = await setWatchListMovies(watchlist);
@@ -126,7 +124,7 @@ const Watchlist = () => {
       flexDirection="column"
       alignItems="flex-start"
     >
-      <Heading p="7" as="h3" size="xl" color="orange">
+      <Heading p={7} as="h3" size="2xl" color="orange">
         My Watchlist
       </Heading>
       <br></br>
@@ -186,11 +184,22 @@ const Watchlist = () => {
                           >
                             {movie.title}
                           </Text>
+                          <HStack>
+                          <Card size={"sm"} bgColor={"orange.600"}>
+                            <Text fontSize={12} p={0.5} fontStyle={"italic"} fontWeight={"bold"}>
+                              {movie.status.toUpperCase()}
+                            </Text>
+                          </Card>
+                          <Spacer></Spacer>
+
+                          </HStack>
+                         
                           <Text noOfLines={[1, 2]} fontSize={13}>
                             {movie.plot}
                           </Text>
                         </VStack>
                         <HStack w={"100%"} justifyContent="flex-end">
+                       
                           <Button
                             id={movie._id}
                             onClick={navigateToMoviePage}
