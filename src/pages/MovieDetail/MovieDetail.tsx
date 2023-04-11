@@ -279,7 +279,7 @@ const MovieDetails = () => {
           h={["auto", "auto", "auto", "auto"]}
         >
           <Text fontWeight="bold" fontSize="4xl" mt="4">
-            {movieDetails.title}"
+            {movieDetails.title}
           </Text>
           <Text fontSize="xl" fontWeight="semibold" color="gray.500">
             {movieDetails.released_date} | {movieDetails.time_in_minutes}{" "}
